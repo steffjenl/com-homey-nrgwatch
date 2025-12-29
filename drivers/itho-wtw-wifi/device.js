@@ -26,7 +26,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this.registerCapabilityListener('fan_mode', async (value) => {
       this.log('Setting fan_mode to', value);
       await this.setCapabilityValue('fan_mode', value);
-      return this.api.setFanMode(value);
+      return this.api.setFanMode(value, true);
     });
 
     await this.createAndRemoveCabapilities();
