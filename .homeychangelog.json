@@ -58,5 +58,8 @@
   },
   "1.0.19": {
     "en": "Change icons and images"
+  },
+  "1.0.20": {
+    "en": "For WTW units we are using now only RF Remote commands"
   }
 }

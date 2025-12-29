@@ -1,6 +1,6 @@
 {
   "id": "nl.monkeysoft.nrgwatch",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "compatibility": ">=12.4.0",
   "brandColor": "#159EDA",
   "sdk": 3,
