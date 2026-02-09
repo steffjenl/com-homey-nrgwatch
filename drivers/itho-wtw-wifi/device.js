@@ -41,102 +41,102 @@ module.exports = class IthoWTWWifi extends Homey.Device {
   async setFanModeOptions() {
     const options = this.getCapabilityOptions('fan_mode');
     if (this.settings.rfDeviceType === 'rft-cve') {
-        options.values = [
-          VirtualRemoteModus.AWAY,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.MEDIUM,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AWAY,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.MEDIUM,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-auto') {
-        options.values = [
-          VirtualRemoteModus.AUTO,
-          VirtualRemoteModus.AUTONIGHT,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AUTO,
+        VirtualRemoteModus.AUTONIGHT,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-n') {
-        options.values = [
-          VirtualRemoteModus.AWAY,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.MEDIUM,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AWAY,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.MEDIUM,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-auto-n') {
-        options.values = [
-          VirtualRemoteModus.AUTO,
-          VirtualRemoteModus.AUTONIGHT,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AUTO,
+        VirtualRemoteModus.AUTONIGHT,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-df-qf') {
-        options.values = [
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.COOK30,
-          VirtualRemoteModus.COOK60,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.COOK30,
+        VirtualRemoteModus.COOK60,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-rv') {
-        options.values = [
-          VirtualRemoteModus.AUTO,
-          VirtualRemoteModus.AUTONIGHT,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.MEDIUM,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AUTO,
+        VirtualRemoteModus.AUTONIGHT,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.MEDIUM,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-co2') {
-        options.values = [
-          VirtualRemoteModus.AUTO,
-          VirtualRemoteModus.AUTONIGHT,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.MEDIUM,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AUTO,
+        VirtualRemoteModus.AUTONIGHT,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.MEDIUM,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-pir') {
-        options.values = [
-          VirtualRemoteModus.MOTION_ON,
-          VirtualRemoteModus.MOTION_OFF
-          ];
+      options.values = [
+        VirtualRemoteModus.MOTION_ON,
+        VirtualRemoteModus.MOTION_OFF,
+      ];
     } else if (this.settings.rfDeviceType === 'rft-spider') {
-        options.values = [
-          VirtualRemoteModus.AUTO,
-          VirtualRemoteModus.AUTONIGHT,
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.MEDIUM,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-          ];
+      options.values = [
+        VirtualRemoteModus.AUTO,
+        VirtualRemoteModus.AUTONIGHT,
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.MEDIUM,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     } else {
-        options.values = [
-          VirtualRemoteModus.LOW,
-          VirtualRemoteModus.MEDIUM,
-          VirtualRemoteModus.HIGH,
-          VirtualRemoteModus.TIMER1,
-          VirtualRemoteModus.TIMER2,
-          VirtualRemoteModus.TIMER3
-        ];
+      options.values = [
+        VirtualRemoteModus.LOW,
+        VirtualRemoteModus.MEDIUM,
+        VirtualRemoteModus.HIGH,
+        VirtualRemoteModus.TIMER1,
+        VirtualRemoteModus.TIMER2,
+        VirtualRemoteModus.TIMER3,
+      ];
     }
 
     await this.setCapabilityOptions('fan_mode', options);
@@ -206,7 +206,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
   async onSettings({
     oldSettings,
     newSettings,
-    changedKeys
+    changedKeys,
   }) {
     this.api.setSettings(newSettings.host, newSettings.username, newSettings.password, newSettings.isAuthenticated, false, newSettings.rfDeviceIndex);
 
