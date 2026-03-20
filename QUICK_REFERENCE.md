@@ -1,5 +1,11 @@
 # Quick Reference Guide
 
+> ⚠️ **This file has been migrated to `./specs/07-coding-standards.md`.**
+> The content below is retained for reference but `./specs/07-coding-standards.md` is the maintained version.
+> Please update `./specs/07-coding-standards.md` for any changes.
+
+---
+
 Quick reference for developers working with the NRGWatch codebase.
 
 ## Project Structure

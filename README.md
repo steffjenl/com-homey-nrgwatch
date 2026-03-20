@@ -1,5 +1,7 @@
 # NRGWatch for Homey
 
+> 📐 **Engineering documentation**: [`./specs/`](./specs/README.md) — architecture, integration contract, ADRs, test plan, and more.
+
 Control your Itho ventilation systems (CVE and WTW) through Homey with the NRGWatch app.
 
 ## Features

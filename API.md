@@ -1,5 +1,11 @@
 # API Documentation
 
+> ⚠️ **This file has been migrated to `./specs/api-reference.md`.**
+> The content below is retained for reference but `./specs/api-reference.md` is the maintained version.
+> Please update `./specs/api-reference.md` for any changes.
+
+---
+
 ## Table of Contents
 
 - [NRGWatchApi](#nrgwatchapi)

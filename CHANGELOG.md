@@ -1,5 +1,8 @@
 # Changelog
 
+> 📋 **The full engineering changelog is maintained at [`./specs/CHANGELOG.md`](./specs/CHANGELOG.md).**
+> This file contains the user-facing summary for the Homey App Store.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

@@ -1,5 +1,11 @@
 # Architecture Documentation
 
+> ⚠️ **This file has been migrated to `./specs/00-architecture.md`.**
+> The content below is retained for reference but `./specs/00-architecture.md` is the maintained version.
+> Please update `./specs/00-architecture.md` for any changes.
+
+---
+
 ## Overview
 
 The NRGWatch Homey app is designed to control and monitor Itho ventilation systems. The architecture follows a clean, modular design with clear separation of concerns.

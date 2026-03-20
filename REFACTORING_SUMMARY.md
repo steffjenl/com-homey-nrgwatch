@@ -1,5 +1,11 @@
 # Refactoring Summary
 
+> ⚠️ **This file has been archived to `./specs/decisions/ADR-000-initial-refactoring.md`.**
+> The content below is retained for historical reference. Please do not update this file;
+> use `./specs/decisions/` for new architectural decisions.
+
+---
+
 ## Overview
 
 This document summarizes the comprehensive refactoring and documentation improvements made to the NRGWatch Homey app codebase.

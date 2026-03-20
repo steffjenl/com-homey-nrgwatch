@@ -1,0 +1,3 @@
+[submodule ".ai/repo-ithowifi"]
+	path = .ai/repo-ithowifi
+	url = https://github.com/arjenhiemstra/ithowifi.git
