@@ -3,8 +3,157 @@
     "en": "NRG.Watch Itho WTW Wifi"
   },
   "class": "fan",
+  "flow": {
+    "triggers": [
+      {
+        "id": "fan_mode_changed",
+        "title": {
+          "en": "The fan mode has changed",
+          "nl": "De ventilatiemodus is gewijzigd",
+          "de": "Der Lüftungsmodus hat sich geändert",
+          "fr": "Le mode de ventilation a changé",
+          "it": "La modalità ventilazione è cambiata",
+          "sv": "Fläktläget har ändrats",
+          "no": "Vifteinnstillingen er endret",
+          "es": "El modo de ventilación ha cambiado",
+          "da": "Ventilatortilstanden er ændret",
+          "ru": "Режим вентилятора изменён",
+          "pl": "Tryb wentylatora zmieniony",
+          "ko": "팬 모드가 변경되었습니다"
+        },
+        "tokens": [
+          {
+            "name": "mode",
+            "type": "string",
+            "title": { "en": "Mode", "nl": "Modus", "de": "Modus", "fr": "Mode", "it": "Modalità", "sv": "Läge", "no": "Innstilling", "es": "Modo", "da": "Tilstand", "ru": "Режим", "pl": "Tryb", "ko": "모드" },
+            "example": "low"
+          }
+        ]
+      },
+      {
+        "id": "device_offline",
+        "title": {
+          "en": "Device went offline",
+          "nl": "Apparaat is offline gegaan",
+          "de": "Gerät ist offline gegangen",
+          "fr": "L'appareil est hors ligne",
+          "it": "Il dispositivo è andato offline",
+          "sv": "Enheten gick offline",
+          "no": "Enheten gikk frakoblet",
+          "es": "El dispositivo se desconectó",
+          "da": "Enheden gik offline",
+          "ru": "Устройство ушло в оффлайн",
+          "pl": "Urządzenie przeszło w tryb offline",
+          "ko": "장치가 오프라인 상태가 되었습니다"
+        }
+      },
+      {
+        "id": "device_online",
+        "title": {
+          "en": "Device came back online",
+          "nl": "Apparaat is weer online",
+          "de": "Gerät ist wieder online",
+          "fr": "L'appareil est de nouveau en ligne",
+          "it": "Il dispositivo è di nuovo online",
+          "sv": "Enheten är online igen",
+          "no": "Enheten er tilkoblet igjen",
+          "es": "El dispositivo volvió en línea",
+          "da": "Enheden er online igen",
+          "ru": "Устройство снова в сети",
+          "pl": "Urządzenie wróciło do trybu online",
+          "ko": "장치가 다시 온라인 상태가 되었습니다"
+        }
+      },
+      {
+        "id": "temperature_changed",
+        "title": {
+          "en": "Temperature changed",
+          "nl": "Temperatuur is veranderd",
+          "de": "Temperatur hat sich geändert",
+          "fr": "La température a changé",
+          "it": "La temperatura è cambiata",
+          "sv": "Temperaturen har förändrats",
+          "no": "Temperaturen har endret seg",
+          "es": "La temperatura ha cambiado",
+          "da": "Temperaturen er ændret",
+          "ru": "Температура изменилась",
+          "pl": "Temperatura się zmieniła",
+          "ko": "온도가 변경되었습니다"
+        },
+        "tokens": [
+          {
+            "name": "temperature",
+            "type": "number",
+            "title": { "en": "Temperature (°C)", "nl": "Temperatuur (°C)", "de": "Temperatur (°C)", "fr": "Température (°C)", "it": "Temperatura (°C)", "sv": "Temperatur (°C)", "no": "Temperatur (°C)", "es": "Temperatura (°C)", "da": "Temperatur (°C)", "ru": "Температура (°C)", "pl": "Temperatura (°C)", "ko": "온도 (°C)" },
+            "example": 21.5
+          }
+        ]
+      },
+      {
+        "id": "humidity_changed",
+        "title": {
+          "en": "Humidity changed",
+          "nl": "Luchtvochtigheid is veranderd",
+          "de": "Luftfeuchtigkeit hat sich geändert",
+          "fr": "L'humidité a changé",
+          "it": "L'umidità è cambiata",
+          "sv": "Luftfuktigheten har förändrats",
+          "no": "Luftfuktigheten har endret seg",
+          "es": "La humedad ha cambiado",
+          "da": "Luftfugtigheden er ændret",
+          "ru": "Влажность изменилась",
+          "pl": "Wilgotność się zmieniła",
+          "ko": "습도가 변경되었습니다"
+        },
+        "tokens": [
+          {
+            "name": "humidity",
+            "type": "number",
+            "title": { "en": "Humidity (%)", "nl": "Luchtvochtigheid (%)", "de": "Luftfeuchtigkeit (%)", "fr": "Humidité (%)", "it": "Umidità (%)", "sv": "Luftfuktighet (%)", "no": "Luftfuktighet (%)", "es": "Humedad (%)", "da": "Luftfugtighed (%)", "ru": "Влажность (%)", "pl": "Wilgotność (%)", "ko": "습도 (%)" },
+            "example": 55
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "set_fan_mode",
+        "title": {
+          "en": "Set fan mode",
+          "nl": "Stel ventilatiemodus in",
+          "de": "Lüftungsmodus einstellen",
+          "fr": "Définir le mode de ventilation",
+          "it": "Imposta modalità ventilazione",
+          "sv": "Ställ in fläktläge",
+          "no": "Angi vifteinnstilling",
+          "es": "Establecer modo de ventilación",
+          "da": "Indstil ventilatortilstand",
+          "ru": "Установить режим вентилятора",
+          "pl": "Ustaw tryb wentylatora",
+          "ko": "팬 모드 설정"
+        },
+        "args": [
+          {
+            "name": "mode",
+            "type": "autocomplete",
+            "title": { "en": "Mode", "nl": "Modus", "de": "Modus", "fr": "Mode", "it": "Modalità", "sv": "Läge", "no": "Innstilling", "es": "Modo", "da": "Tilstand", "ru": "Режим", "pl": "Tryb", "ko": "모드" }
+          }
+        ]
+      }
+    ]
+  },
   "capabilities": [
-    "fan_mode"
+    "fan_mode",
+    "measure_temperature.indoor",
+    "measure_temperature.outdoor",
+    "measure_humidity",
+    "measure_speed.speed_status",
+    "measure_speed.fan_speed",
+    "measure_speed.fan_setpoint",
+    "measure_speed.ventilation_setpoint",
+    "measure_number.startup_counter",
+    "measure_number.total_operating_hours",
+    "measure_string.last_command_source"
   ],
   "pair": [
     {
@@ -119,6 +268,54 @@
         "pl": "Opuść Wirtualny Pilot z jednostki Itho",
         "ru": "Отключить виртуальный пульт от устройства Itho",
         "sv": "Koppla från Virtuell Fjärrkontroll från Itho-enheten"
+      }
+    },
+    "measure_temperature.indoor": {
+      "title": {
+        "en": "Indoor Temperature",
+        "nl": "Binnentemperatuur",
+        "da": "Indendørs temperatur",
+        "de": "Innentemperatur",
+        "es": "Temperatura interior",
+        "fr": "Température intérieure",
+        "it": "Temperatura interna",
+        "ko": "실내 온도",
+        "no": "Innendørs temperatur",
+        "pl": "Temperatura wewnętrzna",
+        "ru": "Внутренняя температура",
+        "sv": "Inomhustemperatur"
+      }
+    },
+    "measure_temperature.outdoor": {
+      "title": {
+        "en": "Outdoor Temperature",
+        "nl": "Buitentemperatuur",
+        "da": "Udendørs temperatur",
+        "de": "Außentemperatur",
+        "es": "Temperatura exterior",
+        "fr": "Température extérieure",
+        "it": "Temperatura esterna",
+        "ko": "실외 온도",
+        "no": "Utendørs temperatur",
+        "pl": "Temperatura zewnętrzna",
+        "ru": "Наружная температура",
+        "sv": "Utomhustemperatur"
+      }
+    },
+    "measure_string.last_command_source": {
+      "title": {
+        "en": "Last Command Source",
+        "nl": "Laatste commando bron",
+        "da": "Sidste kommandokilde",
+        "de": "Letzte Befehlsquelle",
+        "es": "Fuente del último comando",
+        "fr": "Source de la dernière commande",
+        "it": "Fonte ultimo comando",
+        "ko": "마지막 명령 소스",
+        "no": "Siste kommanderingskilde",
+        "pl": "Źródło ostatniego polecenia",
+        "ru": "Источник последней команды",
+        "sv": "Senaste kommandokälla"
       }
     },
     "measure_number.startup_counter": {
@@ -251,8 +448,8 @@
     },
     "fan_speed": {
       "min": 0,
-      "max": 2.55,
-      "units": "0-255"
+      "max": 100,
+      "units": "%"
     },
     "fan_mode": {
       "values": [

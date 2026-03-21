@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Habilitar control remoto virtual",
     "enableVirtualRemote_desc": "Habilite esto cuando haya unido el control remoto virtual y esté usando el módulo de CO2.",
     "refreshInterval": "Intervalo de actualización (segundos)"
+  },
+  "errors": {
+    "device_unreachable": "El dispositivo no es accesible. Compruebe la dirección IP y la conexión de red."
   }
 }

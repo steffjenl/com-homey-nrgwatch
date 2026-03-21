@@ -4,6 +4,9 @@ const Homey = require('homey');
 const NRGWatchApi = require('../../lib/nrgwatch-api');
 const VirtualRemoteModus = require('../../lib/virtual-remote-modus');
 
+/** Number of consecutive poll failures before marking device unavailable */
+const FAILURE_THRESHOLD = 3;
+
 module.exports = class IthoWTWWifi extends Homey.Device {
 
   /**
@@ -13,130 +16,113 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this.api = new NRGWatchApi();
     this.api.setHomeyObject(this.homey);
     this.settings = this.getSettings();
-    this.api.setSettings(this.settings.host, this.settings.username, this.settings.password, this.settings.isAuthenticated, false, this.settings.rfDeviceIndex);
+    this.api.setSettings(
+      this.settings.host,
+      this.settings.username,
+      this.settings.password,
+      this.settings.isAuthenticated,
+      false,
+      this.settings.rfDeviceIndex,
+    );
 
-    // Initial status update
-    await this.updateStatus().catch(this.error);
+    // Availability tracking
+    this._failureCount = 0;
+    this._wasUnavailable = false;
 
-    // Update status every 10 minutes
-    this.pollingInterval = this.homey.setInterval(() => {
-      this.updateStatus();
-    }, (this.settings.refreshInterval ?? 15) * 1000);
+    // Register flow card triggers
+    this._triggerFanModeChanged = this.homey.flow.getDeviceTriggerCard('fan_mode_changed');
+    this._triggerDeviceOffline = this.homey.flow.getDeviceTriggerCard('device_offline');
+    this._triggerDeviceOnline = this.homey.flow.getDeviceTriggerCard('device_online');
+    this._triggerTemperatureChanged = this.homey.flow.getDeviceTriggerCard('temperature_changed');
+    this._triggerHumidityChanged = this.homey.flow.getDeviceTriggerCard('humidity_changed');
 
+    // Register flow card action
+    this.homey.flow.getActionCard('set_fan_mode')
+      .registerRunListener(async (args) => {
+        const mode = args.mode.id || args.mode;
+        await this.api.setFanMode(mode, true);
+        await this.setCapabilityValue('fan_mode', mode);
+        await this.setCapabilityValue('measure_string.last_command_source', 'HTMLAPI').catch(() => {});
+        return true;
+      })
+      .registerArgumentAutocompleteListener('mode', async (query) => {
+        const options = this.getCapabilityOptions('fan_mode');
+        const lang = this.homey.i18n.getLanguage();
+        return (options.values || [])
+          .filter((v) => (v.title?.[lang] || v.title?.en || v.id).toLowerCase().includes(query.toLowerCase()))
+          .map((v) => ({ id: v.id, name: v.title?.[lang] || v.title?.en || v.id }));
+      });
+
+    // Capability listeners
     this.registerCapabilityListener('fan_mode', async (value) => {
       this.log('Setting fan_mode to', value);
-      await this.setCapabilityValue('fan_mode', value);
-      return this.api.setFanMode(value, true);
+      await this.api.setFanMode(value, true);
+      await this.setCapabilityValue('measure_string.last_command_source', 'HTMLAPI').catch(() => {});
     });
 
-    await this.createAndRemoveCabapilities();
+    // Add / remove capabilities based on settings (before first poll)
+    await this.createAndRemoveCapabilities();
+
+    // Initial status update — never throw to prevent failed init
+    await this.updateStatus().catch((err) => this.log('Initial poll failed (device may be offline):', err.message));
+
+    // Start polling
+    this.pollingInterval = this.homey.setInterval(() => {
+      this.updateStatus().catch((err) => this.log('Poll error:', err.message));
+    }, (this.settings.refreshInterval ?? 15) * 1000);
 
     this.log('IthoWTWWifi has been initialized');
   }
 
-  async createAndRemoveCabapilities() {
+  async createAndRemoveCapabilities() {
+    const caps = [
+      'fan_mode',
+      'measure_temperature.indoor',
+      'measure_temperature.outdoor',
+      'measure_humidity',
+      'measure_speed.speed_status',
+      'measure_speed.fan_speed',
+      'measure_speed.fan_setpoint',
+      'measure_speed.ventilation_setpoint',
+      'measure_number.startup_counter',
+      'measure_number.total_operating_hours',
+      'measure_string.last_command_source',
+    ];
+
+    for (const cap of caps) {
+      if (!this.hasCapability(cap)) {
+        await this.addCapability(cap);
+        this.log('Added capability', cap);
+      }
+    }
+
     await this.setFanModeOptions();
   }
 
   async setFanModeOptions() {
     const options = this.getCapabilityOptions('fan_mode');
-    if (this.settings.rfDeviceType === 'rft-cve') {
-      options.values = [
-        VirtualRemoteModus.AWAY,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.MEDIUM,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-auto') {
-      options.values = [
-        VirtualRemoteModus.AUTO,
-        VirtualRemoteModus.AUTONIGHT,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-n') {
-      options.values = [
-        VirtualRemoteModus.AWAY,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.MEDIUM,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-auto-n') {
-      options.values = [
-        VirtualRemoteModus.AUTO,
-        VirtualRemoteModus.AUTONIGHT,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-df-qf') {
-      options.values = [
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.COOK30,
-        VirtualRemoteModus.COOK60,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-rv') {
-      options.values = [
-        VirtualRemoteModus.AUTO,
-        VirtualRemoteModus.AUTONIGHT,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.MEDIUM,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-co2') {
-      options.values = [
-        VirtualRemoteModus.AUTO,
-        VirtualRemoteModus.AUTONIGHT,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.MEDIUM,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-pir') {
-      options.values = [
-        VirtualRemoteModus.MOTION_ON,
-        VirtualRemoteModus.MOTION_OFF,
-      ];
-    } else if (this.settings.rfDeviceType === 'rft-spider') {
-      options.values = [
-        VirtualRemoteModus.AUTO,
-        VirtualRemoteModus.AUTONIGHT,
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.MEDIUM,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
+    const type = this.settings.rfDeviceType;
+
+    if (type === 'rft-cve') {
+      options.values = [VirtualRemoteModus.AWAY, VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-auto') {
+      options.values = [VirtualRemoteModus.AUTO, VirtualRemoteModus.AUTONIGHT, VirtualRemoteModus.LOW, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-n') {
+      options.values = [VirtualRemoteModus.AWAY, VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-auto-n') {
+      options.values = [VirtualRemoteModus.AUTO, VirtualRemoteModus.AUTONIGHT, VirtualRemoteModus.LOW, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-df-qf') {
+      options.values = [VirtualRemoteModus.LOW, VirtualRemoteModus.HIGH, VirtualRemoteModus.COOK30, VirtualRemoteModus.COOK60, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-rv') {
+      options.values = [VirtualRemoteModus.AUTO, VirtualRemoteModus.AUTONIGHT, VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-co2') {
+      options.values = [VirtualRemoteModus.AUTO, VirtualRemoteModus.AUTONIGHT, VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
+    } else if (type === 'rft-pir') {
+      options.values = [VirtualRemoteModus.MOTION_ON, VirtualRemoteModus.MOTION_OFF];
+    } else if (type === 'rft-spider') {
+      options.values = [VirtualRemoteModus.AUTO, VirtualRemoteModus.AUTONIGHT, VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
     } else {
-      options.values = [
-        VirtualRemoteModus.LOW,
-        VirtualRemoteModus.MEDIUM,
-        VirtualRemoteModus.HIGH,
-        VirtualRemoteModus.TIMER1,
-        VirtualRemoteModus.TIMER2,
-        VirtualRemoteModus.TIMER3,
-      ];
+      options.values = [VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
     }
 
     await this.setCapabilityOptions('fan_mode', options);
@@ -144,47 +130,92 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
   async updateStatus() {
     try {
-      const status = await this.api.getStatus().catch(this.error);
-      // const currentSpeed = await this.api.getCurrentSpeed()
-      //   .catch(this.error);
-      // this.log('Fetched IthoWTWWifi status');
-      // this.setCapabilityValue('fan_speed', parseInt(currentSpeed))
-      //   .catch(this.error);
-      // this.log(`Current speed: ${currentSpeed}`);
-      // this.setCapabilityValue('measure_temperature', status.temp)
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_humidity', status.hum)
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_speed.speed_status', status['Speed status'] ?? status['speed-status'] ?? -1)
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_co2', status['CO2level (ppm)'] ?? status['Highest CO2 concentration (ppm)'] ?? status['co2level_ppm'] ?? status['highest-co2-concentration_ppm'])
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_speed.fan_speed', status['Fan setpoint (rpm)'] ?? status['fan-setpoint_rpm'])
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_speed.fan_setpoint', status['Fan speed (rpm)'] ?? status['fan-speed_rpm'])
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_speed.ventilation_setpoint', status['Ventilation setpoint (%)'] ?? status['ventilation-setpoint_perc'])
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_number.startup_counter', status['Startup counter'] ?? status['startup-counter'] ?? -1)
-      //   .catch(this.error);
-      // this.setCapabilityValue('measure_number.total_operating_hours', status['Total operation (hours)'] ?? status['total-operation_hours'] ?? -1)
-      //   .catch(this.error);
-      if (status.Status === 2 || status.status === 2) {
-        await this.setCapabilityValue('fan_mode', 'low');
-      } else if (status.Status === 3 || status.status === 3) {
-        await this.setCapabilityValue('fan_mode', 'medium');
-      } else if (status.Status === 4 || status.status === 4) {
-        await this.setCapabilityValue('fan_mode', 'high');
-      } else if (status.Status === 5 || status.status === 5) {
-        await this.setCapabilityValue('fan_mode', 'timer1');
-      } else if (status.Status === 7 || status.status === 7) {
-        await this.setCapabilityValue('fan_mode', 'auto');
-      } else {
-        // Unknown mode, set to auto
+      const status = await this.api.getStatus();
+
+      this.log('Fetched IthoWTWWifi status');
+
+      // --- Recover from offline state ---
+      if (this._wasUnavailable) {
+        this._wasUnavailable = false;
+        await this.setAvailable();
+        await this._triggerDeviceOnline.trigger(this).catch(this.error);
+        this.log('IthoWTWWifi is back online');
+      }
+      this._failureCount = 0;
+
+      // --- Previous values for change triggers ---
+      const prev = {
+        tempIndoor: this.getCapabilityValue('measure_temperature.indoor'),
+        tempOutdoor: this.getCapabilityValue('measure_temperature.outdoor'),
+        humidity: this.getCapabilityValue('measure_humidity'),
+      };
+
+      // --- Indoor temperature ---
+      // Format A: 'Indoor temperature (°C)' / 'Temp indoor (°C)'
+      // Format B: 'indoor-temp' / 'temp-indoor'
+      // Fallback:  generic 'temp' field
+      const tempIndoor = status['Indoor temperature (°C)']
+        ?? status['Temp indoor (°C)']
+        ?? status['indoor-temp']
+        ?? status['temp-indoor']
+        ?? status['supply-temp']
+        ?? status['Supply temperature (°C)']
+        ?? status.temp;
+
+      // --- Outdoor temperature ---
+      const tempOutdoor = status['Outdoor temperature (°C)']
+        ?? status['Temp outdoor (°C)']
+        ?? status['outdoor-temp']
+        ?? status['temp-outdoor']
+        ?? status['exhaust-temp']
+        ?? status['Exhaust temperature (°C)'];
+
+      if (tempIndoor != null) await this.setCapabilityValue('measure_temperature.indoor', tempIndoor).catch(this.error);
+      if (tempOutdoor != null) await this.setCapabilityValue('measure_temperature.outdoor', tempOutdoor).catch(this.error);
+
+      await this.setCapabilityValue('measure_humidity', status.hum).catch(this.error);
+      await this.setCapabilityValue('measure_speed.speed_status', status['Speed status'] ?? status['speed-status'] ?? -1).catch(this.error);
+      await this.setCapabilityValue('measure_speed.fan_speed', status['Fan speed (rpm)'] ?? status['fan-speed_rpm']).catch(this.error);
+      await this.setCapabilityValue('measure_speed.fan_setpoint', status['Fan setpoint (rpm)'] ?? status['fan-setpoint_rpm']).catch(this.error);
+      await this.setCapabilityValue('measure_speed.ventilation_setpoint', status['Ventilation setpoint (%)'] ?? status['ventilation-setpoint_perc']).catch(this.error);
+      await this.setCapabilityValue('measure_number.startup_counter', status['Startup counter'] ?? status['startup-counter'] ?? -1).catch(this.error);
+      await this.setCapabilityValue('measure_number.total_operating_hours', status['Total operation (hours)'] ?? status['total-operation_hours'] ?? -1).catch(this.error);
+
+      // --- fan_mode from Status field ---
+      const sel = status.Status ?? status.status ?? status.Selection ?? status.selection;
+      let newMode = null;
+      if (sel === 1) newMode = 'away';
+      else if (sel === 2) newMode = 'low';
+      else if (sel === 3) newMode = 'medium';
+      else if (sel === 4) newMode = 'high';
+      else if (sel === 5) newMode = 'timer1';
+      else if (sel === 6) newMode = 'autonight';
+      else if (sel === 7) newMode = 'auto';
+
+      const prevMode = this.getCapabilityValue('fan_mode');
+      if (newMode && newMode !== prevMode) {
+        await this.setCapabilityValue('fan_mode', newMode);
+        await this._triggerFanModeChanged.trigger(this, { mode: newMode }).catch(this.error);
+      }
+
+      // --- Flow triggers for sensor changes ---
+      if (tempIndoor != null && tempIndoor !== prev.tempIndoor) {
+        await this._triggerTemperatureChanged.trigger(this, { temperature: tempIndoor }).catch(this.error);
+      }
+      if (status.hum != null && status.hum !== prev.humidity) {
+        await this._triggerHumidityChanged.trigger(this, { humidity: status.hum }).catch(this.error);
       }
 
     } catch (error) {
-      this.error('Error fetching IthoWTWWifi status:', error);
+      this._failureCount = (this._failureCount || 0) + 1;
+      this.log(`Poll failed (${this._failureCount}/${FAILURE_THRESHOLD}):`, error.message);
+
+      if (this._failureCount >= FAILURE_THRESHOLD && !this._wasUnavailable) {
+        this._wasUnavailable = true;
+        await this.setUnavailable(this.homey.__('errors.device_unreachable') || error.message);
+        await this._triggerDeviceOffline.trigger(this).catch(this.error);
+        this.log('IthoWTWWifi marked as unavailable');
+      }
     }
   }
 
@@ -197,70 +228,67 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
   /**
    * onSettings is called when the user updates the device's settings.
-   * @param {object} event the onSettings event data
-   * @param {object} event.oldSettings The old settings object
-   * @param {object} event.newSettings The new settings object
-   * @param {string[]} event.changedKeys An array of keys changed since the previous version
-   * @returns {Promise<string|void>} return a custom message that will be displayed
    */
-  async onSettings({
-    oldSettings,
-    newSettings,
-    changedKeys,
-  }) {
-    this.api.setSettings(newSettings.host, newSettings.username, newSettings.password, newSettings.isAuthenticated, false, newSettings.rfDeviceIndex);
+  async onSettings({ oldSettings, newSettings, changedKeys }) {
+    this.settings = newSettings;
+    this.api.setSettings(
+      newSettings.host,
+      newSettings.username,
+      newSettings.password,
+      newSettings.isAuthenticated,
+      false,
+      newSettings.rfDeviceIndex,
+    );
 
-    await this.setFanModeOptions();
+    await this.createAndRemoveCapabilities();
 
-    // Initial status update
-    await this.updateStatus();
+    // Reset failure state on settings change (new host may be reachable)
+    this._failureCount = 0;
+    this._wasUnavailable = false;
+    await this.setAvailable();
 
-    // Clear previous interval
+    await this.updateStatus().catch((err) => this.log('Poll after settings change failed:', err.message));
+
     this.homey.clearInterval(this.pollingInterval);
-
-    // Update status every 10 minutes
     this.pollingInterval = this.homey.setInterval(() => {
-      this.updateStatus();
+      this.updateStatus().catch((err) => this.log('Poll error:', err.message));
     }, (newSettings.refreshInterval ?? 15) * 1000);
-    this.log('IthoWTWWifi settings where changed');
+
+    this.log('IthoWTWWifi settings were changed');
   }
 
-  /**
-   * onRenamed is called when the user updates the device's name.
-   * This method can be used this to synchronise the name to the device.
-   * @param {string} name The new name
-   */
   async onRenamed(name) {
     this.log('IthoWTWWifi was renamed');
   }
 
-  /**
-   * onDeleted is called when the user deleted the device.
-   */
   async onDeleted() {
     this.homey.clearInterval(this.pollingInterval);
     this.log('IthoWTWWifi has been deleted');
   }
 
   onDiscoveryResult(discoveryResult) {
-    // Return a truthy value here if the discovery result matches your device.
     return discoveryResult.id === this.getData().id;
   }
 
   async onDiscoveryAvailable(discoveryResult) {
-    // This method will be executed once when the device has been found (onDiscoveryResult returned true)
+    // First discovery — no action needed
   }
 
   onDiscoveryAddressChanged(discoveryResult) {
-    // Update your connection details here, reconnect when the device is offline
     const settings = this.getSettings();
-    this.setSettings({ host: discoveryResult.address })
-      .catch(this.error);
-    this.api.setSettings(discoveryResult.address, settings.username, settings.password, settings.isAuthenticated, false, settings.rfDeviceIndex);
+    this.setSettings({ host: discoveryResult.address }).catch(this.error);
+    this.api.setSettings(
+      discoveryResult.address,
+      settings.username,
+      settings.password,
+      settings.isAuthenticated,
+      false,
+      settings.rfDeviceIndex,
+    );
   }
 
   onDiscoveryLastSeenChanged(discoveryResult) {
-    // When the device is offline, try to reconnect here
+    // Reconnect logic can be added here if needed
   }
 
 };

@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Włącz wirtualnego pilota",
     "enableVirtualRemote_desc": "Włącz to, gdy dołączysz wirtualnego pilota i używasz modułu CO2.",
     "refreshInterval": "Interwał odświeżania (sekundy)"
+  },
+  "errors": {
+    "device_unreachable": "Urządzenie jest niedostępne. Sprawdź adres IP i połączenie sieciowe."
   }
 }

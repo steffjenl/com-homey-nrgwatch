@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Abilita telecomando virtuale",
     "enableVirtualRemote_desc": "Abilita questa opzione quando hai collegato il telecomando virtuale e utilizzi il modulo CO2.",
     "refreshInterval": "Intervallo di aggiornamento (secondi)"
+  },
+  "errors": {
+    "device_unreachable": "Il dispositivo non è raggiungibile. Controllare l'indirizzo IP e la connessione di rete."
   }
 }

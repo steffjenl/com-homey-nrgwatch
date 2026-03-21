@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Virtuelle Fernbedienung aktivieren",
     "enableVirtualRemote_desc": "Aktivieren Sie dies, wenn Sie die virtuelle Fernbedienung verbunden haben und das CO2-Modul verwenden.",
     "refreshInterval": "Aktualisierungsintervall (Sekunden)"
+  },
+  "errors": {
+    "device_unreachable": "Gerät ist nicht erreichbar. Überprüfen Sie die IP-Adresse und Netzwerkverbindung."
   }
 }

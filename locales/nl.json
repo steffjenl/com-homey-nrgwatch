@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Virtuele afstandsbediening inschakelen",
     "enableVirtualRemote_desc": "Schakel dit in wanneer je de virtuele afstandsbediening hebt gekoppeld en de CO2-module gebruikt.",
     "refreshInterval": "Verversinterval (seconden)"
+  },
+  "errors": {
+    "device_unreachable": "Apparaat is niet bereikbaar. Controleer het IP-adres en de netwerkverbinding."
   }
 }
