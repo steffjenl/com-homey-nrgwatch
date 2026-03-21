@@ -766,6 +766,12 @@
       "name": {
         "en": "NRG.Watch Itho CVE Wifi"
       },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
       "class": "fan",
       "capabilities": [
         "measure_co2",
@@ -1664,6 +1670,12 @@
       "name": {
         "en": "NRG.Watch Itho WTW Wifi"
       },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
       "class": "fan",
       "capabilities": [
         "fan_mode",

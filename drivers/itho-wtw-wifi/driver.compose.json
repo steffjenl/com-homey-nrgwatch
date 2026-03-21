@@ -5,6 +5,9 @@
   "platforms": [
     "local"
   ],
+  "connectivity": [
+    "lan"
+  ],
   "class": "fan",
   "capabilities": [
     "fan_mode",
