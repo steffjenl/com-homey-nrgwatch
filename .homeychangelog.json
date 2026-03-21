@@ -61,5 +61,8 @@
   },
   "1.0.20": {
     "en": "For WTW units we are using now only RF Remote commands"
+  },
+  "1.1.0": {
+    "en": "Add better support for WTW unit and WebSockets"
   }
 }
