@@ -2,6 +2,9 @@
   "name": {
     "en": "NRG.Watch Itho WTW Wifi"
   },
+  "platforms": [
+    "local"
+  ],
   "class": "fan",
   "capabilities": [
     "fan_mode",
