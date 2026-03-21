@@ -30,19 +30,19 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this._wasUnavailable = false;
 
     // Register flow card triggers
-    this._triggerFanModeChanged = this.homey.flow.getDeviceTriggerCard('fan_mode_changed');
-    this._triggerDeviceOffline = this.homey.flow.getDeviceTriggerCard('device_offline');
-    this._triggerDeviceOnline = this.homey.flow.getDeviceTriggerCard('device_online');
-    this._triggerTemperatureChanged = this.homey.flow.getDeviceTriggerCard('temperature_changed');
-    this._triggerHumidityChanged = this.homey.flow.getDeviceTriggerCard('humidity_changed');
+    this._triggerFanModeChanged = this.homey.flow.getDeviceTriggerCard('wtw_fan_mode_changed');
+    this._triggerDeviceOffline = this.homey.flow.getDeviceTriggerCard('wtw_device_offline');
+    this._triggerDeviceOnline = this.homey.flow.getDeviceTriggerCard('wtw_device_online');
+    this._triggerTemperatureChanged = this.homey.flow.getDeviceTriggerCard('wtw_temperature_changed');
+    this._triggerHumidityChanged = this.homey.flow.getDeviceTriggerCard('wtw_humidity_changed');
 
     // Register flow card action
-    this.homey.flow.getActionCard('set_fan_mode')
+    this.homey.flow.getActionCard('wtw_set_fan_mode')
       .registerRunListener(async (args) => {
         const mode = args.mode.id || args.mode;
         await this.api.setFanMode(mode, true);
         await this.setCapabilityValue('fan_mode', mode);
-        await this.setCapabilityValue('measure_string.last_command_source', 'HTMLAPI').catch(() => {});
+        await this._updateLastCommandSource();
         return true;
       })
       .registerArgumentAutocompleteListener('mode', async (query) => {
@@ -57,11 +57,16 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this.registerCapabilityListener('fan_mode', async (value) => {
       this.log('Setting fan_mode to', value);
       await this.api.setFanMode(value, true);
-      await this.setCapabilityValue('measure_string.last_command_source', 'HTMLAPI').catch(() => {});
+      await this._updateLastCommandSource();
     });
 
     // Add / remove capabilities based on settings (before first poll)
     await this.createAndRemoveCapabilities();
+
+    // Start WebSocket for real-time updates
+    this.api.websocket.setHomeyObject(this.homey);
+    this.api.websocket.setMessageHandler((data) => this._handleWebSocketMessage(data));
+    this.api.websocket.connect();
 
     // Initial status update — never throw to prevent failed init
     await this.updateStatus().catch((err) => this.log('Initial poll failed (device may be offline):', err.message));
@@ -247,6 +252,10 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this._wasUnavailable = false;
     await this.setAvailable();
 
+    // Reconnect WebSocket to new host
+    await this.api.websocket.disconnect();
+    this.api.websocket.connect();
+
     await this.updateStatus().catch((err) => this.log('Poll after settings change failed:', err.message));
 
     this.homey.clearInterval(this.pollingInterval);
@@ -263,6 +272,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
   async onDeleted() {
     this.homey.clearInterval(this.pollingInterval);
+    await this.api.websocket.disconnect();
     this.log('IthoWTWWifi has been deleted');
   }
 
@@ -289,6 +299,76 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
   onDiscoveryLastSeenChanged(discoveryResult) {
     // Reconnect logic can be added here if needed
+  }
+
+  /**
+   * Handles incoming WebSocket messages from the WTW firmware.
+   *
+   * {"systemstat": {itho, sensor_temp, sensor_hum, ...}} — every 5 s
+   * {"ithostatusinfo": {all device fields...}}            — on demand
+   */
+  async _handleWebSocketMessage(data) {
+    try {
+      if (data.systemstat) {
+        const stat = data.systemstat;
+
+        if (stat.sensor_temp != null) {
+          const prev = this.getCapabilityValue('measure_temperature.indoor');
+          await this.setCapabilityValue('measure_temperature.indoor', stat.sensor_temp).catch(this.error);
+          if (stat.sensor_temp !== prev) {
+            await this._triggerTemperatureChanged.trigger(this, { temperature: stat.sensor_temp }).catch(this.error);
+          }
+        }
+        if (stat.sensor_hum != null) {
+          const prev = this.getCapabilityValue('measure_humidity');
+          await this.setCapabilityValue('measure_humidity', stat.sensor_hum).catch(this.error);
+          if (stat.sensor_hum !== prev) {
+            await this._triggerHumidityChanged.trigger(this, { humidity: stat.sensor_hum }).catch(this.error);
+          }
+        }
+      }
+
+      if (data.ithostatusinfo) {
+        const status = data.ithostatusinfo;
+
+        const tempIndoor = status['Indoor temperature (C)'] ?? status['Temp indoor (C)']
+          ?? status['indoor-temp'] ?? status['supply-temp'] ?? status.temp;
+        const tempOutdoor = status['Outdoor temperature (C)'] ?? status['Temp outdoor (C)']
+          ?? status['outdoor-temp'] ?? status['exhaust-temp'];
+
+        if (tempIndoor != null) await this.setCapabilityValue('measure_temperature.indoor', tempIndoor).catch(this.error);
+        if (tempOutdoor != null) await this.setCapabilityValue('measure_temperature.outdoor', tempOutdoor).catch(this.error);
+        if (status.hum != null) await this.setCapabilityValue('measure_humidity', status.hum).catch(this.error);
+
+        const sel = status.Status ?? status.status ?? status.Selection ?? status.selection;
+        let newMode = null;
+        if (sel === 1) newMode = 'away';
+        else if (sel === 2) newMode = 'low';
+        else if (sel === 3) newMode = 'medium';
+        else if (sel === 4) newMode = 'high';
+        else if (sel === 5) newMode = 'timer1';
+        else if (sel === 6) newMode = 'autonight';
+        else if (sel === 7) newMode = 'auto';
+
+        const prevMode = this.getCapabilityValue('fan_mode');
+        if (newMode && newMode !== prevMode) {
+          await this.setCapabilityValue('fan_mode', newMode);
+          await this._triggerFanModeChanged.trigger(this, { mode: newMode }).catch(this.error);
+        }
+      }
+    } catch (err) {
+      this.log('WS message handling error:', err.message);
+    }
+  }
+
+  /** Fetches last command from device and updates last_command_source capability. */
+  async _updateLastCommandSource() {
+    try {
+      const lastCmd = await this.api.getLastCommand();
+      if (lastCmd?.source) {
+        await this.setCapabilityValue('measure_string.last_command_source', lastCmd.source).catch(() => {});
+      }
+    } catch (_) { /* non-fatal */ }
   }
 
 };
