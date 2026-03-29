@@ -1570,6 +1570,39 @@
               ]
             },
             {
+              "id": "useApiV2",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Use REST API v2 (firmware 3.0.0+)",
+                "nl": "Gebruik REST API v2 (firmware 3.0.0+)",
+                "da": "Brug REST API v2 (firmware 3.0.0+)",
+                "de": "REST API v2 verwenden (Firmware 3.0.0+)",
+                "es": "Usar REST API v2 (firmware 3.0.0+)",
+                "fr": "Utiliser REST API v2 (firmware 3.0.0+)",
+                "it": "Usa REST API v2 (firmware 3.0.0+)",
+                "ko": "REST API v2 사용 (펌웨어 3.0.0+)",
+                "no": "Bruk REST API v2 (firmware 3.0.0+)",
+                "pl": "Użyj REST API v2 (firmware 3.0.0+)",
+                "ru": "Использовать REST API v2 (прошивка 3.0.0+)",
+                "sv": "Använd REST API v2 (firmware 3.0.0+)"
+              },
+              "hint": {
+                "en": "Enable for firmware 3.0.0 or newer. Detected and enabled automatically on startup when supported.",
+                "nl": "Inschakelen voor firmware 3.0.0 of nieuwer. Wordt automatisch ingeschakeld bij opstarten als ondersteund.",
+                "da": "Aktivér for firmware 3.0.0 eller nyere. Opdages og aktiveres automatisk ved opstart, når det understøttes.",
+                "de": "Für Firmware 3.0.0 oder neuer aktivieren. Wird beim Start automatisch erkannt und aktiviert, wenn unterstützt.",
+                "es": "Activar para firmware 3.0.0 o superior. Se detecta y activa automáticamente al inicio cuando es compatible.",
+                "fr": "Activer pour le firmware 3.0.0 ou supérieur. Détecté et activé automatiquement au démarrage si supporté.",
+                "it": "Attiva per firmware 3.0.0 o superiore. Rilevato e abilitato automaticamente all'avvio se supportato.",
+                "ko": "펌웨어 3.0.0 이상에서 활성화하세요. 지원되는 경우 시작 시 자동으로 감지되어 활성화됩니다.",
+                "no": "Aktivér for firmware 3.0.0 eller nyere. Oppdages og aktiveres automatisk ved oppstart når det støttes.",
+                "pl": "Włącz dla firmware 3.0.0 lub nowszego. Automatycznie wykrywane i włączane przy uruchomieniu, gdy obsługiwane.",
+                "ru": "Включить для прошивки 3.0.0 или новее. Автоматически определяется и включается при запуске, если поддерживается.",
+                "sv": "Aktivera för firmware 3.0.0 eller nyare. Detekteras och aktiveras automatiskt vid start när det stöds."
+              }
+            },
+            {
               "id": "virtualRemoteIndex",
               "type": "dropdown",
               "value": "0",
@@ -2295,6 +2328,39 @@
                 "pl": "Interwał odświeżania (sekundy)",
                 "ru": "Интервал обновления (секунды)",
                 "sv": "Uppdateringsintervall (sekunder)"
+              }
+            },
+            {
+              "id": "useApiV2",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Use REST API v2 (firmware 3.0.0+)",
+                "nl": "Gebruik REST API v2 (firmware 3.0.0+)",
+                "da": "Brug REST API v2 (firmware 3.0.0+)",
+                "de": "REST API v2 verwenden (Firmware 3.0.0+)",
+                "es": "Usar REST API v2 (firmware 3.0.0+)",
+                "fr": "Utiliser REST API v2 (firmware 3.0.0+)",
+                "it": "Usa REST API v2 (firmware 3.0.0+)",
+                "ko": "REST API v2 사용 (펌웨어 3.0.0+)",
+                "no": "Bruk REST API v2 (firmware 3.0.0+)",
+                "pl": "Użyj REST API v2 (firmware 3.0.0+)",
+                "ru": "Использовать REST API v2 (прошивка 3.0.0+)",
+                "sv": "Använd REST API v2 (firmware 3.0.0+)"
+              },
+              "hint": {
+                "en": "Enable for firmware 3.0.0 or newer. Detected and enabled automatically on startup when supported.",
+                "nl": "Inschakelen voor firmware 3.0.0 of nieuwer. Wordt automatisch ingeschakeld bij opstarten als ondersteund.",
+                "da": "Aktivér for firmware 3.0.0 eller nyere. Opdages og aktiveres automatisk ved opstart, når det understøttes.",
+                "de": "Für Firmware 3.0.0 oder neuer aktivieren. Wird beim Start automatisch erkannt und aktiviert, wenn unterstützt.",
+                "es": "Activar para firmware 3.0.0 o superior. Se detecta y activa automáticamente al inicio cuando es compatible.",
+                "fr": "Activer pour le firmware 3.0.0 ou supérieur. Détecté et activé automatiquement au démarrage si supporté.",
+                "it": "Attiva per firmware 3.0.0 o superiore. Rilevato e abilitato automaticamente all'avvio se supportato.",
+                "ko": "펌웨어 3.0.0 이상에서 활성화하세요. 지원되는 경우 시작 시 자동으로 감지되어 활성화됩니다.",
+                "no": "Aktivér for firmware 3.0.0 eller nyere. Oppdages og aktiveres automatisk ved oppstart når det støttes.",
+                "pl": "Włącz dla firmware 3.0.0 lub nowszego. Automatycznie wykrywane i włączane przy uruchomieniu, gdy obsługiwane.",
+                "ru": "Включить для прошивки 3.0.0 или новее. Автоматически определяется и включается при запуске, если поддерживается.",
+                "sv": "Aktivera för firmware 3.0.0 eller nyare. Detekteras och aktiveras automatiskt vid start när det stöds."
               }
             },
             {
