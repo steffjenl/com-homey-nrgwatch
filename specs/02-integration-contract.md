@@ -1,7 +1,7 @@
 ---
 title: Integration Contract
 status: Draft
-last_updated: 2026-03-20
+last_updated: 2026-03-29
 source_coverage:
   - path: ./lib/web-client.js
   - path: ./lib/web-socket.js
@@ -28,7 +28,8 @@ The integration surface between the **NRGWatch Homey plugin** and the **NRG.Watc
 
 | Channel | Protocol | Port | Direction | Status |
 |---------|----------|------|-----------|--------|
-| REST API | HTTP/1.1 (plain) | 80 | Plugin → Device (request/response) | ✅ Active |
+| REST API v1 (legacy) | HTTP/1.1 (plain) | 80 | Plugin → Device (request/response) | ✅ Active (all firmware) |
+| REST API v2 | HTTP/1.1 (plain) | 80 | Plugin → Device (request/response) | ✅ Active (firmware 3.0.0+) |
 | Real-time push | WebSocket (WSS) | 8000 | Device → Plugin | ⚠ Stub (not connected) |
 | Discovery | mDNS-SD (`_http._tcp`) | — | Device → Network | ✅ Active |
 
@@ -45,6 +46,12 @@ http://<host>:80
 ```
 
 Where `<host>` is the device IP or mDNS hostname (e.g. `nrg-itho-ab12.local`).
+
+The plugin automatically selects between **Legacy API** (all firmware) and **REST API v2** (firmware 3.0.0+) based on the `useApiV2` device setting. Auto-detection runs on startup via `GET /api/v2/deviceinfo` — see §2.5.
+
+---
+
+## 2a. Legacy API (all firmware)
 
 ### Single Endpoint
 
@@ -219,6 +226,84 @@ Only available within **2 minutes** after power cycling the Itho unit (firmware 
 | `{"status":"fail","data":{"failreason":"..."}}` | Command rejected | Throws `'API failure: <reason>'` |
 | `{"status":"fail","data":{"code":401}}` | Auth failure | Throws auth error |
 | `{"status":"error","message":"..."}` | Server error | Throws `'API error: <message>'` |
+
+---
+
+---
+
+## 2b. REST API v2 (firmware 3.0.0+)
+
+Introduced in firmware 3.0.0-beta1. Uses dedicated REST routes with consistent JSend response envelope. Full specification in `specs/openapi.json`.
+
+### Base path
+
+```
+http://<host>:80/api/v2/
+```
+
+### 2b.1 Read Endpoints
+
+| Operation | Method | Path | Response field |
+|-----------|--------|------|---------------|
+| Get device status | `GET` | `/api/v2/ithostatus` | `data` (status object) |
+| Get current speed | `GET` | `/api/v2/speed` | `data.speed` |
+| Get last command | `GET` | `/api/v2/lastcmd` | `data.lastcmd` |
+| Get device info | `GET` | `/api/v2/deviceinfo` | `data` |
+
+All responses use JSend:
+```json
+{ "status": "success", "data": { ... }, "timestamp": 1234567890 }
+```
+
+### 2b.2 Write Endpoints (Commands)
+
+All write operations are HTTP **POST** with a JSON body.
+
+#### Direct Fan Command
+```
+POST /api/v2/command
+{ "command": "low" }
+```
+
+#### Fan Speed (percentage)
+```
+POST /api/v2/command
+{ "percentage": 75 }
+```
+
+#### Virtual Remote Command (CVE)
+```
+POST /api/v2/vremote
+{ "command": "low", "index": 0 }
+```
+
+#### RF Remote Command (WTW)
+```
+POST /api/v2/rfremote/command
+{ "command": "low", "index": 0 }
+```
+
+Plugin routing (`nrgwatch-api.js`): `setFanMode()` dispatches to the correct endpoint based on `_enableVirtualRemote`, `useRFRemote`, and `_useApiV2`.
+
+### 2b.3 Response Format
+
+| Response body | Meaning |
+|--------------|---------|
+| `{"status":"success","data":{...}}` | Command/query accepted |
+| `{"status":"fail","data":{"failreason":"..."}}` | Command rejected |
+| `{"status":"error","message":"..."}` | Server error |
+
+### 2.5 API Version Auto-Detection
+
+On device init, if `useApiV2=false`, the plugin probes:
+
+```
+GET /api/v2/deviceinfo
+```
+
+If the response is `{"status":"success",...}`, the firmware supports v2. The `useApiV2` device setting is saved as `true` and the API client is reconfigured immediately. Auto-detection **only activates** v2, never deactivates it (manual override preserved).
+
+Source: `NRGWatchApi.detectApiVersion()` (`nrgwatch-api.js`), called from `onInit()` in both device drivers.
 
 ---
 

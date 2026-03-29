@@ -23,6 +23,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       this.settings.isAuthenticated,
       false,
       this.settings.rfDeviceIndex,
+      this.settings.useApiV2 ?? false,
     );
 
     // Availability tracking
@@ -62,6 +63,25 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
     // Add / remove capabilities based on settings (before first poll)
     await this.createAndRemoveCapabilities();
+
+    // Auto-detect API v2 support when not yet enabled
+    if (!this.settings.useApiV2) {
+      const detected = await this.api.detectApiVersion().catch(() => false);
+      if (detected) {
+        this.settings.useApiV2 = true;
+        await this.setSettings({ useApiV2: true });
+        this.api.setSettings(
+          this.settings.host,
+          this.settings.username,
+          this.settings.password,
+          this.settings.isAuthenticated,
+          false,
+          this.settings.rfDeviceIndex,
+          true,
+        );
+        this.log('REST API v2 auto-detected and enabled');
+      }
+    }
 
     // Start WebSocket for real-time updates
     this.api.websocket.setHomeyObject(this.homey);
@@ -243,6 +263,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       newSettings.isAuthenticated,
       false,
       newSettings.rfDeviceIndex,
+      newSettings.useApiV2 ?? false,
     );
 
     await this.createAndRemoveCapabilities();
@@ -294,6 +315,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       settings.isAuthenticated,
       false,
       settings.rfDeviceIndex,
+      settings.useApiV2 ?? false,
     );
   }
 
