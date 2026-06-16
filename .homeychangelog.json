@@ -67,5 +67,8 @@
   },
   "1.1.1": {
     "en": "Add support for firmware v3"
+  },
+  "1.1.2": {
+    "en": "Add beter support for WTW units"
   }
 }
