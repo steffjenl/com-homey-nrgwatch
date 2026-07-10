@@ -34,7 +34,20 @@
         {
           "name": "mode",
           "type": "string",
-          "title": { "en": "Mode", "nl": "Modus", "de": "Modus", "fr": "Mode", "it": "Modalità", "sv": "Läge", "no": "Innstilling", "es": "Modo", "da": "Tilstand", "ru": "Режим", "pl": "Tryb", "ko": "모드" },
+          "title": {
+            "en": "Mode",
+            "nl": "Modus",
+            "de": "Modus",
+            "fr": "Mode",
+            "it": "Modalità",
+            "sv": "Läge",
+            "no": "Innstilling",
+            "es": "Modo",
+            "da": "Tilstand",
+            "ru": "Режим",
+            "pl": "Tryb",
+            "ko": "모드"
+          },
           "example": "low"
         }
       ]
@@ -107,7 +120,20 @@
         {
           "name": "temperature",
           "type": "number",
-          "title": { "en": "Temperature (°C)", "nl": "Temperatuur (°C)", "de": "Temperatur (°C)", "fr": "Température (°C)", "it": "Temperatura (°C)", "sv": "Temperatur (°C)", "no": "Temperatur (°C)", "es": "Temperatura (°C)", "da": "Temperatur (°C)", "ru": "Температура (°C)", "pl": "Temperatura (°C)", "ko": "온도 (°C)" },
+          "title": {
+            "en": "Temperature (°C)",
+            "nl": "Temperatuur (°C)",
+            "de": "Temperatur (°C)",
+            "fr": "Température (°C)",
+            "it": "Temperatura (°C)",
+            "sv": "Temperatur (°C)",
+            "no": "Temperatur (°C)",
+            "es": "Temperatura (°C)",
+            "da": "Temperatur (°C)",
+            "ru": "Температура (°C)",
+            "pl": "Temperatura (°C)",
+            "ko": "온도 (°C)"
+          },
           "example": 21.5
         }
       ]
@@ -146,8 +172,82 @@
         {
           "name": "humidity",
           "type": "number",
-          "title": { "en": "Humidity (%)", "nl": "Luchtvochtigheid (%)", "de": "Luftfeuchtigkeit (%)", "fr": "Humidité (%)", "it": "Umidità (%)", "sv": "Luftfuktighet (%)", "no": "Luftfuktighet (%)", "es": "Humedad (%)", "da": "Luftfugtighed (%)", "ru": "Влажность (%)", "pl": "Wilgotność (%)", "ko": "습도 (%)" },
+          "title": {
+            "en": "Humidity (%)",
+            "nl": "Luchtvochtigheid (%)",
+            "de": "Luftfeuchtigkeit (%)",
+            "fr": "Humidité (%)",
+            "it": "Umidità (%)",
+            "sv": "Luftfuktighet (%)",
+            "no": "Luftfuktighet (%)",
+            "es": "Humedad (%)",
+            "da": "Luftfugtighed (%)",
+            "ru": "Влажность (%)",
+            "pl": "Wilgotność (%)",
+            "ko": "습도 (%)"
+          },
           "example": 55
+        }
+      ]
+    },
+    {
+      "id": "wtw_firmware_update_available",
+      "title": {
+        "en": "A firmware update is available",
+        "nl": "Er is een firmware-update beschikbaar",
+        "de": "Ein Firmware-Update ist verfügbar",
+        "fr": "Une mise à jour du firmware est disponible",
+        "it": "È disponibile un aggiornamento firmware",
+        "sv": "En firmwareuppdatering är tillgänglig",
+        "no": "En fastvareoppdatering er tilgjengelig",
+        "es": "Hay una actualización de firmware disponible",
+        "da": "En firmwareopdatering er tilgængelig",
+        "ru": "Доступно обновление прошивки",
+        "pl": "Dostępna jest aktualizacja firmware",
+        "ko": "펌웨어 업데이트를 사용할 수 있습니다"
+      },
+      "tokens": [
+        {
+          "name": "installed_version",
+          "type": "string",
+          "title": {
+            "en": "Installed version",
+            "nl": "Geïnstalleerde versie",
+            "de": "Installierte Version",
+            "fr": "Version installée",
+            "it": "Versione installata",
+            "sv": "Installerad version",
+            "no": "Installert versjon",
+            "es": "Versión instalada",
+            "da": "Installeret version",
+            "ru": "Установленная версия",
+            "pl": "Zainstalowana wersja",
+            "ko": "설치된 버전"
+          },
+          "example": {
+            "en": "3.1.4"
+          }
+        },
+        {
+          "name": "latest_version",
+          "type": "string",
+          "title": {
+            "en": "Latest version",
+            "nl": "Nieuwste versie",
+            "de": "Neueste Version",
+            "fr": "Dernière version",
+            "it": "Ultima versione",
+            "sv": "Senaste version",
+            "no": "Nyeste versjon",
+            "es": "Última versión",
+            "da": "Nyeste version",
+            "ru": "Последняя версия",
+            "pl": "Najnowsza wersja",
+            "ko": "최신 버전"
+          },
+          "example": {
+            "en": "3.2.0"
+          }
         }
       ]
     }
@@ -187,7 +287,76 @@
         {
           "name": "mode",
           "type": "autocomplete",
-          "title": { "en": "Mode", "nl": "Modus", "de": "Modus", "fr": "Mode", "it": "Modalità", "sv": "Läge", "no": "Innstilling", "es": "Modo", "da": "Tilstand", "ru": "Режим", "pl": "Tryb", "ko": "모드" }
+          "title": {
+            "en": "Mode",
+            "nl": "Modus",
+            "de": "Modus",
+            "fr": "Mode",
+            "it": "Modalità",
+            "sv": "Läge",
+            "no": "Innstilling",
+            "es": "Modo",
+            "da": "Tilstand",
+            "ru": "Режим",
+            "pl": "Tryb",
+            "ko": "모드"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wtw_set_fan_speed",
+      "title": {
+        "en": "Set fan speed",
+        "nl": "Stel ventilatorsnelheid in",
+        "de": "Lüftergeschwindigkeit einstellen",
+        "fr": "Définir la vitesse du ventilateur",
+        "it": "Imposta velocità ventilatore",
+        "sv": "Ställ in fläkthastighet",
+        "no": "Angi viftehastighet",
+        "es": "Establecer velocidad del ventilador",
+        "da": "Indstil ventilatorhastighed",
+        "ru": "Установить скорость вентилятора",
+        "pl": "Ustaw prędkość wentylatora",
+        "ko": "팬 속도 설정"
+      },
+      "titleFormatted": {
+        "en": "Set fan speed to [[speed]] %",
+        "nl": "Stel ventilatorsnelheid in op [[speed]] %",
+        "de": "Lüftergeschwindigkeit auf [[speed]] % einstellen",
+        "fr": "Définir la vitesse du ventilateur à [[speed]] %",
+        "it": "Imposta velocità ventilatore a [[speed]] %",
+        "sv": "Ställ in fläkthastighet till [[speed]] %",
+        "no": "Angi viftehastighet til [[speed]] %",
+        "es": "Establecer velocidad del ventilador a [[speed]] %",
+        "da": "Indstil ventilatorhastighed til [[speed]] %",
+        "ru": "Установить скорость вентилятора на [[speed]] %",
+        "pl": "Ustaw prędkość wentylatora na [[speed]] %",
+        "ko": "팬 속도를 [[speed]] %로 설정"
+      },
+      "args": [
+        {
+          "name": "speed",
+          "type": "number",
+          "title": {
+            "en": "Speed (%)",
+            "nl": "Snelheid (%)",
+            "de": "Geschwindigkeit (%)",
+            "fr": "Vitesse (%)",
+            "it": "Velocità (%)",
+            "sv": "Hastighet (%)",
+            "no": "Hastighet (%)",
+            "es": "Velocidad (%)",
+            "da": "Hastighed (%)",
+            "ru": "Скорость (%)",
+            "pl": "Prędkość (%)",
+            "ko": "속도 (%)"
+          },
+          "placeholder": {
+            "en": "50"
+          },
+          "min": 0,
+          "max": 100
         }
       ]
     }

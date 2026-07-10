@@ -1,0 +1,250 @@
+{
+  "triggers": [
+    {
+      "id": "wpu_device_offline",
+      "title": {
+        "en": "Device went offline",
+        "nl": "Apparaat is offline gegaan",
+        "de": "Gerät ist offline gegangen",
+        "fr": "L'appareil est hors ligne",
+        "it": "Il dispositivo è andato offline",
+        "sv": "Enheten gikk offline",
+        "no": "Enheten gikk frakoblet",
+        "es": "El dispositivo se desconectó",
+        "da": "Enheden gik offline",
+        "ru": "Устройство ушло в оффлайн",
+        "pl": "Urządzenie przeszło w tryb offline",
+        "ko": "장치가 오프라인 상태가 되었습니다"
+      }
+    },
+    {
+      "id": "wpu_device_online",
+      "title": {
+        "en": "Device came back online",
+        "nl": "Apparaat is weer online",
+        "de": "Gerät ist wieder online",
+        "fr": "L'appareil est de nouveau en ligne",
+        "it": "Il dispositivo è di nuovo online",
+        "sv": "Enheten är online igen",
+        "no": "Enheten er tilkoblet igjen",
+        "es": "El dispositivo volvió en línea",
+        "da": "Enheden er online igen",
+        "ru": "Устройство снова в сети",
+        "pl": "Urządzenie wróciło do trybu online",
+        "ko": "장치가 다시 온라인 상태가 되었습니다"
+      }
+    },
+    {
+      "id": "wpu_temperature_changed",
+      "title": {
+        "en": "Temperature changed",
+        "nl": "Temperatuur is veranderd",
+        "de": "Temperatur hat sich geändert",
+        "fr": "La température a changé",
+        "it": "La temperatura è cambiata",
+        "sv": "Temperaturen har förändrats",
+        "no": "Temperaturen har endret seg",
+        "es": "La temperatura ha cambiado",
+        "da": "Temperaturen er ændret",
+        "ru": "Температура изменилась",
+        "pl": "Temperatura się zmieniła",
+        "ko": "온도가 변경되었습니다"
+      },
+      "titleFormatted": {
+        "en": "Temperature changed to [[temperature]] °C",
+        "nl": "Temperatuur is veranderd naar [[temperature]] °C",
+        "de": "Temperatur hat sich auf [[temperature]] °C geändert",
+        "fr": "La température a changé à [[temperature]] °C",
+        "it": "La temperatura è cambiata a [[temperature]] °C",
+        "sv": "Temperaturen har förändrats till [[temperature]] °C",
+        "no": "Temperaturen har endret seg til [[temperature]] °C",
+        "es": "La temperatura ha cambiado a [[temperature]] °C",
+        "da": "Temperaturen er ændret til [[temperature]] °C",
+        "ru": "Температура изменилась до [[temperature]] °C",
+        "pl": "Temperatura zmieniła się na [[temperature]] °C",
+        "ko": "온도가 [[temperature]] °C로 변경되었습니다"
+      },
+      "tokens": [
+        {
+          "name": "temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature (°C)",
+            "nl": "Temperatuur (°C)",
+            "de": "Temperatur (°C)",
+            "fr": "Température (°C)",
+            "it": "Temperatura (°C)",
+            "sv": "Temperatur (°C)",
+            "no": "Temperatur (°C)",
+            "es": "Temperatura (°C)",
+            "da": "Temperatur (°C)",
+            "ru": "Температура (°C)",
+            "pl": "Temperatura (°C)",
+            "ko": "온도 (°C)"
+          },
+          "example": 21.5
+        }
+      ]
+    },
+    {
+      "id": "wpu_firmware_update_available",
+      "title": {
+        "en": "A firmware update is available",
+        "nl": "Er is een firmware-update beschikbaar",
+        "de": "Ein Firmware-Update ist verfügbar",
+        "fr": "Une mise à jour du firmware est disponible",
+        "it": "È disponibile un aggiornamento firmware",
+        "sv": "En firmwareuppdatering är tillgänglig",
+        "no": "En fastvareoppdatering er tilgjengelig",
+        "es": "Hay una actualización de firmware disponible",
+        "da": "En firmwareopdatering er tilgængelig",
+        "ru": "Доступно обновление прошивки",
+        "pl": "Dostępna jest aktualizacja firmware",
+        "ko": "펌웨어 업데이트를 사용할 수 있습니다"
+      },
+      "tokens": [
+        {
+          "name": "installed_version",
+          "type": "string",
+          "title": {
+            "en": "Installed version",
+            "nl": "Geïnstalleerde versie",
+            "de": "Installierte Version",
+            "fr": "Version installée",
+            "it": "Versione installata",
+            "sv": "Installerad version",
+            "no": "Installert versjon",
+            "es": "Versión instalada",
+            "da": "Installeret version",
+            "ru": "Установленная версия",
+            "pl": "Zainstalowana wersja",
+            "ko": "설치된 버전"
+          },
+          "example": {
+            "en": "3.1.4"
+          }
+        },
+        {
+          "name": "latest_version",
+          "type": "string",
+          "title": {
+            "en": "Latest version",
+            "nl": "Nieuwste versie",
+            "de": "Neueste Version",
+            "fr": "Dernière version",
+            "it": "Ultima versione",
+            "sv": "Senaste version",
+            "no": "Nyeste versjon",
+            "es": "Última versión",
+            "da": "Nyeste version",
+            "ru": "Последняя версия",
+            "pl": "Najnowsza wersja",
+            "ko": "최신 버전"
+          },
+          "example": {
+            "en": "3.2.0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wpu_error_changed",
+      "title": {
+        "en": "The error code has changed",
+        "nl": "De foutcode is gewijzigd",
+        "de": "Der Fehlercode hat sich geändert",
+        "fr": "Le code d'erreur a changé",
+        "it": "Il codice errore è cambiato",
+        "sv": "Felkoden har ändrats",
+        "no": "Feilkoden er endret",
+        "es": "El código de error ha cambiado",
+        "da": "Fejlkoden er ændret",
+        "ru": "Код ошибки изменён",
+        "pl": "Kod błędu zmienił się",
+        "ko": "오류 코드가 변경되었습니다"
+      },
+      "tokens": [
+        {
+          "name": "error_code",
+          "type": "number",
+          "title": {
+            "en": "Error code",
+            "nl": "Foutcode",
+            "de": "Fehlercode",
+            "fr": "Code d'erreur",
+            "it": "Codice errore",
+            "sv": "Felkod",
+            "no": "Feilkode",
+            "es": "Código de error",
+            "da": "Fejlkode",
+            "ru": "Код ошибки",
+            "pl": "Kod błędu",
+            "ko": "오류 코드"
+          },
+          "example": {
+            "en": "0"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "wpu_set_outside_temp",
+      "title": {
+        "en": "Set outside temperature",
+        "nl": "Stel buitentemperatuur in",
+        "de": "Außentemperatur einstellen",
+        "fr": "Définir la température extérieure",
+        "it": "Imposta temperatura esterna",
+        "sv": "Ställ in utomhustemperatur",
+        "no": "Angi utetemperatur",
+        "es": "Establecer temperatura exterior",
+        "da": "Indstil udetemperatur",
+        "ru": "Установить наружную температуру",
+        "pl": "Ustaw temperaturę zewnętrzną",
+        "ko": "실외 온도 설정"
+      },
+      "titleFormatted": {
+        "en": "Set outside temperature to [[temperature]] °C",
+        "nl": "Stel buitentemperatuur in op [[temperature]] °C",
+        "de": "Außentemperatur auf [[temperature]] °C einstellen",
+        "fr": "Définir la température extérieure à [[temperature]] °C",
+        "it": "Imposta temperatura esterna a [[temperature]] °C",
+        "sv": "Ställ in utomhustemperatur till [[temperature]] °C",
+        "no": "Angi utetemperatur til [[temperature]] °C",
+        "es": "Establecer temperatura exterior a [[temperature]] °C",
+        "da": "Indstil udetemperatur til [[temperature]] °C",
+        "ru": "Установить наружную температуру на [[temperature]] °C",
+        "pl": "Ustaw temperaturę zewnętrzną na [[temperature]] °C",
+        "ko": "실외 온도를 [[temperature]] °C로 설정"
+      },
+      "args": [
+        {
+          "name": "temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature (°C)",
+            "nl": "Temperatuur (°C)",
+            "de": "Temperatur (°C)",
+            "fr": "Température (°C)",
+            "it": "Temperatura (°C)",
+            "sv": "Temperatur (°C)",
+            "no": "Temperatur (°C)",
+            "es": "Temperatura (°C)",
+            "da": "Temperatur (°C)",
+            "ru": "Температура (°C)",
+            "pl": "Temperatura (°C)",
+            "ko": "온도 (°C)"
+          },
+          "placeholder": {
+            "en": "10"
+          },
+          "min": -30,
+          "max": 50,
+          "step": 0.1
+        }
+      ]
+    }
+  ]
+}

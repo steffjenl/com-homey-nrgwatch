@@ -46,6 +46,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this._triggerDeviceOnline = this.homey.flow.getDeviceTriggerCard('wtw_device_online');
     this._triggerTemperatureChanged = this.homey.flow.getDeviceTriggerCard('wtw_temperature_changed');
     this._triggerHumidityChanged = this.homey.flow.getDeviceTriggerCard('wtw_humidity_changed');
+    this._triggerFirmwareUpdateAvailable = this.homey.flow.getDeviceTriggerCard('wtw_firmware_update_available');
 
     // Register flow card action
     this.homey.flow.getActionCard('wtw_set_fan_mode')
@@ -64,10 +65,24 @@ module.exports = class IthoWTWWifi extends Homey.Device {
           .map((v) => ({ id: v.id, name: v.title?.[lang] || v.title?.en || v.id }));
       });
 
+    this.homey.flow.getActionCard('wtw_set_fan_speed')
+      .registerRunListener(async (args) => {
+        await this.api.setFanSpeed(Math.round(args.speed));
+        await this.setCapabilityValue('fan_speed', args.speed);
+        await this._updateLastCommandSource();
+        return true;
+      });
+
     // Capability listeners
     this.registerCapabilityListener('fan_mode', async (value) => {
       this.log('Setting fan_mode to', value);
       await this.api.setFanMode(value, true);
+      await this._updateLastCommandSource();
+    });
+
+    this.registerCapabilityListener('fan_speed', async (value) => {
+      this.log('Setting fan_speed to', value);
+      await this.api.setFanSpeed(Math.round(value));
       await this._updateLastCommandSource();
     });
 
@@ -106,6 +121,13 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       this.updateStatus().catch((err) => this.log('Poll error:', err.message));
     }, (this.settings.refreshInterval ?? 15) * 1000);
 
+    // Firmware / OTA info: once at init (fire-and-forget so an offline
+    // device doesn't block onInit), then hourly
+    this._updateFirmwareInfo().catch(this.error);
+    this.otaPollingInterval = this.homey.setInterval(() => {
+      this._updateFirmwareInfo().catch(this.error);
+    }, 60 * 60 * 1000);
+
     this.log('IthoWTWWifi has been initialized');
   }
 
@@ -113,6 +135,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     // FanInfo
     const caps = [
       'fan_mode',
+      'fan_speed',
       'measure_humidity',
       'measure_temperature.indoor',
       'measure_temperature.outdoor',
@@ -152,6 +175,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       'measure_number.actual_mode_code',
       'measure_number.label_out_of_bound_error',
       'measure_string.last_command_source',
+      'measure_string.firmware_version',
     ];
 
     const removeCaps = [
@@ -234,6 +258,9 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       if (status.exhaustTemp != null) await this.setCapabilityValue('measure_temperature.exhaust', status.exhaustTemp).catch(this.error);
 
       if (status.humidity != null) await this.setCapabilityValue('measure_humidity', status.humidity).catch(this.error);
+      if (status.ventilationSetpoint != null && this.hasCapability('fan_speed')) {
+        await this.setCapabilityValue('fan_speed', status.ventilationSetpoint).catch(this.error);
+      }
       if (status.speedStatus != null) await this.setCapabilityValue('measure_speed.speed_status', status.speedStatus).catch(this.error);
       if (status.fanSpeed != null) await this.setCapabilityValue('measure_speed.fan_speed', status.fanSpeed).catch(this.error);
       if (status.fanSetpoint != null) await this.setCapabilityValue('measure_speed.fan_setpoint', status.fanSetpoint).catch(this.error);
@@ -267,7 +294,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       if (status.labelOutOfBoundError != null) await this.setCapabilityValue('measure_number.label_out_of_bound_error', status.labelOutOfBoundError).catch(this.error);
 
       // --- fan_mode from Actual Mode first, then legacy Status/Selection ---
-      const newMode =  status.fanInfo ?? MODE_MAP[status.modeCode] ?? null;
+      const newMode = status.fanInfo ?? MODE_MAP[status.modeCode] ?? null;
       this.log('Determined fan mode from status:', { modeCode: status.modeCode, newMode: status.fanInfo });
 
       const prevMode = this.getCapabilityValue('fan_mode');
@@ -346,6 +373,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
   async onDeleted() {
     this.homey.clearInterval(this.pollingInterval);
+    this.homey.clearInterval(this.otaPollingInterval);
     await this.api.websocket.disconnect();
     this.log('IthoWTWWifi has been deleted');
   }
@@ -411,6 +439,9 @@ module.exports = class IthoWTWWifi extends Homey.Device {
         if (status.supplyTemp != null) await this.setCapabilityValue('measure_temperature.supply', status.supplyTemp).catch(this.error);
         if (status.exhaustTemp != null) await this.setCapabilityValue('measure_temperature.exhaust', status.exhaustTemp).catch(this.error);
         if (status.humidity != null) await this.setCapabilityValue('measure_humidity', status.humidity).catch(this.error);
+        if (status.ventilationSetpoint != null && this.hasCapability('fan_speed')) {
+          await this.setCapabilityValue('fan_speed', status.ventilationSetpoint).catch(this.error);
+        }
 
         const newMode = MODE_MAP[status.modeCode] ?? null;
 
@@ -422,6 +453,33 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       }
     } catch (err) {
       this.log('WS message handling error:', err.message);
+    }
+  }
+
+  /**
+   * Fetches firmware/OTA info (v2 only), updates the firmware_version capability
+   * and fires the firmware-update-available trigger once per new latest version.
+   * @private
+   */
+  async _updateFirmwareInfo() {
+    if (!this.settings.useApiV2) return;
+
+    try {
+      const ota = await this.api.getOtaInfo();
+
+      if (ota?.installed_version && this.hasCapability('measure_string.firmware_version')) {
+        await this.setCapabilityValue('measure_string.firmware_version', ota.installed_version).catch(() => {});
+      }
+
+      if (ota?.fw_update_available && ota.latest_fw && ota.latest_fw !== this.getStoreValue('notifiedFw')) {
+        await this._triggerFirmwareUpdateAvailable.trigger(this, {
+          installed_version: ota.installed_version ?? '',
+          latest_version: ota.latest_fw,
+        }).catch(this.error);
+        await this.setStoreValue('notifiedFw', ota.latest_fw);
+      }
+    } catch (err) {
+      this.log('Firmware info poll failed:', err.message);
     }
   }
 

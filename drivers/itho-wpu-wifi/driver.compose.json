@@ -1,0 +1,438 @@
+{
+  "name": {
+    "en": "NRG.Watch Itho WPU Wifi"
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "class": "heatpump",
+  "capabilities": [
+    "measure_temperature.outside",
+    "measure_temperature.boiler_up",
+    "measure_temperature.boiler_down",
+    "measure_temperature.cv_supply",
+    "measure_temperature.cv_return",
+    "measure_temperature.to_source",
+    "measure_temperature.from_source",
+    "measure_temperature.room",
+    "measure_temperature.requested_room",
+    "measure_number.cv_pressure",
+    "measure_number.cv_pump",
+    "measure_number.well_pump",
+    "measure_number.boiler_pump",
+    "measure_number.heat_demand",
+    "measure_number.flow_sensor",
+    "measure_number.compressor_current",
+    "measure_number.status_code",
+    "measure_number.sub_status_code",
+    "measure_number.error_code",
+    "measure_string.last_command_source",
+    "measure_string.firmware_version"
+  ],
+  "pair": [
+    {
+      "id": "loading",
+      "template": "loading"
+    },
+    {
+      "id": "set_ip"
+    },
+    {
+      "id": "get_data",
+      "template": "loading",
+      "options": {
+        "text": {
+          "en": "Searching for devices",
+          "nl": "Zoeken naar apparaten",
+          "de": "Suche nach Geräten",
+          "fr": "Recherche d'appareils",
+          "it": "Ricerca dispositivi",
+          "sv": "Söker efter enheter",
+          "no": "Søker etter enheter",
+          "es": "Buscando dispositivos",
+          "da": "Søger efter enheder",
+          "ru": "Поиск устройств",
+          "pl": "Wyszukiwanie urządzeń",
+          "ko": "기기 검색 중"
+        }
+      }
+    },
+    {
+      "id": "set_settings"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    },
+    {
+      "id": "done",
+      "template": "done"
+    }
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "capabilitiesOptions": {
+    "measure_temperature.outside": {
+      "title": {
+        "en": "Outside Temperature",
+        "nl": "Buitentemperatuur",
+        "de": "Außentemperatur",
+        "fr": "Température extérieure",
+        "it": "Temperatura esterna",
+        "sv": "Utomhustemperatur",
+        "no": "Utetemperatur",
+        "es": "Temperatura exterior",
+        "da": "Udetemperatur",
+        "ru": "Наружная температура",
+        "pl": "Temperatura zewnętrzna",
+        "ko": "실외 온도"
+      }
+    },
+    "measure_temperature.boiler_up": {
+      "title": {
+        "en": "Boiler Temperature Top",
+        "nl": "Boilertemperatuur boven",
+        "de": "Boilertemperatur oben",
+        "fr": "Température ballon haut",
+        "it": "Temperatura boiler alto",
+        "sv": "Varmvattenberedare topp",
+        "no": "Beredertemperatur topp",
+        "es": "Temperatura caldera superior",
+        "da": "Beholdertemperatur top",
+        "ru": "Температура бойлера верх",
+        "pl": "Temperatura bojlera góra",
+        "ko": "보일러 상단 온도"
+      }
+    },
+    "measure_temperature.boiler_down": {
+      "title": {
+        "en": "Boiler Temperature Bottom",
+        "nl": "Boilertemperatuur onder",
+        "de": "Boilertemperatur unten",
+        "fr": "Température ballon bas",
+        "it": "Temperatura boiler basso",
+        "sv": "Varmvattenberedare botten",
+        "no": "Beredertemperatur bunn",
+        "es": "Temperatura caldera inferior",
+        "da": "Beholdertemperatur bund",
+        "ru": "Температура бойлера низ",
+        "pl": "Temperatura bojlera dół",
+        "ko": "보일러 하단 온도"
+      }
+    },
+    "measure_temperature.cv_supply": {
+      "title": {
+        "en": "CH Supply Temperature",
+        "nl": "CV-aanvoertemperatuur",
+        "de": "Heizung Vorlauftemperatur",
+        "fr": "Température départ chauffage",
+        "it": "Temperatura mandata risc.",
+        "sv": "Framledningstemperatur",
+        "no": "Turtemperatur",
+        "es": "Temperatura de impulsión",
+        "da": "Fremløbstemperatur",
+        "ru": "Температура подачи отопления",
+        "pl": "Temperatura zasilania CO",
+        "ko": "난방 공급 온도"
+      }
+    },
+    "measure_temperature.cv_return": {
+      "title": {
+        "en": "CH Return Temperature",
+        "nl": "CV-retourtemperatuur",
+        "de": "Heizung Rücklauftemperatur",
+        "fr": "Température retour chauffage",
+        "it": "Temperatura ritorno risc.",
+        "sv": "Returtemperatur",
+        "no": "Returtemperatur",
+        "es": "Temperatura de retorno",
+        "da": "Returtemperatur",
+        "ru": "Температура обратки отопления",
+        "pl": "Temperatura powrotu CO",
+        "ko": "난방 환수 온도"
+      }
+    },
+    "measure_temperature.to_source": {
+      "title": {
+        "en": "Temperature To Source",
+        "nl": "Temperatuur naar bron",
+        "de": "Temperatur zur Quelle",
+        "fr": "Température vers source",
+        "it": "Temperatura verso sorgente",
+        "sv": "Temperatur till källa",
+        "no": "Temperatur til kilde",
+        "es": "Temperatura hacia fuente",
+        "da": "Temperatur til kilde",
+        "ru": "Температура к источнику",
+        "pl": "Temperatura do źródła",
+        "ko": "열원 공급 온도"
+      }
+    },
+    "measure_temperature.from_source": {
+      "title": {
+        "en": "Temperature From Source",
+        "nl": "Temperatuur van bron",
+        "de": "Temperatur von Quelle",
+        "fr": "Température depuis source",
+        "it": "Temperatura da sorgente",
+        "sv": "Temperatur från källa",
+        "no": "Temperatur fra kilde",
+        "es": "Temperatura desde fuente",
+        "da": "Temperatur fra kilde",
+        "ru": "Температура от источника",
+        "pl": "Temperatura ze źródła",
+        "ko": "열원 환수 온도"
+      }
+    },
+    "measure_temperature.room": {
+      "title": {
+        "en": "Room Temperature",
+        "nl": "Kamertemperatuur",
+        "de": "Raumtemperatur",
+        "fr": "Température ambiante",
+        "it": "Temperatura ambiente",
+        "sv": "Rumstemperatur",
+        "no": "Romtemperatur",
+        "es": "Temperatura ambiente",
+        "da": "Rumtemperatur",
+        "ru": "Комнатная температура",
+        "pl": "Temperatura pokojowa",
+        "ko": "실내 온도"
+      }
+    },
+    "measure_temperature.requested_room": {
+      "title": {
+        "en": "Requested Room Temperature",
+        "nl": "Gevraagde kamertemperatuur",
+        "de": "Gewünschte Raumtemperatur",
+        "fr": "Température ambiante demandée",
+        "it": "Temperatura ambiente richiesta",
+        "sv": "Begärd rumstemperatur",
+        "no": "Ønsket romtemperatur",
+        "es": "Temperatura ambiente solicitada",
+        "da": "Ønsket rumtemperatur",
+        "ru": "Заданная комнатная температура",
+        "pl": "Żądana temperatura pokojowa",
+        "ko": "요청 실내 온도"
+      }
+    },
+    "measure_number.cv_pressure": {
+      "title": {
+        "en": "CH Pressure",
+        "nl": "CV-druk",
+        "de": "Heizungsdruck",
+        "fr": "Pression chauffage",
+        "it": "Pressione riscaldamento",
+        "sv": "Värmetryck",
+        "no": "Trykk sentralvarme",
+        "es": "Presión calefacción",
+        "da": "Centralvarmetryk",
+        "ru": "Давление отопления",
+        "pl": "Ciśnienie CO",
+        "ko": "난방 압력"
+      },
+      "units": {
+        "en": "Bar"
+      }
+    },
+    "measure_number.cv_pump": {
+      "title": {
+        "en": "CH Pump",
+        "nl": "CV-pomp",
+        "de": "Heizungspumpe",
+        "fr": "Pompe chauffage",
+        "it": "Pompa riscaldamento",
+        "sv": "Värmepump cirk.",
+        "no": "Sirkulasjonspumpe",
+        "es": "Bomba calefacción",
+        "da": "Cirkulationspumpe",
+        "ru": "Насос отопления",
+        "pl": "Pompa CO",
+        "ko": "난방 펌프"
+      },
+      "units": "%"
+    },
+    "measure_number.well_pump": {
+      "title": {
+        "en": "Source Pump",
+        "nl": "Bronpomp",
+        "de": "Quellenpumpe",
+        "fr": "Pompe source",
+        "it": "Pompa sorgente",
+        "sv": "Källpump",
+        "no": "Kildepumpe",
+        "es": "Bomba de fuente",
+        "da": "Kildepumpe",
+        "ru": "Насос источника",
+        "pl": "Pompa źródła",
+        "ko": "열원 펌프"
+      },
+      "units": "%"
+    },
+    "measure_number.boiler_pump": {
+      "title": {
+        "en": "Boiler Pump",
+        "nl": "Boilerpomp",
+        "de": "Boilerpumpe",
+        "fr": "Pompe ballon",
+        "it": "Pompa boiler",
+        "sv": "Beredarpump",
+        "no": "Berederpumpe",
+        "es": "Bomba caldera",
+        "da": "Beholderpumpe",
+        "ru": "Насос бойлера",
+        "pl": "Pompa bojlera",
+        "ko": "보일러 펌프"
+      },
+      "units": "%"
+    },
+    "measure_number.heat_demand": {
+      "title": {
+        "en": "Heat Demand",
+        "nl": "Warmtevraag",
+        "de": "Wärmebedarf",
+        "fr": "Demande de chaleur",
+        "it": "Richiesta di calore",
+        "sv": "Värmebehov",
+        "no": "Varmebehov",
+        "es": "Demanda de calor",
+        "da": "Varmebehov",
+        "ru": "Потребность в тепле",
+        "pl": "Zapotrzebowanie na ciepło",
+        "ko": "난방 요구"
+      },
+      "units": "%"
+    },
+    "measure_number.flow_sensor": {
+      "title": {
+        "en": "Flow",
+        "nl": "Doorstroming",
+        "de": "Durchfluss",
+        "fr": "Débit",
+        "it": "Portata",
+        "sv": "Flöde",
+        "no": "Gjennomstrømning",
+        "es": "Caudal",
+        "da": "Gennemstrømning",
+        "ru": "Расход",
+        "pl": "Przepływ",
+        "ko": "유량"
+      },
+      "units": {
+        "en": "l/h"
+      }
+    },
+    "measure_number.compressor_current": {
+      "title": {
+        "en": "Compressor Current",
+        "nl": "Compressorstroom",
+        "de": "Kompressorstrom",
+        "fr": "Courant compresseur",
+        "it": "Corrente compressore",
+        "sv": "Kompressorström",
+        "no": "Kompressorstrøm",
+        "es": "Corriente compresor",
+        "da": "Kompressorstrøm",
+        "ru": "Ток компрессора",
+        "pl": "Prąd sprężarki",
+        "ko": "압축기 전류"
+      },
+      "units": {
+        "en": "A"
+      }
+    },
+    "measure_number.status_code": {
+      "title": {
+        "en": "Status Code",
+        "nl": "Statuscode",
+        "de": "Statuscode",
+        "fr": "Code de statut",
+        "it": "Codice di stato",
+        "sv": "Statuskod",
+        "no": "Statuskode",
+        "es": "Código de estado",
+        "da": "Statuskode",
+        "ru": "Код состояния",
+        "pl": "Kod statusu",
+        "ko": "상태 코드"
+      }
+    },
+    "measure_number.sub_status_code": {
+      "title": {
+        "en": "Sub Status Code",
+        "nl": "Substatuscode",
+        "de": "Substatuscode",
+        "fr": "Code de sous-statut",
+        "it": "Codice sottostato",
+        "sv": "Understatuskod",
+        "no": "Understatuskode",
+        "es": "Código de subestado",
+        "da": "Understatuskode",
+        "ru": "Код подсостояния",
+        "pl": "Kod podstatusu",
+        "ko": "하위 상태 코드"
+      }
+    },
+    "measure_number.error_code": {
+      "title": {
+        "en": "Error Code",
+        "nl": "Foutcode",
+        "de": "Fehlercode",
+        "fr": "Code d'erreur",
+        "it": "Codice errore",
+        "sv": "Felkod",
+        "no": "Feilkode",
+        "es": "Código de error",
+        "da": "Fejlkode",
+        "ru": "Код ошибки",
+        "pl": "Kod błędu",
+        "ko": "오류 코드"
+      }
+    },
+    "measure_string.last_command_source": {
+      "title": {
+        "en": "Last Command Source",
+        "nl": "Laatste commando bron",
+        "da": "Sidste kommandokilde",
+        "de": "Letzte Befehlsquelle",
+        "es": "Fuente del último comando",
+        "fr": "Source de la dernière commande",
+        "it": "Fonte ultimo comando",
+        "ko": "마지막 명령 소스",
+        "no": "Siste kommanderingskilde",
+        "pl": "Źródło ostatniego polecenia",
+        "ru": "Источник последней команды",
+        "sv": "Senaste kommandokälla"
+      }
+    },
+    "measure_string.firmware_version": {
+      "title": {
+        "en": "Firmware Version",
+        "nl": "Firmwareversie",
+        "de": "Firmware-Version",
+        "fr": "Version du firmware",
+        "it": "Versione firmware",
+        "sv": "Firmwareversion",
+        "no": "Fastvareversjon",
+        "es": "Versión de firmware",
+        "da": "Firmwareversion",
+        "ru": "Версия прошивки",
+        "pl": "Wersja firmware",
+        "ko": "펌웨어 버전"
+      }
+    }
+  }
+}

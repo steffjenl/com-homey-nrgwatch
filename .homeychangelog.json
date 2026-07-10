@@ -70,5 +70,8 @@
   },
   "1.1.2": {
     "en": "Add beter support for WTW units"
+  },
+  "1.2.0": {
+    "en": "Add fan speed slider for WTW units, timer countdown, firmware update notifications and a new WPU heat pump driver (experimental)"
   }
 }
