@@ -191,6 +191,200 @@
       ]
     },
     {
+      "id": "wtw_temperature_changed_rapidly",
+      "title": {
+        "en": "Temperature changes rapidly",
+        "nl": "Temperatuur verandert snel",
+        "de": "Temperatur ändert sich schnell",
+        "fr": "La température change rapidement",
+        "it": "La temperatura cambia rapidamente",
+        "sv": "Temperaturen förändras snabbt",
+        "no": "Temperaturen endrer seg raskt",
+        "es": "La temperatura cambia rápidamente",
+        "da": "Temperaturen ændrer sig hurtigt",
+        "ru": "Температура быстро меняется",
+        "pl": "Temperatura szybko się zmienia",
+        "ko": "온도가 빠르게 변합니다"
+      },
+      "titleFormatted": {
+        "en": "Temperature changes faster than [[rate]] °C/min",
+        "nl": "Temperatuur verandert sneller dan [[rate]] °C/min",
+        "de": "Temperatur ändert sich schneller als [[rate]] °C/min",
+        "fr": "La température change plus vite que [[rate]] °C/min",
+        "it": "La temperatura cambia più velocemente di [[rate]] °C/min",
+        "sv": "Temperaturen förändras snabbare än [[rate]] °C/min",
+        "no": "Temperaturen endrer seg raskere enn [[rate]] °C/min",
+        "es": "La temperatura cambia más rápido que [[rate]] °C/min",
+        "da": "Temperaturen ændrer sig hurtigere end [[rate]] °C/min",
+        "ru": "Температура меняется быстрее, чем [[rate]] °C/мин",
+        "pl": "Temperatura zmienia się szybciej niż [[rate]] °C/min",
+        "ko": "온도가 [[rate]] °C/분보다 빠르게 변합니다"
+      },
+      "args": [
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Minimum rate (°C/min)",
+            "nl": "Minimale snelheid (°C/min)",
+            "de": "Mindestgeschwindigkeit (°C/min)",
+            "fr": "Vitesse minimale (°C/min)",
+            "it": "Velocità minima (°C/min)",
+            "sv": "Minsta hastighet (°C/min)",
+            "no": "Minste hastighet (°C/min)",
+            "es": "Velocidad mínima (°C/min)",
+            "da": "Minimumshastighed (°C/min)",
+            "ru": "Минимальная скорость (°C/мин)",
+            "pl": "Minimalna prędkość (°C/min)",
+            "ko": "최소 속도 (°C/분)"
+          },
+          "placeholder": {
+            "en": "1"
+          },
+          "min": 0.01,
+          "max": 60,
+          "step": 0.1
+        }
+      ],
+      "tokens": [
+        {
+          "name": "temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature (°C)",
+            "nl": "Temperatuur (°C)",
+            "de": "Temperatur (°C)",
+            "fr": "Température (°C)",
+            "it": "Temperatura (°C)",
+            "sv": "Temperatur (°C)",
+            "no": "Temperatur (°C)",
+            "es": "Temperatura (°C)",
+            "da": "Temperatur (°C)",
+            "ru": "Температура (°C)",
+            "pl": "Temperatura (°C)",
+            "ko": "온도 (°C)"
+          },
+          "example": 21.5
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Rate of change (°C/min)",
+            "nl": "Snelheid van verandering (°C/min)",
+            "de": "Änderungsrate (°C/min)",
+            "fr": "Taux de variation (°C/min)",
+            "it": "Tasso di variazione (°C/min)",
+            "sv": "Förändringshastighet (°C/min)",
+            "no": "Endringshastighet (°C/min)",
+            "es": "Tasa de cambio (°C/min)",
+            "da": "Ændringshastighed (°C/min)",
+            "ru": "Скорость изменения (°C/мин)",
+            "pl": "Tempo zmiany (°C/min)",
+            "ko": "변화 속도 (°C/분)"
+          },
+          "example": 2
+        }
+      ]
+    },
+    {
+      "id": "wtw_humidity_changed_rapidly",
+      "title": {
+        "en": "Humidity changes rapidly",
+        "nl": "Luchtvochtigheid verandert snel",
+        "de": "Luftfeuchtigkeit ändert sich schnell",
+        "fr": "L'humidité change rapidement",
+        "it": "L'umidità cambia rapidamente",
+        "sv": "Luftfuktigheten förändras snabbt",
+        "no": "Luftfuktigheten endrer seg raskt",
+        "es": "La humedad cambia rápidamente",
+        "da": "Luftfugtigheden ændrer sig hurtigt",
+        "ru": "Влажность быстро меняется",
+        "pl": "Wilgotność szybko się zmienia",
+        "ko": "습도가 빠르게 변합니다"
+      },
+      "titleFormatted": {
+        "en": "Humidity changes faster than [[rate]] %/min",
+        "nl": "Luchtvochtigheid verandert sneller dan [[rate]] %/min",
+        "de": "Luftfeuchtigkeit ändert sich schneller als [[rate]] %/min",
+        "fr": "L'humidité change plus vite que [[rate]] %/min",
+        "it": "L'umidità cambia più velocemente di [[rate]] %/min",
+        "sv": "Luftfuktigheten förändras snabbare än [[rate]] %/min",
+        "no": "Luftfuktigheten endrer seg raskere enn [[rate]] %/min",
+        "es": "La humedad cambia más rápido que [[rate]] %/min",
+        "da": "Luftfugtigheden ændrer sig hurtigere end [[rate]] %/min",
+        "ru": "Влажность меняется быстрее, чем [[rate]] %/мин",
+        "pl": "Wilgotność zmienia się szybciej niż [[rate]] %/min",
+        "ko": "습도가 [[rate]] %/분보다 빠르게 변합니다"
+      },
+      "args": [
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Minimum rate (%/min)",
+            "nl": "Minimale snelheid (%/min)",
+            "de": "Mindestgeschwindigkeit (%/min)",
+            "fr": "Vitesse minimale (%/min)",
+            "it": "Velocità minima (%/min)",
+            "sv": "Minsta hastighet (%/min)",
+            "no": "Minste hastighet (%/min)",
+            "es": "Velocidad mínima (%/min)",
+            "da": "Minimumshastighed (%/min)",
+            "ru": "Минимальная скорость (%/мин)",
+            "pl": "Minimalna prędkość (%/min)",
+            "ko": "최소 속도 (%/분)"
+          },
+          "placeholder": {
+            "en": "5"
+          },
+          "min": 0.1,
+          "max": 200,
+          "step": 0.1
+        }
+      ],
+      "tokens": [
+        {
+          "name": "humidity",
+          "type": "number",
+          "title": {
+            "en": "Humidity (%)",
+            "nl": "Luchtvochtigheid (%)",
+            "de": "Luftfeuchtigkeit (%)",
+            "fr": "Humidité (%)",
+            "it": "Umidità (%)",
+            "sv": "Luftfuktighet (%)",
+            "no": "Luftfuktighet (%)",
+            "es": "Humedad (%)",
+            "da": "Luftfugtighed (%)",
+            "ru": "Влажность (%)",
+            "pl": "Wilgotność (%)",
+            "ko": "습도 (%)"
+          },
+          "example": 71
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Rate of change (%/min)",
+            "nl": "Snelheid van verandering (%/min)",
+            "de": "Änderungsrate (%/min)",
+            "fr": "Taux de variation (%/min)",
+            "it": "Tasso di variazione (%/min)",
+            "sv": "Förändringshastighet (%/min)",
+            "no": "Endringshastighet (%/min)",
+            "es": "Tasa de cambio (%/min)",
+            "da": "Ændringshastighed (%/min)",
+            "ru": "Скорость изменения (%/мин)",
+            "pl": "Tempo zmiany (%/min)",
+            "ko": "변화 속도 (%/분)"
+          },
+          "example": 8
+        }
+      ]
+    },
+    {
       "id": "wtw_firmware_update_available",
       "title": {
         "en": "A firmware update is available",

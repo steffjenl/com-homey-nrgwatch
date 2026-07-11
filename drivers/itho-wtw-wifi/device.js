@@ -3,6 +3,7 @@
 const Homey = require('homey');
 const NRGWatchApi = require('../../lib/nrgwatch-api');
 const VirtualRemoteModus = require('../../lib/virtual-remote-modus');
+const RateTracker = require('../../lib/rate-tracker');
 
 /** Number of consecutive poll failures before marking device unavailable */
 const FAILURE_THRESHOLD = 3;
@@ -40,13 +41,22 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this._failureCount = 0;
     this._wasUnavailable = false;
 
+    // Rate-of-change tracking for "changed rapidly" triggers
+    this._rateTracker = new RateTracker();
+
     // Register flow card triggers
     this._triggerFanModeChanged = this.homey.flow.getDeviceTriggerCard('wtw_fan_mode_changed');
     this._triggerDeviceOffline = this.homey.flow.getDeviceTriggerCard('wtw_device_offline');
     this._triggerDeviceOnline = this.homey.flow.getDeviceTriggerCard('wtw_device_online');
     this._triggerTemperatureChanged = this.homey.flow.getDeviceTriggerCard('wtw_temperature_changed');
     this._triggerHumidityChanged = this.homey.flow.getDeviceTriggerCard('wtw_humidity_changed');
+    this._triggerTemperatureChangedRapidly = this.homey.flow.getDeviceTriggerCard('wtw_temperature_changed_rapidly');
+    this._triggerHumidityChangedRapidly = this.homey.flow.getDeviceTriggerCard('wtw_humidity_changed_rapidly');
     this._triggerFirmwareUpdateAvailable = this.homey.flow.getDeviceTriggerCard('wtw_firmware_update_available');
+
+    // Rate-of-change triggers: run listener filters based on the configured minimum rate arg
+    this._triggerTemperatureChangedRapidly.registerRunListener((args, state) => Math.abs(state.rate) >= args.rate);
+    this._triggerHumidityChangedRapidly.registerRunListener((args, state) => Math.abs(state.rate) >= args.rate);
 
     // Register flow card action
     this.homey.flow.getActionCard('wtw_set_fan_mode')
@@ -227,6 +237,22 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     await this.setCapabilityOptions('fan_mode', options);
   }
 
+  /**
+   * Feeds a new sample into the rate tracker and fires the given
+   * "changed rapidly" trigger card if a rate could be computed. Called on
+   * every sample (poll AND WebSocket), independent of whether the plain
+   * "changed" trigger fired, so slow drift across many small samples still
+   * yields an accurate per-minute rate.
+   */
+  async _checkRapidChange(metric, value, tokenName, triggerCard, decimals = 1) {
+    if (value == null) return;
+    const rate = this._rateTracker.update(metric, value);
+    if (rate == null) return;
+    const factor = 10 ** decimals;
+    const roundedRate = Math.round(rate * factor) / factor;
+    await triggerCard.trigger(this, { [tokenName]: value, rate: roundedRate }, { rate: roundedRate }).catch(this.error);
+  }
+
   async updateStatus() {
     try {
       const rawStatus = await this.api.getStatus();
@@ -310,6 +336,10 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       if (status.humidity != null && status.humidity !== prev.humidity) {
         await this._triggerHumidityChanged.trigger(this, { humidity: status.humidity }).catch(this.error);
       }
+
+      // --- Flow triggers for rapid sensor changes ---
+      await this._checkRapidChange('temperature', tempIndoor, 'temperature', this._triggerTemperatureChangedRapidly, 2);
+      await this._checkRapidChange('humidity', status.humidity, 'humidity', this._triggerHumidityChangedRapidly, 1);
 
     } catch (error) {
       this._failureCount = (this._failureCount || 0) + 1;
@@ -421,6 +451,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
           if (stat.sensor_temp !== prev) {
             await this._triggerTemperatureChanged.trigger(this, { temperature: stat.sensor_temp }).catch(this.error);
           }
+          await this._checkRapidChange('temperature', stat.sensor_temp, 'temperature', this._triggerTemperatureChangedRapidly, 2);
         }
         if (stat.sensor_hum != null) {
           const prev = this.getCapabilityValue('measure_humidity');
@@ -428,17 +459,24 @@ module.exports = class IthoWTWWifi extends Homey.Device {
           if (stat.sensor_hum !== prev) {
             await this._triggerHumidityChanged.trigger(this, { humidity: stat.sensor_hum }).catch(this.error);
           }
+          await this._checkRapidChange('humidity', stat.sensor_hum, 'humidity', this._triggerHumidityChangedRapidly, 1);
         }
       }
 
       if (data.ithostatusinfo) {
         const status = this._normalizeStatus(data.ithostatusinfo);
 
-        if (status.tempIndoor != null) await this.setCapabilityValue('measure_temperature.indoor', status.tempIndoor).catch(this.error);
+        if (status.tempIndoor != null) {
+          await this.setCapabilityValue('measure_temperature.indoor', status.tempIndoor).catch(this.error);
+          await this._checkRapidChange('temperature', status.tempIndoor, 'temperature', this._triggerTemperatureChangedRapidly, 2);
+        }
         if (status.tempOutdoor != null) await this.setCapabilityValue('measure_temperature.outdoor', status.tempOutdoor).catch(this.error);
         if (status.supplyTemp != null) await this.setCapabilityValue('measure_temperature.supply', status.supplyTemp).catch(this.error);
         if (status.exhaustTemp != null) await this.setCapabilityValue('measure_temperature.exhaust', status.exhaustTemp).catch(this.error);
-        if (status.humidity != null) await this.setCapabilityValue('measure_humidity', status.humidity).catch(this.error);
+        if (status.humidity != null) {
+          await this.setCapabilityValue('measure_humidity', status.humidity).catch(this.error);
+          await this._checkRapidChange('humidity', status.humidity, 'humidity', this._triggerHumidityChangedRapidly, 1);
+        }
         if (status.ventilationSetpoint != null && this.hasCapability('fan_speed')) {
           await this.setCapabilityValue('fan_speed', status.ventilationSetpoint).catch(this.error);
         }

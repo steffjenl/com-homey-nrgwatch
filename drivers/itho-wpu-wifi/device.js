@@ -2,6 +2,7 @@
 
 const Homey = require('homey');
 const NRGWatchApi = require('../../lib/nrgwatch-api');
+const RateTracker = require('../../lib/rate-tracker');
 
 /** Number of consecutive poll failures before marking device unavailable */
 const FAILURE_THRESHOLD = 3;
@@ -29,12 +30,19 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     this._failureCount = 0;
     this._wasUnavailable = false;
 
+    // Rate-of-change tracking for "changed rapidly" triggers
+    this._rateTracker = new RateTracker();
+
     // Register flow card triggers
     this._triggerDeviceOffline = this.homey.flow.getDeviceTriggerCard('wpu_device_offline');
     this._triggerDeviceOnline = this.homey.flow.getDeviceTriggerCard('wpu_device_online');
     this._triggerTemperatureChanged = this.homey.flow.getDeviceTriggerCard('wpu_temperature_changed');
+    this._triggerTemperatureChangedRapidly = this.homey.flow.getDeviceTriggerCard('wpu_temperature_changed_rapidly');
     this._triggerErrorChanged = this.homey.flow.getDeviceTriggerCard('wpu_error_changed');
     this._triggerFirmwareUpdateAvailable = this.homey.flow.getDeviceTriggerCard('wpu_firmware_update_available');
+
+    // Rate-of-change trigger: run listener filters based on the configured minimum rate arg
+    this._triggerTemperatureChangedRapidly.registerRunListener((args, state) => Math.abs(state.rate) >= args.rate);
 
     // Register flow card action
     this.homey.flow.getActionCard('wpu_set_outside_temp')
@@ -154,6 +162,22 @@ module.exports = class IthoWpuWifi extends Homey.Device {
   }
 
   /**
+   * Feeds a new sample into the rate tracker and fires the given
+   * "changed rapidly" trigger card if a rate could be computed. Called on
+   * every sample (poll AND WebSocket), independent of whether the plain
+   * "changed" trigger fired, so slow drift across many small samples still
+   * yields an accurate per-minute rate.
+   */
+  async _checkRapidChange(metric, value, tokenName, triggerCard, decimals = 1) {
+    if (value == null) return;
+    const rate = this._rateTracker.update(metric, value);
+    if (rate == null) return;
+    const factor = 10 ** decimals;
+    const roundedRate = Math.round(rate * factor) / factor;
+    await triggerCard.trigger(this, { [tokenName]: value, rate: roundedRate }, { rate: roundedRate }).catch(this.error);
+  }
+
+  /**
    * Writes a normalized status object to the capabilities and fires change triggers.
    * All fields are optional; missing values are skipped.
    * @private
@@ -191,6 +215,7 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     if (status.errorCode != null && status.errorCode !== prev.errorCode) {
       await this._triggerErrorChanged.trigger(this, { error_code: status.errorCode }).catch(this.error);
     }
+    await this._checkRapidChange('temperature', status.roomTemp, 'temperature', this._triggerTemperatureChangedRapidly, 2);
   }
 
   /**
