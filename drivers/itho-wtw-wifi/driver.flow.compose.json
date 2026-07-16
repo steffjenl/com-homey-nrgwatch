@@ -515,42 +515,43 @@
         "ko": "팬 속도 설정"
       },
       "titleFormatted": {
-        "en": "Set fan speed to [[speed]] %",
-        "nl": "Stel ventilatorsnelheid in op [[speed]] %",
-        "de": "Lüftergeschwindigkeit auf [[speed]] % einstellen",
-        "fr": "Définir la vitesse du ventilateur à [[speed]] %",
-        "it": "Imposta velocità ventilatore a [[speed]] %",
-        "sv": "Ställ in fläkthastighet till [[speed]] %",
-        "no": "Angi viftehastighet til [[speed]] %",
-        "es": "Establecer velocidad del ventilador a [[speed]] %",
-        "da": "Indstil ventilatorhastighed til [[speed]] %",
-        "ru": "Установить скорость вентилятора на [[speed]] %",
-        "pl": "Ustaw prędkość wentylatora na [[speed]] %",
-        "ko": "팬 속도를 [[speed]] %로 설정"
+        "en": "Set fan speed to [[speed]]",
+        "nl": "Stel ventilatorsnelheid in op [[speed]]",
+        "de": "Lüftergeschwindigkeit auf [[speed]] einstellen",
+        "fr": "Définir la vitesse du ventilateur à [[speed]]",
+        "it": "Imposta velocità ventilatore a [[speed]]",
+        "sv": "Ställ in fläkthastighet till [[speed]]",
+        "no": "Angi viftehastighet til [[speed]]",
+        "es": "Establecer velocidad del ventilador a [[speed]]",
+        "da": "Indstil ventilatorhastighed til [[speed]]",
+        "ru": "Установить скорость вентилятора на [[speed]]",
+        "pl": "Ustaw prędkość wentylatora na [[speed]]",
+        "ko": "팬 속도를 [[speed]]로 설정"
       },
       "args": [
         {
           "name": "speed",
           "type": "number",
           "title": {
-            "en": "Speed (%)",
-            "nl": "Snelheid (%)",
-            "de": "Geschwindigkeit (%)",
-            "fr": "Vitesse (%)",
-            "it": "Velocità (%)",
-            "sv": "Hastighet (%)",
-            "no": "Hastighet (%)",
-            "es": "Velocidad (%)",
-            "da": "Hastighed (%)",
-            "ru": "Скорость (%)",
-            "pl": "Prędkość (%)",
-            "ko": "속도 (%)"
+            "en": "Speed (0-1)",
+            "nl": "Snelheid (0-1)",
+            "de": "Geschwindigkeit (0-1)",
+            "fr": "Vitesse (0-1)",
+            "it": "Velocità (0-1)",
+            "sv": "Hastighet (0-1)",
+            "no": "Hastighet (0-1)",
+            "es": "Velocidad (0-1)",
+            "da": "Hastighed (0-1)",
+            "ru": "Скорость (0-1)",
+            "pl": "Prędkość (0-1)",
+            "ko": "속도 (0-1)"
           },
           "placeholder": {
-            "en": "50"
+            "en": "0.5"
           },
           "min": 0,
-          "max": 100
+          "max": 1,
+          "step": 0.01
         }
       ]
     }

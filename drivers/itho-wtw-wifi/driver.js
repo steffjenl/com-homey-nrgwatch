@@ -155,9 +155,9 @@ module.exports = class IthoWTWWifiDriver extends Homey.Driver {
     return Promise.resolve([]);
   }
 
-  sleep = async function(ms) {
+  async sleep(ms) {
     return new Promise((resolve) => {
-      setTimeout(resolve, ms);
+      this.homey.setTimeout(resolve, ms);
     });
-  };
+  }
 };

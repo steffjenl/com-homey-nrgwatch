@@ -7,6 +7,23 @@ const RateTracker = require('../../lib/rate-tracker');
 
 /** Number of consecutive poll failures before marking device unavailable */
 const FAILURE_THRESHOLD = 3;
+const FAN_SPEED_PERCENT_MAX = 100;
+
+function clampFanSpeedRatio(value) {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) return 0;
+  return Math.min(Math.max(numericValue, 0), 1);
+}
+
+function fanSpeedPercentageToRatio(value) {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) return null;
+  return clampFanSpeedRatio(numericValue / FAN_SPEED_PERCENT_MAX);
+}
+
+function fanSpeedRatioToPercentage(value) {
+  return Math.round(clampFanSpeedRatio(value) * FAN_SPEED_PERCENT_MAX);
+}
 
 const MODE_MAP = {
   1: 'away',
@@ -77,8 +94,9 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
     this.homey.flow.getActionCard('wtw_set_fan_speed')
       .registerRunListener(async (args) => {
-        await this.api.setFanSpeed(Math.round(args.speed));
-        await this.setCapabilityValue('fan_speed', args.speed);
+        const fanSpeedRatio = clampFanSpeedRatio(args.speed);
+        await this.api.setFanSpeed(fanSpeedRatioToPercentage(fanSpeedRatio));
+        await this.setCapabilityValue('fan_speed', fanSpeedRatio);
         await this._updateLastCommandSource();
         return true;
       });
@@ -92,7 +110,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
     this.registerCapabilityListener('fan_speed', async (value) => {
       this.log('Setting fan_speed to', value);
-      await this.api.setFanSpeed(Math.round(value));
+      await this.api.setFanSpeed(fanSpeedRatioToPercentage(value));
       await this._updateLastCommandSource();
     });
 
@@ -285,7 +303,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
       if (status.humidity != null) await this.setCapabilityValue('measure_humidity', status.humidity).catch(this.error);
       if (status.ventilationSetpoint != null && this.hasCapability('fan_speed')) {
-        await this.setCapabilityValue('fan_speed', status.ventilationSetpoint).catch(this.error);
+        await this.setCapabilityValue('fan_speed', fanSpeedPercentageToRatio(status.ventilationSetpoint)).catch(this.error);
       }
       if (status.speedStatus != null) await this.setCapabilityValue('measure_speed.speed_status', status.speedStatus).catch(this.error);
       if (status.fanSpeed != null) await this.setCapabilityValue('measure_speed.fan_speed', status.fanSpeed).catch(this.error);
@@ -478,7 +496,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
           await this._checkRapidChange('humidity', status.humidity, 'humidity', this._triggerHumidityChangedRapidly, 1);
         }
         if (status.ventilationSetpoint != null && this.hasCapability('fan_speed')) {
-          await this.setCapabilityValue('fan_speed', status.ventilationSetpoint).catch(this.error);
+          await this.setCapabilityValue('fan_speed', fanSpeedPercentageToRatio(status.ventilationSetpoint)).catch(this.error);
         }
 
         const newMode = MODE_MAP[status.modeCode] ?? null;
