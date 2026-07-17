@@ -14,5 +14,8 @@
     "refreshInterval": "Refresh Interval (seconds)",
     "rfDeviceType": "RF Device Type",
     "rfDeviceIndex": "RF Device Index"
+  },
+  "errors": {
+    "device_unreachable": "Device is not reachable. Check the IP address and network connection."
   }
 }

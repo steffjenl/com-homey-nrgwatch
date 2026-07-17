@@ -28,6 +28,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] — 2026-07-11
+
+### Changed
+- `specs/openapi.json` updated to IthoWifi firmware spec **3.2.0** (was 3.0.0-beta1). Only new endpoint: `GET/POST /api/v2/ota`.
+- `setFanSpeed()` documented as mode-aware since firmware 3.1.4 (`percentage`/`fandemand` work in both directions on RF/auto units).
+
+### Added
+- `NRGWatchApi.getSpeedInfo()` — v2 speed incl. `timer_remaining_ms` / `timer_speed` (firmware 3.1.4+).
+- `NRGWatchApi.getOtaInfo()` — firmware version info + OTA state (firmware 3.1.0+).
+- `NRGWatchApi.setOutsideTemp(temp)` — `POST /api/v2/wpu/outside_temp` for WPU units.
+- WTW driver: `fan_speed` slider capability + `wtw_set_fan_speed` flow action.
+- CVE driver: `measure_number.timer_remaining` capability (add-on tracked timer, minutes).
+- CVE/WTW/WPU drivers: `measure_string.firmware_version` capability + `*_firmware_update_available` flow trigger (hourly OTA poll, fires once per new version).
+- New **`itho-wpu-wifi`** driver (experimental, class `heatpump`): 9 temperature sensors, CV pressure, pump percentages, heat demand, flow, compressor current, status/sub-status/error codes; flow action `wpu_set_outside_temp`, triggers for offline/online/room-temperature/error-code changes. Status label mapping sourced from ithowifi firmware `devices/wpu.h`.
+
+---
+
 ## [1.0.20] — app.json version
 
 ### Notes

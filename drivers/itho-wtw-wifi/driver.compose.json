@@ -2,9 +2,55 @@
   "name": {
     "en": "NRG.Watch Itho WTW Wifi"
   },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
   "class": "fan",
   "capabilities": [
-    "fan_mode"
+    "fan_mode",
+    "fan_speed",
+    "measure_temperature",
+    "measure_temperature.indoor",
+    "measure_temperature.outdoor",
+    "measure_temperature.supply",
+    "measure_temperature.exhaust",
+    "measure_humidity",
+    "measure_speed.speed_status",
+    "measure_speed.fan_speed",
+    "measure_speed.fan_setpoint",
+    "measure_speed.ventilation_setpoint",
+    "measure_speed.supply_fan_rpm",
+    "measure_speed.supply_fan_actual_rpm",
+    "measure_speed.exhaust_fan_rpm",
+    "measure_speed.exhaust_fan_actual_rpm",
+    "measure_number.balance",
+    "measure_number.valve_position",
+    "measure_number.bypass_position",
+    "measure_number.summercounter",
+    "measure_number.summerday_kmin",
+    "measure_number.frost_timer",
+    "measure_number.boiler_timer",
+    "measure_number.frost_block",
+    "measure_number.current_position",
+    "measure_number.vkk_switch",
+    "measure_number.ghe_switch",
+    "measure_number.airfilter_counter",
+    "measure_number.global_fault_code",
+    "measure_number.actual_mode_code",
+    "measure_number.pir_fan_speed_level",
+    "measure_number.highest_received_co2",
+    "measure_number.highest_received_rh",
+    "measure_number.air_quality",
+    "measure_number.remaining_override_timer",
+    "measure_number.fallback_speed_timer",
+    "measure_number.label_out_of_bound_error",
+    "measure_number.startup_counter",
+    "measure_number.total_operating_hours",
+    "measure_string.last_command_source",
+    "measure_string.firmware_version"
   ],
   "pair": [
     {
@@ -119,6 +165,502 @@
         "pl": "Opuść Wirtualny Pilot z jednostki Itho",
         "ru": "Отключить виртуальный пульт от устройства Itho",
         "sv": "Koppla från Virtuell Fjärrkontroll från Itho-enheten"
+      }
+    },
+    "measure_temperature.indoor": {
+      "title": {
+        "en": "Indoor Temperature",
+        "nl": "Binnentemperatuur",
+        "da": "Indendørs temperatur",
+        "de": "Innentemperatur",
+        "es": "Temperatura interior",
+        "fr": "Température intérieure",
+        "it": "Temperatura interna",
+        "ko": "실내 온도",
+        "no": "Innendørs temperatur",
+        "pl": "Temperatura wewnętrzna",
+        "ru": "Внутренняя температура",
+        "sv": "Inomhustemperatur"
+      }
+    },
+    "measure_temperature.outdoor": {
+      "title": {
+        "en": "Outdoor Temperature",
+        "nl": "Buitentemperatuur",
+        "da": "Udendørs temperatur",
+        "de": "Außentemperatur",
+        "es": "Temperatura exterior",
+        "fr": "Température extérieure",
+        "it": "Temperatura esterna",
+        "ko": "실외 온도",
+        "no": "Utendørs temperatur",
+        "pl": "Temperatura zewnętrzna",
+        "ru": "Наружная температура",
+        "sv": "Utomhustemperatur"
+      }
+    },
+    "measure_temperature.supply": {
+      "title": {
+        "en": "Supply Temperature",
+        "nl": "Toevoertemperatuur",
+        "da": "Tillufttemperatur",
+        "de": "Zulufttemperatur",
+        "es": "Temperatura de impulsión",
+        "fr": "Température de soufflage",
+        "it": "Temperatura di mandata",
+        "ko": "급기 온도",
+        "no": "Tillufttemperatur",
+        "pl": "Temperatura nawiewu",
+        "ru": "Температура притока",
+        "sv": "Tilluftstemperatur"
+      }
+    },
+    "measure_temperature.exhaust": {
+      "title": {
+        "en": "Exhaust Temperature",
+        "nl": "Afvoertemperatuur",
+        "da": "Fralufttemperatur",
+        "de": "Ablufttemperatur",
+        "es": "Temperatura de extracción",
+        "fr": "Température d'extraction",
+        "it": "Temperatura di estrazione",
+        "ko": "배기 온도",
+        "no": "Avtrekkstemperatur",
+        "pl": "Temperatura wywiewu",
+        "ru": "Температура вытяжки",
+        "sv": "Frånluftstemperatur"
+      }
+    },
+    "measure_speed.supply_fan_rpm": {
+      "units": "rpm",
+      "title": {
+        "en": "Supply Fan RPM",
+        "nl": "Toevoerventilator RPM",
+        "da": "Tilluftsventilator RPM",
+        "de": "Zuluftventilator RPM",
+        "es": "RPM ventilador de impulsión",
+        "fr": "RPM ventilateur soufflage",
+        "it": "RPM ventola mandata",
+        "ko": "급기 팬 RPM",
+        "no": "Tilluftsvifte RPM",
+        "pl": "RPM wentylatora nawiewu",
+        "ru": "Обороты приточного вентилятора",
+        "sv": "Tilluftsfläkt RPM"
+      }
+    },
+    "measure_speed.supply_fan_actual_rpm": {
+      "units": "rpm",
+      "title": {
+        "en": "Supply Fan Actual RPM",
+        "nl": "Werkelijke toevoerventilator RPM",
+        "da": "Aktuel tilluftsventilator RPM",
+        "de": "Ist-Zuluftventilator RPM",
+        "es": "RPM real ventilador de impulsión",
+        "fr": "RPM réel ventilateur soufflage",
+        "it": "RPM reale ventola mandata",
+        "ko": "실제 급기 팬 RPM",
+        "no": "Faktisk tilluftsvifte RPM",
+        "pl": "Rzeczywiste RPM nawiewu",
+        "ru": "Фактические обороты приточного вентилятора",
+        "sv": "Faktisk tilluftsfläkt RPM"
+      }
+    },
+    "measure_speed.exhaust_fan_rpm": {
+      "units": "rpm",
+      "title": {
+        "en": "Exhaust Fan RPM",
+        "nl": "Afvoerventilator RPM",
+        "da": "Fraluftsventilator RPM",
+        "de": "Abluftventilator RPM",
+        "es": "RPM ventilador de extracción",
+        "fr": "RPM ventilateur extraction",
+        "it": "RPM ventola estrazione",
+        "ko": "배기 팬 RPM",
+        "no": "Avtrekksvifte RPM",
+        "pl": "RPM wentylatora wywiewu",
+        "ru": "Обороты вытяжного вентилятора",
+        "sv": "Frånluftsfläkt RPM"
+      }
+    },
+    "measure_speed.exhaust_fan_actual_rpm": {
+      "units": "rpm",
+      "title": {
+        "en": "Exhaust Fan Actual RPM",
+        "nl": "Werkelijke afvoerventilator RPM",
+        "da": "Aktuel fraluftsventilator RPM",
+        "de": "Ist-Abluftventilator RPM",
+        "es": "RPM real ventilador de extracción",
+        "fr": "RPM réel ventilateur extraction",
+        "it": "RPM reale ventola estrazione",
+        "ko": "실제 배기 팬 RPM",
+        "no": "Faktisk avtrekksvifte RPM",
+        "pl": "Rzeczywiste RPM wywiewu",
+        "ru": "Фактические обороты вытяжного вентилятора",
+        "sv": "Faktisk frånluftsfläkt RPM"
+      }
+    },
+    "measure_number.balance": {
+      "units": "%",
+      "title": {
+        "en": "Balance",
+        "nl": "Balans",
+        "da": "Balance",
+        "de": "Balance",
+        "es": "Balance",
+        "fr": "Équilibre",
+        "it": "Bilanciamento",
+        "ko": "밸런스",
+        "no": "Balanse",
+        "pl": "Bilans",
+        "ru": "Баланс",
+        "sv": "Balans"
+      }
+    },
+    "measure_number.valve_position": {
+      "units": "%",
+      "title": {
+        "en": "Valve Position",
+        "nl": "Klepstand",
+        "da": "Ventilposition",
+        "de": "Ventilposition",
+        "es": "Posición de válvula",
+        "fr": "Position de vanne",
+        "it": "Posizione valvola",
+        "ko": "밸브 위치",
+        "no": "Ventilposisjon",
+        "pl": "Pozycja zaworu",
+        "ru": "Положение клапана",
+        "sv": "Ventilposition"
+      }
+    },
+    "measure_number.bypass_position": {
+      "units": "%",
+      "title": {
+        "en": "Bypass Position",
+        "nl": "Bypassstand",
+        "da": "Bypass-position",
+        "de": "Bypass-Position",
+        "es": "Posición del bypass",
+        "fr": "Position du bypass",
+        "it": "Posizione bypass",
+        "ko": "바이패스 위치",
+        "no": "Bypass-posisjon",
+        "pl": "Pozycja bypass",
+        "ru": "Положение байпаса",
+        "sv": "Bypass-position"
+      }
+    },
+    "measure_number.summercounter": {
+      "title": {
+        "en": "Summer Counter",
+        "nl": "Zomerteller",
+        "da": "Sommertæller",
+        "de": "Sommerzähler",
+        "es": "Contador de verano",
+        "fr": "Compteur été",
+        "it": "Contatore estate",
+        "ko": "여름 카운터",
+        "no": "Sommerteller",
+        "pl": "Licznik lato",
+        "ru": "Летний счетчик",
+        "sv": "Sommarräknare"
+      }
+    },
+    "measure_number.summerday_kmin": {
+      "units": "K_min",
+      "title": {
+        "en": "Summer Day",
+        "nl": "Zomerdag",
+        "da": "Sommerdag",
+        "de": "Sommertag",
+        "es": "Día de verano",
+        "fr": "Jour d'été",
+        "it": "Giorno estivo",
+        "ko": "여름일",
+        "no": "Sommerdag",
+        "pl": "Dzień letni",
+        "ru": "Летний день",
+        "sv": "Sommardag"
+      }
+    },
+    "measure_number.frost_timer": {
+      "units": "s",
+      "title": {
+        "en": "Frost Timer",
+        "nl": "Vorsttimer",
+        "da": "Frosttimer",
+        "de": "Frosttimer",
+        "es": "Temporizador de escarcha",
+        "fr": "Minuteur antigel",
+        "it": "Timer antigelo",
+        "ko": "동결 타이머",
+        "no": "Frosttimer",
+        "pl": "Licznik mrozu",
+        "ru": "Таймер защиты от замерзания",
+        "sv": "Frosttimer"
+      }
+    },
+    "measure_number.boiler_timer": {
+      "units": "s",
+      "title": {
+        "en": "Boiler Timer",
+        "nl": "Boiler timer",
+        "da": "Kedeltimer",
+        "de": "Kessel-Timer",
+        "es": "Temporizador de caldera",
+        "fr": "Minuteur chaudière",
+        "it": "Timer caldaia",
+        "ko": "보일러 타이머",
+        "no": "Kjeltimer",
+        "pl": "Timer kotła",
+        "ru": "Таймер котла",
+        "sv": "Panntimer"
+      }
+    },
+    "measure_number.frost_block": {
+      "title": {
+        "en": "Frost Block",
+        "nl": "Vorstblokkering",
+        "da": "Frostblokering",
+        "de": "Frostsperre",
+        "es": "Bloqueo por escarcha",
+        "fr": "Blocage antigel",
+        "it": "Blocco antigelo",
+        "ko": "동결 차단",
+        "no": "Frostblokkering",
+        "pl": "Blokada mrozu",
+        "ru": "Блокировка из-за мороза",
+        "sv": "Frostblockering"
+      }
+    },
+    "measure_number.current_position": {
+      "units": "%",
+      "title": {
+        "en": "Current Position",
+        "nl": "Huidige positie",
+        "da": "Aktuel position",
+        "de": "Aktuelle Position",
+        "es": "Posición actual",
+        "fr": "Position actuelle",
+        "it": "Posizione attuale",
+        "ko": "현재 위치",
+        "no": "Nåværende posisjon",
+        "pl": "Bieżąca pozycja",
+        "ru": "Текущая позиция",
+        "sv": "Aktuell position"
+      }
+    },
+    "measure_number.vkk_switch": {
+      "title": {
+        "en": "VKK Switch",
+        "nl": "VKK schakelaar",
+        "da": "VKK-kontakt",
+        "de": "VKK-Schalter",
+        "es": "Interruptor VKK",
+        "fr": "Interrupteur VKK",
+        "it": "Interruttore VKK",
+        "ko": "VKK 스위치",
+        "no": "VKK-bryter",
+        "pl": "Przełącznik VKK",
+        "ru": "Переключатель VKK",
+        "sv": "VKK-brytare"
+      }
+    },
+    "measure_number.ghe_switch": {
+      "title": {
+        "en": "GHE Switch",
+        "nl": "GHE schakelaar",
+        "da": "GHE-kontakt",
+        "de": "GHE-Schalter",
+        "es": "Interruptor GHE",
+        "fr": "Interrupteur GHE",
+        "it": "Interruttore GHE",
+        "ko": "GHE 스위치",
+        "no": "GHE-bryter",
+        "pl": "Przełącznik GHE",
+        "ru": "Переключатель GHE",
+        "sv": "GHE-brytare"
+      }
+    },
+    "measure_number.airfilter_counter": {
+      "title": {
+        "en": "Air Filter Counter",
+        "nl": "Luchtfilter teller",
+        "da": "Luftfiltertæller",
+        "de": "Luftfilterzähler",
+        "es": "Contador de filtro de aire",
+        "fr": "Compteur de filtre à air",
+        "it": "Contatore filtro aria",
+        "ko": "에어 필터 카운터",
+        "no": "Luftfilterteller",
+        "pl": "Licznik filtra powietrza",
+        "ru": "Счетчик воздушного фильтра",
+        "sv": "Luftfilterräknare"
+      }
+    },
+    "measure_number.global_fault_code": {
+      "title": {
+        "en": "Global Fault Code",
+        "nl": "Globale foutcode",
+        "da": "Global fejlkode",
+        "de": "Globaler Fehlercode",
+        "es": "Código global de fallo",
+        "fr": "Code défaut global",
+        "it": "Codice guasto globale",
+        "ko": "전역 오류 코드",
+        "no": "Global feilkode",
+        "pl": "Globalny kod błędu",
+        "ru": "Глобальный код ошибки",
+        "sv": "Global felkod"
+      }
+    },
+    "measure_number.actual_mode_code": {
+      "title": {
+        "en": "Actual Mode Code",
+        "nl": "Actuele moduscode",
+        "da": "Aktuel tilstandskode",
+        "de": "Aktueller Moduscode",
+        "es": "Código de modo actual",
+        "fr": "Code du mode actuel",
+        "it": "Codice modalità attuale",
+        "ko": "현재 모드 코드",
+        "no": "Aktuell modus-kode",
+        "pl": "Kod aktualnego trybu",
+        "ru": "Код текущего режима",
+        "sv": "Aktuell lägeskod"
+      }
+    },
+    "measure_number.pir_fan_speed_level": {
+      "title": {
+        "en": "PIR Fan Speed Level",
+        "nl": "PIR ventilatorsnelheidsniveau",
+        "da": "PIR ventilatorhastighedsniveau",
+        "de": "PIR-Lüftergeschwindigkeitsstufe",
+        "es": "Nivel de velocidad del ventilador PIR",
+        "fr": "Niveau vitesse ventilateur PIR",
+        "it": "Livello velocità ventola PIR",
+        "ko": "PIR 팬 속도 레벨",
+        "no": "PIR viftehastighetsnivå",
+        "pl": "Poziom prędkości wentylatora PIR",
+        "ru": "Уровень скорости вентилятора PIR",
+        "sv": "PIR fläkthastighetsnivå"
+      }
+    },
+    "measure_number.highest_received_co2": {
+      "units": "ppm",
+      "title": {
+        "en": "Highest Received CO2",
+        "nl": "Hoogste ontvangen CO2",
+        "da": "Højeste modtagne CO2",
+        "de": "Höchster empfangener CO2-Wert",
+        "es": "CO2 recibido más alto",
+        "fr": "CO2 reçu le plus élevé",
+        "it": "CO2 ricevuta più alta",
+        "ko": "최고 수신 CO2",
+        "no": "Høyest mottatt CO2",
+        "pl": "Najwyższe odebrane CO2",
+        "ru": "Макс. полученный CO2",
+        "sv": "Högsta mottagna CO2"
+      }
+    },
+    "measure_number.highest_received_rh": {
+      "units": "%",
+      "title": {
+        "en": "Highest Received RH",
+        "nl": "Hoogste ontvangen RV",
+        "da": "Højeste modtagne RH",
+        "de": "Höchste empfangene RH",
+        "es": "RH recibido más alto",
+        "fr": "HR reçue la plus élevée",
+        "it": "RH ricevuta più alta",
+        "ko": "최고 수신 RH",
+        "no": "Høyest mottatt RH",
+        "pl": "Najwyższa odebrana RH",
+        "ru": "Макс. полученная RH",
+        "sv": "Högsta mottagna RH"
+      }
+    },
+    "measure_number.air_quality": {
+      "units": "%",
+      "title": {
+        "en": "Air Quality",
+        "nl": "Luchtkwaliteit",
+        "da": "Luftkvalitet",
+        "de": "Luftqualität",
+        "es": "Calidad del aire",
+        "fr": "Qualité de l'air",
+        "it": "Qualità dell'aria",
+        "ko": "공기질",
+        "no": "Luftkvalitet",
+        "pl": "Jakość powietrza",
+        "ru": "Качество воздуха",
+        "sv": "Luftkvalitet"
+      }
+    },
+    "measure_number.remaining_override_timer": {
+      "units": "s",
+      "title": {
+        "en": "Remaining Override Timer",
+        "nl": "Resterende overruletimer",
+        "da": "Resterende overstyringstimer",
+        "de": "Verbleibender Override-Timer",
+        "es": "Temporizador de anulación restante",
+        "fr": "Minuteur de forçage restant",
+        "it": "Timer override rimanente",
+        "ko": "남은 오버라이드 타이머",
+        "no": "Gjenværende overstyringstimer",
+        "pl": "Pozostały licznik nadpisania",
+        "ru": "Оставшийся таймер override",
+        "sv": "Återstående överstyrningstimer"
+      }
+    },
+    "measure_number.fallback_speed_timer": {
+      "units": "s",
+      "title": {
+        "en": "Fallback Speed Timer",
+        "nl": "Fallback-snelheidstimer",
+        "da": "Fallback-hastighedstimer",
+        "de": "Fallback-Geschwindigkeitstimer",
+        "es": "Temporizador de velocidad fallback",
+        "fr": "Minuteur vitesse de secours",
+        "it": "Timer velocità fallback",
+        "ko": "폴백 속도 타이머",
+        "no": "Fallback-hastighetstimer",
+        "pl": "Licznik prędkości awaryjnej",
+        "ru": "Таймер резервной скорости",
+        "sv": "Fallback-hastighetstimer"
+      }
+    },
+    "measure_number.label_out_of_bound_error": {
+      "title": {
+        "en": "Label Out Of Bound Error",
+        "nl": "Label buiten bereik fout",
+        "da": "Label uden for grænse-fejl",
+        "de": "Label-außerhalb-Bereich-Fehler",
+        "es": "Error de etiqueta fuera de rango",
+        "fr": "Erreur étiquette hors limite",
+        "it": "Errore etichetta fuori limite",
+        "ko": "레이블 범위 초과 오류",
+        "no": "Etikett utenfor grense-feil",
+        "pl": "Błąd etykiety poza zakresem",
+        "ru": "Ошибка метки вне диапазона",
+        "sv": "Etikett utanför gräns-fel"
+      }
+    },
+    "measure_string.last_command_source": {
+      "title": {
+        "en": "Last Command Source",
+        "nl": "Laatste commando bron",
+        "da": "Sidste kommandokilde",
+        "de": "Letzte Befehlsquelle",
+        "es": "Fuente del último comando",
+        "fr": "Source de la dernière commande",
+        "it": "Fonte ultimo comando",
+        "ko": "마지막 명령 소스",
+        "no": "Siste kommanderingskilde",
+        "pl": "Źródło ostatniego polecenia",
+        "ru": "Источник последней команды",
+        "sv": "Senaste kommandokälla"
       }
     },
     "measure_number.startup_counter": {
@@ -251,8 +793,8 @@
     },
     "fan_speed": {
       "min": 0,
-      "max": 2.55,
-      "units": "0-255"
+      "max": 1,
+      "step": 0.01
     },
     "fan_mode": {
       "values": [
@@ -376,6 +918,22 @@
           }
         }
       ]
+    },
+    "measure_string.firmware_version": {
+      "title": {
+        "en": "Firmware Version",
+        "nl": "Firmwareversie",
+        "de": "Firmware-Version",
+        "fr": "Version du firmware",
+        "it": "Versione firmware",
+        "sv": "Firmwareversion",
+        "no": "Fastvareversjon",
+        "es": "Versión de firmware",
+        "da": "Firmwareversion",
+        "ru": "Версия прошивки",
+        "pl": "Wersja firmware",
+        "ko": "펌웨어 버전"
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 ---
 title: API Reference
 status: Stable
-last_updated: 2026-03-20
+last_updated: 2026-07-11
 source_coverage:
   - path: ./lib/nrgwatch-api.js
   - path: ./lib/web-client.js
@@ -113,13 +113,15 @@ Valid modes: `'low'`, `'medium'`, `'high'`, `'away'`, `'auto'`, `'autonight'`, `
 
 #### `async setFanSpeed(speed)` → `Promise<boolean>`
 
-`GET /api.html?speed=<n>`
+Legacy: `GET /api.html?speed=<n>` — v2: `POST /api/v2/command` with `{ percentage }`.
 
 | Param | Type | Constraint |
 |-------|------|-----------|
 | `speed` | `number` | 0–100 (validated client-side) |
 
 **Throws**: `Error` if `speed < 0 || speed > 100`, or on network failure.
+
+> Since firmware 3.1.4 the `percentage` / `fandemand` command is mode-aware: the firmware reads `FanInfo` and only sends an `auto` pre-command when the unit isn't already in auto, so downward slider moves work on RF/auto units too. The firmware routes the command over I2C or RF (31E0 demand) as appropriate.
 
 ---
 
@@ -128,6 +130,53 @@ Valid modes: `'low'`, `'medium'`, `'high'`, `'away'`, `'auto'`, `'autonight'`, `
 `GET /api.html?rfremoteindex=<n>&rfremotecmd=<mode>`
 
 Uses `webclient._virtualRemoteIndex` for the index. Called explicitly when direct RF control is needed outside the `setFanMode` path.
+
+---
+
+#### `async getSpeedInfo()` → `Promise<Object>`
+
+`GET /api/v2/speed` — **REST API v2 only** (throws when `useApiV2` is disabled).
+
+Returns the raw v2 data object. Firmware 3.1.4+ adds add-on-tracked timer fields:
+
+```json
+{ "speed": 128, "timer_remaining_ms": 540000, "timer_speed": 220 }
+```
+
+On older firmware only `speed` is present (a plain number is wrapped as `{ speed }`).
+
+---
+
+#### `async getOtaInfo()` → `Promise<Object>`
+
+`GET /api/v2/ota` — **REST API v2 only**, firmware 3.1.0+.
+
+Returns `data.ota`:
+
+```json
+{
+  "installed_version": "3.1.4",
+  "latest_fw": "3.2.0",
+  "latest_beta_fw": "3.2.0-beta2",
+  "fw_update_available": true,
+  "state": "idle",
+  "progress": 0
+}
+```
+
+`state` ∈ `idle | starting | downloading | done | error`. All other REST endpoints return `503` while an OTA download is active; only this endpoint stays available for progress monitoring.
+
+---
+
+#### `async setOutsideTemp(temp)` → `Promise<boolean>`
+
+`POST /api/v2/wpu/outside_temp` with `{ temp }` — **REST API v2 only**, WPU (heat pump) units.
+
+| Param | Type | Constraint |
+|-------|------|-----------|
+| `temp` | `number` | −100…100 °C (validated client-side) |
+
+**Throws**: `Error` if out of range, or when the device does not confirm.
 
 ---
 

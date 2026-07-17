@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Aktiver virtuell fjernkontroll",
     "enableVirtualRemote_desc": "Aktiver dette når du har koblet til den virtuelle fjernkontrollen og bruker CO2-modulen.",
     "refreshInterval": "Oppdateringsintervall (sekunder)"
+  },
+  "errors": {
+    "device_unreachable": "Enheten er ikke tilgjengelig. Kontroller IP-adressen og nettverkstilkoblingen."
   }
 }

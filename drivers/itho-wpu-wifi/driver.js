@@ -3,7 +3,7 @@
 const Homey = require('homey');
 const WebClient = require('../../lib/web-client');
 
-module.exports = class IthoWTWWifiDriver extends Homey.Driver {
+module.exports = class IthoWpuWifiDriver extends Homey.Driver {
 
   /**
    * onInit is called when the driver is initialized.
@@ -12,14 +12,14 @@ module.exports = class IthoWTWWifiDriver extends Homey.Driver {
     this.devices = [];
     this.results = [];
     this.webClient = new WebClient();
-    this.log('IthoWTWWifiDriver has been initialized');
+    this.log('IthoWpuWifiDriver has been initialized');
   }
 
   async onPair(session) {
-    const discoveryStrategy = this.homey.discovery.getStrategy('itho-wtw-wifi');
+    const discoveryStrategy = this.homey.discovery.getStrategy('itho-wpu-wifi');
     const discoveryResults = discoveryStrategy.getDiscoveryResults();
 
-    this.log('searching for itho-wtw-wifi');
+    this.log('searching for itho-wpu-wifi');
 
     session.setHandler('showView', async (view) => {
       this.log('currentView:', { view });
@@ -68,9 +68,7 @@ module.exports = class IthoWTWWifiDriver extends Homey.Driver {
           username: data.username || '',
           password: data.password || '',
           isAuthenticated: !!data.username,
-          rfDeviceType: data.rfDeviceType || 'rft-auto',
           refreshInterval: parseInt(data.refreshInterval, 10) || 15,
-          rfDeviceIndex: data.rfDeviceIndex || '0',
         };
 
       });

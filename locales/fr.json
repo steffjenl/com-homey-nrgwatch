@@ -14,5 +14,8 @@
     "enableVirtualRemote": "Activer la télécommande virtuelle",
     "enableVirtualRemote_desc": "Activez ceci lorsque vous avez rejoint la télécommande virtuelle et utilisez le module CO2.",
     "refreshInterval": "Intervalle de rafraîchissement (secondes)"
+  },
+  "errors": {
+    "device_unreachable": "L'appareil n'est pas joignable. Vérifiez l'adresse IP et la connexion réseau."
   }
 }

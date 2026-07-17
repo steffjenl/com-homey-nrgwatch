@@ -1,0 +1,559 @@
+{
+  "triggers": [
+    {
+      "id": "wtw_fan_mode_changed",
+      "title": {
+        "en": "The fan mode has changed",
+        "nl": "De ventilatiemodus is gewijzigd",
+        "de": "Der Lüftungsmodus hat sich geändert",
+        "fr": "Le mode de ventilation a changé",
+        "it": "La modalità ventilazione è cambiata",
+        "sv": "Fläktläget har ändrats",
+        "no": "Vifteinnstillingen er endret",
+        "es": "El modo de ventilación ha cambiado",
+        "da": "Ventilatortilstanden er ændret",
+        "ru": "Режим вентилятора изменён",
+        "pl": "Tryb wentylatora zmieniony",
+        "ko": "팬 모드가 변경되었습니다"
+      },
+      "titleFormatted": {
+        "en": "The fan mode has changed to [[mode]]",
+        "nl": "De ventilatiemodus is gewijzigd naar [[mode]]",
+        "de": "Der Lüftungsmodus hat sich auf [[mode]] geändert",
+        "fr": "Le mode de ventilation a changé à [[mode]]",
+        "it": "La modalità ventilazione è cambiata a [[mode]]",
+        "sv": "Fläktläget har ändrats till [[mode]]",
+        "no": "Vifteinnstillingen er endret til [[mode]]",
+        "es": "El modo de ventilación ha cambiado a [[mode]]",
+        "da": "Ventilatortilstanden er ændret til [[mode]]",
+        "ru": "Режим вентилятора изменён на [[mode]]",
+        "pl": "Tryb wentylatora zmieniony na [[mode]]",
+        "ko": "팬 모드가 [[mode]]로 변경되었습니다"
+      },
+      "tokens": [
+        {
+          "name": "mode",
+          "type": "string",
+          "title": {
+            "en": "Mode",
+            "nl": "Modus",
+            "de": "Modus",
+            "fr": "Mode",
+            "it": "Modalità",
+            "sv": "Läge",
+            "no": "Innstilling",
+            "es": "Modo",
+            "da": "Tilstand",
+            "ru": "Режим",
+            "pl": "Tryb",
+            "ko": "모드"
+          },
+          "example": "low"
+        }
+      ]
+    },
+    {
+      "id": "wtw_device_offline",
+      "title": {
+        "en": "Device went offline",
+        "nl": "Apparaat is offline gegaan",
+        "de": "Gerät ist offline gegangen",
+        "fr": "L'appareil est hors ligne",
+        "it": "Il dispositivo è andato offline",
+        "sv": "Enheten gikk offline",
+        "no": "Enheten gikk frakoblet",
+        "es": "El dispositivo se desconectó",
+        "da": "Enheden gik offline",
+        "ru": "Устройство ушло в оффлайн",
+        "pl": "Urządzenie przeszło w tryb offline",
+        "ko": "장치가 오프라인 상태가 되었습니다"
+      }
+    },
+    {
+      "id": "wtw_device_online",
+      "title": {
+        "en": "Device came back online",
+        "nl": "Apparaat is weer online",
+        "de": "Gerät ist wieder online",
+        "fr": "L'appareil est de nouveau en ligne",
+        "it": "Il dispositivo è di nuovo online",
+        "sv": "Enheten är online igen",
+        "no": "Enheten er tilkoblet igjen",
+        "es": "El dispositivo volvió en línea",
+        "da": "Enheden er online igen",
+        "ru": "Устройство снова в сети",
+        "pl": "Urządzenie wróciło do trybu online",
+        "ko": "장치가 다시 온라인 상태가 되었습니다"
+      }
+    },
+    {
+      "id": "wtw_temperature_changed",
+      "title": {
+        "en": "Temperature changed",
+        "nl": "Temperatuur is veranderd",
+        "de": "Temperatur hat sich geändert",
+        "fr": "La température a changé",
+        "it": "La temperatura è cambiata",
+        "sv": "Temperaturen har förändrats",
+        "no": "Temperaturen har endret seg",
+        "es": "La temperatura ha cambiado",
+        "da": "Temperaturen er ændret",
+        "ru": "Температура изменилась",
+        "pl": "Temperatura się zmieniła",
+        "ko": "온도가 변경되었습니다"
+      },
+      "titleFormatted": {
+        "en": "Temperature changed to [[temperature]] °C",
+        "nl": "Temperatuur is veranderd naar [[temperature]] °C",
+        "de": "Temperatur hat sich auf [[temperature]] °C geändert",
+        "fr": "La température a changé à [[temperature]] °C",
+        "it": "La temperatura è cambiata a [[temperature]] °C",
+        "sv": "Temperaturen har förändrats till [[temperature]] °C",
+        "no": "Temperaturen har endret seg til [[temperature]] °C",
+        "es": "La temperatura ha cambiado a [[temperature]] °C",
+        "da": "Temperaturen er ændret til [[temperature]] °C",
+        "ru": "Температура изменилась до [[temperature]] °C",
+        "pl": "Temperatura zmieniła się na [[temperature]] °C",
+        "ko": "온도가 [[temperature]] °C로 변경되었습니다"
+      },
+      "tokens": [
+        {
+          "name": "temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature (°C)",
+            "nl": "Temperatuur (°C)",
+            "de": "Temperatur (°C)",
+            "fr": "Température (°C)",
+            "it": "Temperatura (°C)",
+            "sv": "Temperatur (°C)",
+            "no": "Temperatur (°C)",
+            "es": "Temperatura (°C)",
+            "da": "Temperatur (°C)",
+            "ru": "Температура (°C)",
+            "pl": "Temperatura (°C)",
+            "ko": "온도 (°C)"
+          },
+          "example": 21.5
+        }
+      ]
+    },
+    {
+      "id": "wtw_humidity_changed",
+      "title": {
+        "en": "Humidity changed",
+        "nl": "Luchtvochtigheid is veranderd",
+        "de": "Luftfeuchtigkeit hat sich geändert",
+        "fr": "L'humidité a changé",
+        "it": "L'umidità è cambiata",
+        "sv": "Luftfuktigheten har förändrats",
+        "no": "Luftfuktigheten har endret seg",
+        "es": "La humedad ha cambiado",
+        "da": "Luftfugtigheden er ændret",
+        "ru": "Влажность изменилась",
+        "pl": "Wilgotność się zmieniła",
+        "ko": "습도가 변경되었습니다"
+      },
+      "titleFormatted": {
+        "en": "Humidity changed to [[humidity]] %",
+        "nl": "Luchtvochtigheid is veranderd naar [[humidity]] %",
+        "de": "Luftfeuchtigkeit hat sich auf [[humidity]] % geändert",
+        "fr": "L'humidité a changé à [[humidity]] %",
+        "it": "L'umidità è cambiata a [[humidity]] %",
+        "sv": "Luftfuktigheten har förändrats till [[humidity]] %",
+        "no": "Luftfuktigheten har endret seg til [[humidity]] %",
+        "es": "La humedad ha cambiado a [[humidity]] %",
+        "da": "Luftfugtigheden er ændret til [[humidity]] %",
+        "ru": "Влажность изменилась до [[humidity]] %",
+        "pl": "Wilgotność zmieniła się na [[humidity]] %",
+        "ko": "습도가 [[humidity]] %로 변경되었습니다"
+      },
+      "tokens": [
+        {
+          "name": "humidity",
+          "type": "number",
+          "title": {
+            "en": "Humidity (%)",
+            "nl": "Luchtvochtigheid (%)",
+            "de": "Luftfeuchtigkeit (%)",
+            "fr": "Humidité (%)",
+            "it": "Umidità (%)",
+            "sv": "Luftfuktighet (%)",
+            "no": "Luftfuktighet (%)",
+            "es": "Humedad (%)",
+            "da": "Luftfugtighed (%)",
+            "ru": "Влажность (%)",
+            "pl": "Wilgotność (%)",
+            "ko": "습도 (%)"
+          },
+          "example": 55
+        }
+      ]
+    },
+    {
+      "id": "wtw_temperature_changed_rapidly",
+      "title": {
+        "en": "Temperature changes rapidly",
+        "nl": "Temperatuur verandert snel",
+        "de": "Temperatur ändert sich schnell",
+        "fr": "La température change rapidement",
+        "it": "La temperatura cambia rapidamente",
+        "sv": "Temperaturen förändras snabbt",
+        "no": "Temperaturen endrer seg raskt",
+        "es": "La temperatura cambia rápidamente",
+        "da": "Temperaturen ændrer sig hurtigt",
+        "ru": "Температура быстро меняется",
+        "pl": "Temperatura szybko się zmienia",
+        "ko": "온도가 빠르게 변합니다"
+      },
+      "titleFormatted": {
+        "en": "Temperature changes faster than [[rate]] °C/min",
+        "nl": "Temperatuur verandert sneller dan [[rate]] °C/min",
+        "de": "Temperatur ändert sich schneller als [[rate]] °C/min",
+        "fr": "La température change plus vite que [[rate]] °C/min",
+        "it": "La temperatura cambia più velocemente di [[rate]] °C/min",
+        "sv": "Temperaturen förändras snabbare än [[rate]] °C/min",
+        "no": "Temperaturen endrer seg raskere enn [[rate]] °C/min",
+        "es": "La temperatura cambia más rápido que [[rate]] °C/min",
+        "da": "Temperaturen ændrer sig hurtigere end [[rate]] °C/min",
+        "ru": "Температура меняется быстрее, чем [[rate]] °C/мин",
+        "pl": "Temperatura zmienia się szybciej niż [[rate]] °C/min",
+        "ko": "온도가 [[rate]] °C/분보다 빠르게 변합니다"
+      },
+      "args": [
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Minimum rate (°C/min)",
+            "nl": "Minimale snelheid (°C/min)",
+            "de": "Mindestgeschwindigkeit (°C/min)",
+            "fr": "Vitesse minimale (°C/min)",
+            "it": "Velocità minima (°C/min)",
+            "sv": "Minsta hastighet (°C/min)",
+            "no": "Minste hastighet (°C/min)",
+            "es": "Velocidad mínima (°C/min)",
+            "da": "Minimumshastighed (°C/min)",
+            "ru": "Минимальная скорость (°C/мин)",
+            "pl": "Minimalna prędkość (°C/min)",
+            "ko": "최소 속도 (°C/분)"
+          },
+          "placeholder": {
+            "en": "1"
+          },
+          "min": 0.01,
+          "max": 60,
+          "step": 0.1
+        }
+      ],
+      "tokens": [
+        {
+          "name": "temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature (°C)",
+            "nl": "Temperatuur (°C)",
+            "de": "Temperatur (°C)",
+            "fr": "Température (°C)",
+            "it": "Temperatura (°C)",
+            "sv": "Temperatur (°C)",
+            "no": "Temperatur (°C)",
+            "es": "Temperatura (°C)",
+            "da": "Temperatur (°C)",
+            "ru": "Температура (°C)",
+            "pl": "Temperatura (°C)",
+            "ko": "온도 (°C)"
+          },
+          "example": 21.5
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Rate of change (°C/min)",
+            "nl": "Snelheid van verandering (°C/min)",
+            "de": "Änderungsrate (°C/min)",
+            "fr": "Taux de variation (°C/min)",
+            "it": "Tasso di variazione (°C/min)",
+            "sv": "Förändringshastighet (°C/min)",
+            "no": "Endringshastighet (°C/min)",
+            "es": "Tasa de cambio (°C/min)",
+            "da": "Ændringshastighed (°C/min)",
+            "ru": "Скорость изменения (°C/мин)",
+            "pl": "Tempo zmiany (°C/min)",
+            "ko": "변화 속도 (°C/분)"
+          },
+          "example": 2
+        }
+      ]
+    },
+    {
+      "id": "wtw_humidity_changed_rapidly",
+      "title": {
+        "en": "Humidity changes rapidly",
+        "nl": "Luchtvochtigheid verandert snel",
+        "de": "Luftfeuchtigkeit ändert sich schnell",
+        "fr": "L'humidité change rapidement",
+        "it": "L'umidità cambia rapidamente",
+        "sv": "Luftfuktigheten förändras snabbt",
+        "no": "Luftfuktigheten endrer seg raskt",
+        "es": "La humedad cambia rápidamente",
+        "da": "Luftfugtigheden ændrer sig hurtigt",
+        "ru": "Влажность быстро меняется",
+        "pl": "Wilgotność szybko się zmienia",
+        "ko": "습도가 빠르게 변합니다"
+      },
+      "titleFormatted": {
+        "en": "Humidity changes faster than [[rate]] %/min",
+        "nl": "Luchtvochtigheid verandert sneller dan [[rate]] %/min",
+        "de": "Luftfeuchtigkeit ändert sich schneller als [[rate]] %/min",
+        "fr": "L'humidité change plus vite que [[rate]] %/min",
+        "it": "L'umidità cambia più velocemente di [[rate]] %/min",
+        "sv": "Luftfuktigheten förändras snabbare än [[rate]] %/min",
+        "no": "Luftfuktigheten endrer seg raskere enn [[rate]] %/min",
+        "es": "La humedad cambia más rápido que [[rate]] %/min",
+        "da": "Luftfugtigheden ændrer sig hurtigere end [[rate]] %/min",
+        "ru": "Влажность меняется быстрее, чем [[rate]] %/мин",
+        "pl": "Wilgotność zmienia się szybciej niż [[rate]] %/min",
+        "ko": "습도가 [[rate]] %/분보다 빠르게 변합니다"
+      },
+      "args": [
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Minimum rate (%/min)",
+            "nl": "Minimale snelheid (%/min)",
+            "de": "Mindestgeschwindigkeit (%/min)",
+            "fr": "Vitesse minimale (%/min)",
+            "it": "Velocità minima (%/min)",
+            "sv": "Minsta hastighet (%/min)",
+            "no": "Minste hastighet (%/min)",
+            "es": "Velocidad mínima (%/min)",
+            "da": "Minimumshastighed (%/min)",
+            "ru": "Минимальная скорость (%/мин)",
+            "pl": "Minimalna prędkość (%/min)",
+            "ko": "최소 속도 (%/분)"
+          },
+          "placeholder": {
+            "en": "5"
+          },
+          "min": 0.1,
+          "max": 200,
+          "step": 0.1
+        }
+      ],
+      "tokens": [
+        {
+          "name": "humidity",
+          "type": "number",
+          "title": {
+            "en": "Humidity (%)",
+            "nl": "Luchtvochtigheid (%)",
+            "de": "Luftfeuchtigkeit (%)",
+            "fr": "Humidité (%)",
+            "it": "Umidità (%)",
+            "sv": "Luftfuktighet (%)",
+            "no": "Luftfuktighet (%)",
+            "es": "Humedad (%)",
+            "da": "Luftfugtighed (%)",
+            "ru": "Влажность (%)",
+            "pl": "Wilgotność (%)",
+            "ko": "습도 (%)"
+          },
+          "example": 71
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "title": {
+            "en": "Rate of change (%/min)",
+            "nl": "Snelheid van verandering (%/min)",
+            "de": "Änderungsrate (%/min)",
+            "fr": "Taux de variation (%/min)",
+            "it": "Tasso di variazione (%/min)",
+            "sv": "Förändringshastighet (%/min)",
+            "no": "Endringshastighet (%/min)",
+            "es": "Tasa de cambio (%/min)",
+            "da": "Ændringshastighed (%/min)",
+            "ru": "Скорость изменения (%/мин)",
+            "pl": "Tempo zmiany (%/min)",
+            "ko": "변화 속도 (%/분)"
+          },
+          "example": 8
+        }
+      ]
+    },
+    {
+      "id": "wtw_firmware_update_available",
+      "title": {
+        "en": "A firmware update is available",
+        "nl": "Er is een firmware-update beschikbaar",
+        "de": "Ein Firmware-Update ist verfügbar",
+        "fr": "Une mise à jour du firmware est disponible",
+        "it": "È disponibile un aggiornamento firmware",
+        "sv": "En firmwareuppdatering är tillgänglig",
+        "no": "En fastvareoppdatering er tilgjengelig",
+        "es": "Hay una actualización de firmware disponible",
+        "da": "En firmwareopdatering er tilgængelig",
+        "ru": "Доступно обновление прошивки",
+        "pl": "Dostępna jest aktualizacja firmware",
+        "ko": "펌웨어 업데이트를 사용할 수 있습니다"
+      },
+      "tokens": [
+        {
+          "name": "installed_version",
+          "type": "string",
+          "title": {
+            "en": "Installed version",
+            "nl": "Geïnstalleerde versie",
+            "de": "Installierte Version",
+            "fr": "Version installée",
+            "it": "Versione installata",
+            "sv": "Installerad version",
+            "no": "Installert versjon",
+            "es": "Versión instalada",
+            "da": "Installeret version",
+            "ru": "Установленная версия",
+            "pl": "Zainstalowana wersja",
+            "ko": "설치된 버전"
+          },
+          "example": {
+            "en": "3.1.4"
+          }
+        },
+        {
+          "name": "latest_version",
+          "type": "string",
+          "title": {
+            "en": "Latest version",
+            "nl": "Nieuwste versie",
+            "de": "Neueste Version",
+            "fr": "Dernière version",
+            "it": "Ultima versione",
+            "sv": "Senaste version",
+            "no": "Nyeste versjon",
+            "es": "Última versión",
+            "da": "Nyeste version",
+            "ru": "Последняя версия",
+            "pl": "Najnowsza wersja",
+            "ko": "최신 버전"
+          },
+          "example": {
+            "en": "3.2.0"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "wtw_set_fan_mode",
+      "title": {
+        "en": "Set fan mode",
+        "nl": "Stel ventilatiemodus in",
+        "de": "Lüftungsmodus einstellen",
+        "fr": "Définir le mode de ventilation",
+        "it": "Imposta modalità ventilazione",
+        "sv": "Ställ in fläktläge",
+        "no": "Angi vifteinnstilling",
+        "es": "Establecer modo de ventilación",
+        "da": "Indstil ventilatortilstand",
+        "ru": "Установить режим вентилятора",
+        "pl": "Ustaw tryb wentylatora",
+        "ko": "팬 모드 설정"
+      },
+      "titleFormatted": {
+        "en": "Set fan mode to [[mode]]",
+        "nl": "Stel ventilatiemodus in op [[mode]]",
+        "de": "Lüftungsmodus auf [[mode]] einstellen",
+        "fr": "Définir le mode de ventilation à [[mode]]",
+        "it": "Imposta modalità ventilazione su [[mode]]",
+        "sv": "Ställ in fläktläge till [[mode]]",
+        "no": "Angi vifteinnstilling til [[mode]]",
+        "es": "Establecer modo de ventilación a [[mode]]",
+        "da": "Indstil ventilatortilstand til [[mode]]",
+        "ru": "Установить режим вентилятора на [[mode]]",
+        "pl": "Ustaw tryb wentylatora na [[mode]]",
+        "ko": "팬 모드를 [[mode]]로 설정"
+      },
+      "args": [
+        {
+          "name": "mode",
+          "type": "autocomplete",
+          "title": {
+            "en": "Mode",
+            "nl": "Modus",
+            "de": "Modus",
+            "fr": "Mode",
+            "it": "Modalità",
+            "sv": "Läge",
+            "no": "Innstilling",
+            "es": "Modo",
+            "da": "Tilstand",
+            "ru": "Режим",
+            "pl": "Tryb",
+            "ko": "모드"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wtw_set_fan_speed",
+      "title": {
+        "en": "Set fan speed",
+        "nl": "Stel ventilatorsnelheid in",
+        "de": "Lüftergeschwindigkeit einstellen",
+        "fr": "Définir la vitesse du ventilateur",
+        "it": "Imposta velocità ventilatore",
+        "sv": "Ställ in fläkthastighet",
+        "no": "Angi viftehastighet",
+        "es": "Establecer velocidad del ventilador",
+        "da": "Indstil ventilatorhastighed",
+        "ru": "Установить скорость вентилятора",
+        "pl": "Ustaw prędkość wentylatora",
+        "ko": "팬 속도 설정"
+      },
+      "titleFormatted": {
+        "en": "Set fan speed to [[speed]]",
+        "nl": "Stel ventilatorsnelheid in op [[speed]]",
+        "de": "Lüftergeschwindigkeit auf [[speed]] einstellen",
+        "fr": "Définir la vitesse du ventilateur à [[speed]]",
+        "it": "Imposta velocità ventilatore a [[speed]]",
+        "sv": "Ställ in fläkthastighet till [[speed]]",
+        "no": "Angi viftehastighet til [[speed]]",
+        "es": "Establecer velocidad del ventilador a [[speed]]",
+        "da": "Indstil ventilatorhastighed til [[speed]]",
+        "ru": "Установить скорость вентилятора на [[speed]]",
+        "pl": "Ustaw prędkość wentylatora na [[speed]]",
+        "ko": "팬 속도를 [[speed]]로 설정"
+      },
+      "args": [
+        {
+          "name": "speed",
+          "type": "number",
+          "title": {
+            "en": "Speed (0-1)",
+            "nl": "Snelheid (0-1)",
+            "de": "Geschwindigkeit (0-1)",
+            "fr": "Vitesse (0-1)",
+            "it": "Velocità (0-1)",
+            "sv": "Hastighet (0-1)",
+            "no": "Hastighet (0-1)",
+            "es": "Velocidad (0-1)",
+            "da": "Hastighed (0-1)",
+            "ru": "Скорость (0-1)",
+            "pl": "Prędkość (0-1)",
+            "ko": "속도 (0-1)"
+          },
+          "placeholder": {
+            "en": "0.5"
+          },
+          "min": 0,
+          "max": 1,
+          "step": 0.01
+        }
+      ]
+    }
+  ]
+}

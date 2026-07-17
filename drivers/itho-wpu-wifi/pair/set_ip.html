@@ -1,0 +1,45 @@
+<form id="set_ip-form" class="homey-form">
+    <fieldset class="homey-form-fieldset">
+        <legend class="homey-form-legend" data-i18n="pair.device_not_found_desc"></legend>
+        <div class="homey-form-group">
+            <label class="homey-form-label" for="login" data-i18n="pair.ipAddress"></label>
+            <input class="homey-form-input" id="login" name="login" type="text" value="" placeholder="nrg.local" required>
+        </div>
+        <div class="homey-form-group">
+            <label class="homey-form-label" for="name" data-i18n="pair.name"></label>
+            <input class="homey-form-input" id="name" name="name" type="text" value="" placeholder="Itho Daalderop" required>
+        </div>
+    </fieldset>
+    <div class="homey-form-group">
+        <button data-i18n="pair.save" class="homey-button-primary-full"></button>
+    </div>
+</form>
+
+
+<script type="text/javascript">!function() {
+  var form = document.querySelector('#set_ip-form');
+
+  Homey.setTitle(Homey.__('pair.device_not_found'));
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    Homey.showLoadingOverlay();
+
+    var data = {
+      'ip': document.querySelector('input[name="login"]').value,
+      'name': document.querySelector('input[name="name"]').value
+    };
+
+    Homey.emit('set_ip', data)
+      .then(function(result) {
+        if (result === true) {
+          console.log('in progress');
+        } else {
+          Homey.hideLoadingOverlay();
+          Homey.alert(result, 'error');
+        }
+      });
+  });
+}();
+</script>
