@@ -76,5 +76,8 @@
   },
   "1.2.1": {
     "en": "Fix fan_speed"
+  },
+  "1.2.2": {
+    "en": "Addded measure_temperature"
   }
 }
