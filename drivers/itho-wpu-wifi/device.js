@@ -99,6 +99,7 @@ module.exports = class IthoWpuWifi extends Homey.Device {
 
   async createAndRemoveCapabilities() {
     const caps = [
+      'measure_temperature',
       'measure_temperature.outside',
       'measure_temperature.boiler_up',
       'measure_temperature.boiler_down',
@@ -187,6 +188,9 @@ module.exports = class IthoWpuWifi extends Homey.Device {
       roomTemp: this.getCapabilityValue('measure_temperature.room'),
       errorCode: this.getCapabilityValue('measure_number.error_code'),
     };
+
+    const primaryTemp = status.roomTemp ?? status.outsideTemp;
+    if (primaryTemp != null) await this.setCapabilityValue('measure_temperature', primaryTemp).catch(this.error);
 
     if (status.outsideTemp != null) await this.setCapabilityValue('measure_temperature.outside', status.outsideTemp).catch(this.error);
     if (status.boilerTempUp != null) await this.setCapabilityValue('measure_temperature.boiler_up', status.boilerTempUp).catch(this.error);

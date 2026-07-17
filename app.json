@@ -2843,6 +2843,7 @@
       ],
       "class": "heatpump",
       "capabilities": [
+        "measure_temperature",
         "measure_temperature.outside",
         "measure_temperature.boiler_up",
         "measure_temperature.boiler_down",
@@ -3506,6 +3507,7 @@
       "capabilities": [
         "fan_mode",
         "fan_speed",
+        "measure_temperature",
         "measure_temperature.indoor",
         "measure_temperature.outdoor",
         "measure_temperature.supply",

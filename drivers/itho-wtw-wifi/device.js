@@ -164,6 +164,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     const caps = [
       'fan_mode',
       'fan_speed',
+      'measure_temperature',
       'measure_humidity',
       'measure_temperature.indoor',
       'measure_temperature.outdoor',
@@ -296,6 +297,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
       const { tempIndoor, tempOutdoor } = status;
 
+      if (tempIndoor != null) await this.setCapabilityValue('measure_temperature', tempIndoor).catch(this.error);
       if (tempIndoor != null) await this.setCapabilityValue('measure_temperature.indoor', tempIndoor).catch(this.error);
       if (tempOutdoor != null) await this.setCapabilityValue('measure_temperature.outdoor', tempOutdoor).catch(this.error);
       if (status.supplyTemp != null) await this.setCapabilityValue('measure_temperature.supply', status.supplyTemp).catch(this.error);
@@ -465,6 +467,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
         if (stat.sensor_temp != null) {
           const prev = this.getCapabilityValue('measure_temperature.indoor');
+          await this.setCapabilityValue('measure_temperature', stat.sensor_temp).catch(this.error);
           await this.setCapabilityValue('measure_temperature.indoor', stat.sensor_temp).catch(this.error);
           if (stat.sensor_temp !== prev) {
             await this._triggerTemperatureChanged.trigger(this, { temperature: stat.sensor_temp }).catch(this.error);
@@ -485,6 +488,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
         const status = this._normalizeStatus(data.ithostatusinfo);
 
         if (status.tempIndoor != null) {
+          await this.setCapabilityValue('measure_temperature', status.tempIndoor).catch(this.error);
           await this.setCapabilityValue('measure_temperature.indoor', status.tempIndoor).catch(this.error);
           await this._checkRapidChange('temperature', status.tempIndoor, 'temperature', this._triggerTemperatureChangedRapidly, 2);
         }

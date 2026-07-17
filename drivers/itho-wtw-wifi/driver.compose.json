@@ -12,6 +12,7 @@
   "capabilities": [
     "fan_mode",
     "fan_speed",
+    "measure_temperature",
     "measure_temperature.indoor",
     "measure_temperature.outdoor",
     "measure_temperature.supply",
