@@ -79,5 +79,8 @@
   },
   "1.2.2": {
     "en": "Addded measure_temperature"
+  },
+  "1.2.3": {
+    "en": "Update WTW sensors info"
   }
 }
