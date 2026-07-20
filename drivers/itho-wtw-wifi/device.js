@@ -566,6 +566,22 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     return null;
   }
 
+  /**
+   * Validates if a sensor value is within acceptable range.
+   * Filters out firmware error markers and physically impossible readings.
+   * @param {number} value - The sensor value
+   * @param {number} min - Minimum acceptable value
+   * @param {number} max - Maximum acceptable value
+   * @param {number|null} errorMarker - Special marker value indicating sensor error (e.g., 65535 for CO2)
+   * @returns {boolean} true if value is valid and within range
+   */
+  _isValidSensorValue(value, min, max, errorMarker = null) {
+    if (value == null) return false;
+    if (errorMarker != null && value === errorMarker) return false; // Error marker
+    if (typeof value !== 'number' || !Number.isFinite(value)) return false;
+    return value >= min && value <= max;
+  }
+
   _normalizeStatus(rawStatus) {
     const status = rawStatus?.ithostatus && typeof rawStatus.ithostatus === 'object'
       ? rawStatus.ithostatus
@@ -573,28 +589,75 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
     const first = (keys) => this._first(status, keys);
 
-    const supplyTemp = this._toNumber(first(['Supply temp (°C)', 'Supply temp (C)', 'Supply temperature (°C)', 'supply-temp']));
-    const exhaustTemp = this._toNumber(first(['Exhaust temp (°C)', 'Exhaust temp (C)', 'Exhaust temperature (°C)', 'exhaust-temp']));
-    const roomTemp = this._toNumber(first(['Room temp (°C)', 'Room temp (C)', 'Indoor temperature (°C)', 'Temp indoor (°C)', 'indoor-temp', 'temp-indoor', 'temp']));
-    const outdoorTemp = this._toNumber(first(['Outdoor temp (°C)', 'Outdoor temp (C)', 'Outdoor temperature (°C)', 'Temp outdoor (°C)', 'outdoor-temp', 'temp-outdoor']));
+    // Temperature fields: try 3.2.0 verbose names first, then fallback to older formats
+    const supplyTemp = this._toNumber(first([
+      'Inlet temperature (°C)',                  // 3.2.0 firmware
+      'Supply temp (°C)', 'Supply temp (C)', 'Supply temperature (°C)', 'supply-temp'
+    ]));
+    const exhaustTemp = this._toNumber(first([
+      'Temperature of the extracted air (°C)',  // 3.2.0 firmware
+      'Exhaust temp (°C)', 'Exhaust temp (C)', 'Exhaust temperature (°C)', 'exhaust-temp'
+    ]));
+    const roomTemp = this._toNumber(first([
+      'Room temp (°C)', 'Room temp (C)', 'Indoor temperature (°C)', 'Temp indoor (°C)', 'indoor-temp', 'temp-indoor', 'temp'
+    ]));
+    const outdoorTemp = this._toNumber(first([
+      'Measured outside temperature (°C)',       // 3.2.0 firmware (primary)
+      'Measured temperature of mixed outside air (°C)', // 3.2.0 firmware (fallback)
+      'Outdoor temp (°C)', 'Outdoor temp (C)', 'Outdoor temperature (°C)', 'Temp outdoor (°C)', 'outdoor-temp', 'temp-outdoor'
+    ]));
     const supplyFanRpm = this._toNumber(first(['Supply fan (RPM)', 'Fan setpoint (rpm)', 'fan-setpoint_rpm']));
-    const supplyFanActualRpm = this._toNumber(first(['Supply fan actual (RPM)', 'Fan speed (rpm)', 'fan-speed_rpm']));
+    const supplyFanActualRpm = this._toNumber(first([
+      'RPM of the motor (rpm)',                  // 3.2.0 firmware
+      'Supply fan actual (RPM)', 'Fan speed (rpm)', 'fan-speed_rpm'
+    ]));
 
     const actualMode = this._toNumber(first(['Actual Mode']));
     const statusMode = this._toNumber(first(['Status', 'status']));
     const selectionMode = this._toNumber(first(['Selection', 'selection']));
 
+    // Humidity: validate to filter out impossible values (>100% or 127.5)
+    const humRawValue = this._toNumber(first([
+      'Highest measured RH (%)',                // 3.2.0 firmware
+      'hum', 'Highest received RH value (%RH)', 'Highest received RH value (%Rh)', 'highest-received-rh-value_%rh'
+    ]));
+    const humidity = this._isValidSensorValue(humRawValue, 0, 100) ? humRawValue : null;
+
+    // CO2: validate to filter out error marker (65535 = 0xFFFF for unavailable)
+    const co2RawValue = this._toNumber(first([
+      'Highest measured CO2 (ppm)',             // 3.2.0 firmware
+      'Highest received CO2 value (Ppm)', 'Highest received CO2 value (PPM)', 'co2level_ppm', 'CO2level (ppm)'
+    ]));
+    const highestReceivedCo2 = this._isValidSensorValue(co2RawValue, 0, 5000, 65535) ? co2RawValue : null;
+
+    // Speed status: try 3.2.0 name first, then fallback
+    const speedStatus = this._toNumber(first([
+      'Relative fanspeed (%)',                  // 3.2.0 firmware
+      'Speed status', 'speed-status', 'Requested fanspeed (%)'
+    ]));
+
+    // Temperature validation: filter out impossible readings (e.g., -40.68°C is error state)
+    const tempIndoorRaw = roomTemp ?? supplyTemp;
+    const tempIndoor = this._isValidSensorValue(tempIndoorRaw, -30, 60) ? tempIndoorRaw : null;
+    const tempOutdoorRaw = outdoorTemp ?? exhaustTemp;
+    const tempOutdoor = this._isValidSensorValue(tempOutdoorRaw, -30, 60) ? tempOutdoorRaw : null;
+    const supplyTempValid = this._isValidSensorValue(supplyTemp, -30, 60) ? supplyTemp : null;
+    const exhaustTempValid = this._isValidSensorValue(exhaustTemp, -30, 60) ? exhaustTemp : null;
+
     return {
-      tempIndoor: roomTemp ?? supplyTemp,
-      tempOutdoor: outdoorTemp ?? exhaustTemp,
-      supplyTemp,
-      exhaustTemp,
-      humidity: this._toNumber(first(['hum', 'Highest received RH value (%RH)', 'Highest received RH value (%Rh)', 'highest-received-rh-value_%rh'])),
-      speedStatus: this._toNumber(first(['Speed status', 'speed-status', 'Requested fanspeed (%)'])),
+      tempIndoor,
+      tempOutdoor,
+      supplyTemp: supplyTempValid,
+      exhaustTemp: exhaustTempValid,
+      humidity,
+      speedStatus,
       fanInfo: first(['FanInfo', 'fan_info']),
       fanSpeed: supplyFanActualRpm,
       fanSetpoint: supplyFanRpm,
-      ventilationSetpoint: this._toNumber(first(['Ventilation setpoint (%)', 'ventilation-setpoint_perc', 'Requested fanspeed (%)'])),
+      ventilationSetpoint: this._toNumber(first([
+        'Absolute speed of the fan (%)',         // 3.2.0 firmware
+        'Ventilation setpoint (%)', 'ventilation-setpoint_perc', 'Requested fanspeed (%)'
+      ])),
       supplyFanRpm,
       supplyFanActualRpm,
       exhaustFanRpm: this._toNumber(first(['Exhaust fan (RPM)'])),
@@ -603,7 +666,10 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       totalOperatingHours: this._toNumber(first(['Total operation (hours)', 'total-operation_hours'])),
       balance: this._toNumber(first(['Balance (%)'])),
       valvePosition: this._toNumber(first(['Valve position'])),
-      bypassPosition: this._toNumber(first(['Bypass position'])),
+      bypassPosition: this._toNumber(first([
+        'Percentage that the bypass valve is open (%)', // 3.2.0 firmware
+        'Bypass position'
+      ])),
       summercounter: this._toNumber(first(['Summercounter'])),
       summerdayKmin: this._toNumber(first(['Summerday (K_min)'])),
       frostTimer: this._toNumber(first(['Frost timer'])),
@@ -617,8 +683,8 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       actualModeCode: actualMode,
       modeCode: actualMode ?? statusMode ?? selectionMode,
       pirFanSpeedLevel: this._toNumber(first(['Pir fan speed level'])),
-      highestReceivedCo2: this._toNumber(first(['Highest received CO2 value (Ppm)', 'Highest received CO2 value (PPM)', 'co2level_ppm', 'CO2level (ppm)'])),
-      highestReceivedRh: this._toNumber(first(['Highest received RH value (%RH)', 'Highest received RH value (%Rh)'])),
+      highestReceivedCo2,
+      highestReceivedRh: humidity, // Use validated humidity instead of separate field
       airQuality: this._toNumber(first(['Air Quality (%)'])),
       remainingOverrideTimer: this._toNumber(first(['Remaining override timer (Sec)'])),
       fallbackSpeedTimer: this._toNumber(first(['Fallback speed timer (Sec)'])),
