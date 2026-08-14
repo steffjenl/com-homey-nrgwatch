@@ -12,7 +12,9 @@
     "password": "Lösenord",
     "ipAddress": "IP-adress eller värdnamn",
     "enableVirtualRemote": "Aktivera virtuell fjärrkontroll",
-    "enableVirtualRemote_desc": "Aktivera detta när du har anslutit den virtuella fjärrkontrollen och använder CO2-modulen.",
+    "enableVirtualRemote_desc": "Använd en virtuell fjärrkontroll via I2C. Lämna inaktiverad för enheter som endast använder RF.",
+    "virtualRemoteType": "Typ av virtuell fjärrkontroll",
+    "virtualRemoteIndex": "Index för virtuell fjärrkontroll",
     "refreshInterval": "Uppdateringsintervall (sekunder)"
   },
   "errors": {

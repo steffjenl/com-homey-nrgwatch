@@ -12,7 +12,9 @@
     "password": "Пароль",
     "ipAddress": "IP-адрес или имя хоста",
     "enableVirtualRemote": "Включить виртуальный пульт",
-    "enableVirtualRemote_desc": "Включите это, если вы подключили виртуальный пульт и используете модуль CO2.",
+    "enableVirtualRemote_desc": "Используйте виртуальный пульт, подключенный по I2C. Оставьте выключенным для устройств только с RF.",
+    "virtualRemoteType": "Тип виртуального пульта",
+    "virtualRemoteIndex": "Индекс виртуального пульта",
     "refreshInterval": "Интервал обновления (секунды)"
   },
   "errors": {

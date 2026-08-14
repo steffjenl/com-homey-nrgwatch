@@ -12,7 +12,9 @@
     "password": "Password",
     "ipAddress": "Indirizzo IP o nome host",
     "enableVirtualRemote": "Abilita telecomando virtuale",
-    "enableVirtualRemote_desc": "Abilita questa opzione quando hai collegato il telecomando virtuale e utilizzi il modulo CO2.",
+    "enableVirtualRemote_desc": "Usa un telecomando virtuale collegato tramite I2C. Lascia disabilitato per le unità solo RF.",
+    "virtualRemoteType": "Tipo di telecomando virtuale",
+    "virtualRemoteIndex": "Indice del telecomando virtuale",
     "refreshInterval": "Intervallo di aggiornamento (secondi)"
   },
   "errors": {

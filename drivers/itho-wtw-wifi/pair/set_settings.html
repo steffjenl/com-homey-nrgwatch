@@ -14,6 +14,46 @@
 
     <fieldset class="homey-form-fieldset">
         <legend class="homey-form-legend" data-i18n="pair.settings"></legend>
+      <div class="homey-form-group">
+        <label class="homey-form-checkbox" for="enableVirtualRemote">
+          <input class="homey-form-checkbox-input" id="enableVirtualRemote" name="enableVirtualRemote"
+               type="checkbox" value="true">
+          <span class="homey-form-checkbox-checkmark"></span>
+          <span class="homey-form-checkbox-text" data-i18n="pair.enableVirtualRemote"></span>
+        </label>
+        <p class="homey-subtitle" data-i18n="pair.enableVirtualRemote_desc"></p>
+      </div>
+      <div class="homey-form-group">
+        <label class="homey-form-select" for="virtualRemoteType" data-i18n="pair.virtualRemoteType"></label>
+        <select class="homey-form-select" name="virtualRemoteType" id="virtualRemoteType">
+          <option value="rft-cve">RFT CVE</option>
+          <option value="rft-auto" selected>RFT AUTO</option>
+          <option value="rft-n">RFT N</option>
+          <option value="rft-auto-n">RFT AUTO N</option>
+          <option value="rft-df-qf">RFT DF QF</option>
+          <option value="rft-rv">RFT RV</option>
+          <option value="rft-co2">RFT CO2</option>
+          <option value="rft-pir">RFT PIR</option>
+          <option value="rft-spider">RFT SPIDER</option>
+        </select>
+      </div>
+      <div class="homey-form-group">
+        <label class="homey-form-select" for="virtualRemoteIndex" data-i18n="pair.virtualRemoteIndex"></label>
+        <select class="homey-form-select" name="virtualRemoteIndex" id="virtualRemoteIndex">
+          <option value="0" selected>0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+        </select>
+      </div>
         <div class="homey-form-group">
             <label class="homey-form-select" for="rfDeviceType" data-i18n="pair.rfDeviceType"></label>
             <select class="homey-form-select" name="rfDeviceType" id="rfDeviceType">
@@ -68,9 +108,12 @@
     const data = {
       'username': document.querySelector('input[name="username"]').value,
       'password': document.querySelector('input[name="password"]').value,
+      'enableVirtualRemote': document.querySelector('input[name="enableVirtualRemote"]').checked,
+      'virtualRemoteType': document.querySelector('select[name="virtualRemoteType"]').value,
+      'virtualRemoteIndex': document.querySelector('select[name="virtualRemoteIndex"]').value,
       'refreshInterval': document.querySelector('input[name="refreshInterval"]').value,
       'rfDeviceType': document.querySelector('select[name="rfDeviceType"]').value,
-      'rfDeviceIndex': document.querySelector('select[name="rfDeviceIndex"]').checked,
+      'rfDeviceIndex': document.querySelector('select[name="rfDeviceIndex"]').value,
     };
 
     Homey.emit('set_settings', data)

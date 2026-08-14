@@ -12,7 +12,9 @@
     "password": "Adgangskode",
     "ipAddress": "IP-adresse eller værtsnavn",
     "enableVirtualRemote": "Aktivér virtuel fjernbetjening",
-    "enableVirtualRemote_desc": "Aktivér dette, når du har tilsluttet den virtuelle fjernbetjening og bruger CO2-modulet.",
+    "enableVirtualRemote_desc": "Brug en virtuel fjernbetjening via I2C. Lad den være deaktiveret for enheder, der kun bruger RF.",
+    "virtualRemoteType": "Type virtuel fjernbetjening",
+    "virtualRemoteIndex": "Indeks for virtuel fjernbetjening",
     "refreshInterval": "Opdateringsinterval (sekunder)"
   },
   "errors": {

@@ -12,7 +12,9 @@
     "password": "Passwort",
     "ipAddress": "IP-Adresse oder Hostname",
     "enableVirtualRemote": "Virtuelle Fernbedienung aktivieren",
-    "enableVirtualRemote_desc": "Aktivieren Sie dies, wenn Sie die virtuelle Fernbedienung verbunden haben und das CO2-Modul verwenden.",
+    "enableVirtualRemote_desc": "Verwenden Sie eine über I2C verbundene virtuelle Fernbedienung. Für reine RF-Geräte deaktiviert lassen.",
+    "virtualRemoteType": "Typ der virtuellen Fernbedienung",
+    "virtualRemoteIndex": "Index der virtuellen Fernbedienung",
     "refreshInterval": "Aktualisierungsintervall (Sekunden)"
   },
   "errors": {

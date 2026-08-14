@@ -12,7 +12,9 @@
     "password": "Mot de passe",
     "ipAddress": "Adresse IP ou nom d'hôte",
     "enableVirtualRemote": "Activer la télécommande virtuelle",
-    "enableVirtualRemote_desc": "Activez ceci lorsque vous avez rejoint la télécommande virtuelle et utilisez le module CO2.",
+    "enableVirtualRemote_desc": "Utilisez une télécommande virtuelle connectée en I2C. Laissez désactivé pour les unités RF uniquement.",
+    "virtualRemoteType": "Type de télécommande virtuelle",
+    "virtualRemoteIndex": "Index de la télécommande virtuelle",
     "refreshInterval": "Intervalle de rafraîchissement (secondes)"
   },
   "errors": {

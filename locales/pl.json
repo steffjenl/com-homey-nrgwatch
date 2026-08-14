@@ -12,7 +12,9 @@
     "password": "Hasło",
     "ipAddress": "Adres IP lub nazwa hosta",
     "enableVirtualRemote": "Włącz wirtualnego pilota",
-    "enableVirtualRemote_desc": "Włącz to, gdy dołączysz wirtualnego pilota i używasz modułu CO2.",
+    "enableVirtualRemote_desc": "Użyj wirtualnego pilota podłączonego przez I2C. Pozostaw wyłączone dla urządzeń obsługujących tylko RF.",
+    "virtualRemoteType": "Typ wirtualnego pilota",
+    "virtualRemoteIndex": "Indeks wirtualnego pilota",
     "refreshInterval": "Interwał odświeżania (sekundy)"
   },
   "errors": {

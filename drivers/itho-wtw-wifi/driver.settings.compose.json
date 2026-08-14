@@ -218,6 +218,62 @@
         }
       },
       {
+        "id": "enableVirtualRemote",
+        "type": "checkbox",
+        "value": false,
+        "label": {
+          "en": "Enable Virtual Remote",
+          "nl": "Virtuele afstandsbediening inschakelen"
+        },
+        "hint": {
+          "en": "Use an I2C-connected virtual remote. Leave disabled for RF-only units.",
+          "nl": "Gebruik een virtuele afstandsbediening via I2C. Laat uitgeschakeld voor apparaten die alleen RF ondersteunen."
+        }
+      },
+      {
+        "id": "virtualRemoteType",
+        "type": "dropdown",
+        "value": "rft-auto",
+        "label": {
+          "en": "Virtual Remote Type",
+          "nl": "Type virtuele afstandsbediening"
+        },
+        "values": [
+          { "id": "rft-cve", "label": { "en": "RFT CVE" } },
+          { "id": "rft-auto", "label": { "en": "RFT AUTO" } },
+          { "id": "rft-n", "label": { "en": "RFT N" } },
+          { "id": "rft-auto-n", "label": { "en": "RFT AUTO-N" } },
+          { "id": "rft-df-qf", "label": { "en": "RFT DF/QF" } },
+          { "id": "rft-rv", "label": { "en": "RFT RV" } },
+          { "id": "rft-co2", "label": { "en": "RFT CO2" } },
+          { "id": "rft-pir", "label": { "en": "RFT PIR" } },
+          { "id": "rft-spider", "label": { "en": "RFT Spider" } }
+        ]
+      },
+      {
+        "id": "virtualRemoteIndex",
+        "type": "dropdown",
+        "value": "0",
+        "label": {
+          "en": "Virtual Remote Index",
+          "nl": "Index virtuele afstandsbediening"
+        },
+        "values": [
+          { "id": "0", "label": { "en": "0" } },
+          { "id": "1", "label": { "en": "1" } },
+          { "id": "2", "label": { "en": "2" } },
+          { "id": "3", "label": { "en": "3" } },
+          { "id": "4", "label": { "en": "4" } },
+          { "id": "5", "label": { "en": "5" } },
+          { "id": "6", "label": { "en": "6" } },
+          { "id": "7", "label": { "en": "7" } },
+          { "id": "8", "label": { "en": "8" } },
+          { "id": "9", "label": { "en": "9" } },
+          { "id": "10", "label": { "en": "10" } },
+          { "id": "11", "label": { "en": "11" } }
+        ]
+      },
+      {
         "id": "rfDeviceType",
         "type": "dropdown",
         "value": "rft-auto",

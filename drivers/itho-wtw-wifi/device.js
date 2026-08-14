@@ -37,6 +37,27 @@ const MODE_MAP = {
 
 module.exports = class IthoWTWWifi extends Homey.Device {
 
+  _configureApi(settings, useApiV2 = settings.useApiV2 ?? false, host = settings.host) {
+    const enableVirtualRemote = settings.enableVirtualRemote ?? false;
+    const remoteIndex = enableVirtualRemote
+      ? settings.virtualRemoteIndex ?? '0'
+      : settings.rfDeviceIndex ?? '0';
+
+    this.api.setSettings(
+      host,
+      settings.username,
+      settings.password,
+      settings.isAuthenticated,
+      enableVirtualRemote,
+      remoteIndex,
+      useApiV2,
+    );
+  }
+
+  async _setFanMode(mode) {
+    await this.api.setFanMode(mode, !(this.settings.enableVirtualRemote ?? false));
+  }
+
   /**
    * onInit is called when the device is initialized.
    */
@@ -44,15 +65,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this.api = new NRGWatchApi();
     this.api.setHomeyObject(this.homey);
     this.settings = this.getSettings();
-    this.api.setSettings(
-      this.settings.host,
-      this.settings.username,
-      this.settings.password,
-      this.settings.isAuthenticated,
-      false,
-      this.settings.rfDeviceIndex,
-      this.settings.useApiV2 ?? false,
-    );
+    this._configureApi(this.settings);
 
     // Availability tracking
     this._failureCount = 0;
@@ -79,7 +92,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this.homey.flow.getActionCard('wtw_set_fan_mode')
       .registerRunListener(async (args) => {
         const mode = args.mode.id || args.mode;
-        await this.api.setFanMode(mode, true);
+        await this._setFanMode(mode);
         await this.setCapabilityValue('fan_mode', mode);
         await this._updateLastCommandSource();
         return true;
@@ -105,7 +118,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     // Capability listeners
     this.registerCapabilityListener('fan_mode', async (value) => {
       this.log('Setting fan_mode to', value);
-      await this.api.setFanMode(value, true);
+      await this._setFanMode(value);
       await this._updateLastCommandSource();
     });
 
@@ -113,6 +126,18 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       this.log('Setting fan_speed to', value);
       await this.api.setFanSpeed(fanSpeedRatioToPercentage(value));
       await this.setCapabilityValue('measure_speed.fan_speed_percentage', fanSpeedRatioToPercentage(value));
+      await this._updateLastCommandSource();
+    });
+
+    this.registerCapabilityListener('button.leave', async () => {
+      this.log('Leaving virtual remote');
+      await this._setFanMode('leave');
+      await this._updateLastCommandSource();
+    });
+
+    this.registerCapabilityListener('button.join', async () => {
+      this.log('Joining virtual remote');
+      await this._setFanMode('join');
       await this._updateLastCommandSource();
     });
 
@@ -125,15 +150,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       if (detected) {
         this.settings.useApiV2 = true;
         await this.setSettings({ useApiV2: true });
-        this.api.setSettings(
-          this.settings.host,
-          this.settings.username,
-          this.settings.password,
-          this.settings.isAuthenticated,
-          false,
-          this.settings.rfDeviceIndex,
-          true,
-        );
+        this._configureApi(this.settings, true);
         this.log('REST API v2 auto-detected and enabled');
       }
     }
@@ -165,7 +182,6 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     // FanInfo
     const caps = [
       'fan_mode',
-      'fan_speed',
       'measure_temperature',
       'measure_humidity',
       'measure_temperature.indoor',
@@ -227,12 +243,42 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       }
     }
 
+    if (this.settings.enableVirtualRemote ?? false) {
+      if (this.hasCapability('fan_speed')) {
+        await this.removeCapability('fan_speed');
+        this.log('Removed fan_speed capability');
+      }
+      if (!this.hasCapability('button.join')) {
+        await this.addCapability('button.join');
+        this.log('Added button.join capability');
+      }
+      if (!this.hasCapability('button.leave')) {
+        await this.addCapability('button.leave');
+        this.log('Added button.leave capability');
+      }
+    } else {
+      if (!this.hasCapability('fan_speed')) {
+        await this.addCapability('fan_speed');
+        this.log('Added fan_speed capability');
+      }
+      if (this.hasCapability('button.join')) {
+        await this.removeCapability('button.join');
+        this.log('Removed button.join capability');
+      }
+      if (this.hasCapability('button.leave')) {
+        await this.removeCapability('button.leave');
+        this.log('Removed button.leave capability');
+      }
+    }
+
     await this.setFanModeOptions();
   }
 
   async setFanModeOptions() {
     const options = this.getCapabilityOptions('fan_mode');
-    const type = this.settings.rfDeviceType;
+    const type = (this.settings.enableVirtualRemote ?? false)
+      ? this.settings.virtualRemoteType ?? 'rft-auto'
+      : this.settings.rfDeviceType ?? 'rft-auto';
 
     if (type === 'rft-cve') {
       options.values = [VirtualRemoteModus.AWAY, VirtualRemoteModus.LOW, VirtualRemoteModus.MEDIUM, VirtualRemoteModus.HIGH, VirtualRemoteModus.TIMER1, VirtualRemoteModus.TIMER2, VirtualRemoteModus.TIMER3];
@@ -390,15 +436,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
     this.settings = newSettings;
-    this.api.setSettings(
-      newSettings.host,
-      newSettings.username,
-      newSettings.password,
-      newSettings.isAuthenticated,
-      false,
-      newSettings.rfDeviceIndex,
-      newSettings.useApiV2 ?? false,
-    );
+    this._configureApi(newSettings);
 
     await this.createAndRemoveCapabilities();
 
@@ -443,15 +481,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
   onDiscoveryAddressChanged(discoveryResult) {
     const settings = this.getSettings();
     this.setSettings({ host: discoveryResult.address }).catch(this.error);
-    this.api.setSettings(
-      discoveryResult.address,
-      settings.username,
-      settings.password,
-      settings.isAuthenticated,
-      false,
-      settings.rfDeviceIndex,
-      settings.useApiV2 ?? false,
-    );
+    this._configureApi(settings, settings.useApiV2 ?? false, discoveryResult.address);
   }
 
   onDiscoveryLastSeenChanged(discoveryResult) {

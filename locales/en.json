@@ -11,6 +11,10 @@
     "username": "Username",
     "password": "Password",
     "ipAddress": "IP Address or Hostname",
+    "enableVirtualRemote": "Enable Virtual Remote",
+    "enableVirtualRemote_desc": "Use an I2C-connected virtual remote. Leave disabled for RF-only units.",
+    "virtualRemoteType": "Virtual Remote Type",
+    "virtualRemoteIndex": "Virtual Remote Index",
     "refreshInterval": "Refresh Interval (seconds)",
     "rfDeviceType": "RF Device Type",
     "rfDeviceIndex": "RF Device Index"

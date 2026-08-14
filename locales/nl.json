@@ -12,7 +12,9 @@
     "password": "Wachtwoord",
     "ipAddress": "IP Adres of Hostnaam",
     "enableVirtualRemote": "Virtuele afstandsbediening inschakelen",
-    "enableVirtualRemote_desc": "Schakel dit in wanneer je de virtuele afstandsbediening hebt gekoppeld en de CO2-module gebruikt.",
+    "enableVirtualRemote_desc": "Gebruik een virtuele afstandsbediening via I2C. Laat uitgeschakeld voor apparaten die alleen RF ondersteunen.",
+    "virtualRemoteType": "Type virtuele afstandsbediening",
+    "virtualRemoteIndex": "Index virtuele afstandsbediening",
     "refreshInterval": "Verversinterval (seconden)"
   },
   "errors": {

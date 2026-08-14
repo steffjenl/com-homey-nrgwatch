@@ -12,7 +12,9 @@
     "password": "Contraseña",
     "ipAddress": "Dirección IP o nombre de host",
     "enableVirtualRemote": "Habilitar control remoto virtual",
-    "enableVirtualRemote_desc": "Habilite esto cuando haya unido el control remoto virtual y esté usando el módulo de CO2.",
+    "enableVirtualRemote_desc": "Use un mando virtual conectado por I2C. Déjelo desactivado para unidades que solo usan RF.",
+    "virtualRemoteType": "Tipo de mando virtual",
+    "virtualRemoteIndex": "Índice del mando virtual",
     "refreshInterval": "Intervalo de actualización (segundos)"
   },
   "errors": {
