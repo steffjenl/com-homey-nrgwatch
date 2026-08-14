@@ -1876,6 +1876,7 @@
         "measure_temperature",
         "measure_speed.speed_status",
         "measure_speed.fan_speed",
+        "measure_speed.fan_speed_percentage",
         "measure_speed.fan_setpoint",
         "measure_speed.ventilation_setpoint",
         "measure_number.startup_counter",
@@ -2095,6 +2096,23 @@
         },
         "measure_speed.fan_speed": {
           "units": "rpm",
+          "title": {
+            "en": "Fan Speed",
+            "nl": "Ventilatorsnelheid",
+            "da": "Ventilatorhastighed",
+            "de": "Ventilatorgeschwindigkeit",
+            "es": "Velocidad del ventilador",
+            "fr": "Vitesse du ventilateur",
+            "it": "Velocità Ventilatore",
+            "ko": "팬 속도",
+            "no": "Viftehastighet",
+            "pl": "Prędkość wentylatora",
+            "ru": "Скорость вентилятора",
+            "sv": "Fläkthastighet"
+          }
+        },
+        "measure_speed.fan_speed_percentage": {
+          "units": "%",
           "title": {
             "en": "Fan Speed",
             "nl": "Ventilatorsnelheid",
@@ -3515,6 +3533,7 @@
         "measure_humidity",
         "measure_speed.speed_status",
         "measure_speed.fan_speed",
+        "measure_speed.fan_speed_percentage",
         "measure_speed.fan_setpoint",
         "measure_speed.ventilation_setpoint",
         "measure_speed.supply_fan_rpm",
@@ -4254,6 +4273,23 @@
         },
         "measure_speed.fan_speed": {
           "units": "rpm",
+          "title": {
+            "en": "Fan Speed",
+            "nl": "Ventilatorsnelheid",
+            "da": "Ventilatorhastighed",
+            "de": "Ventilatorgeschwindigkeit",
+            "es": "Velocidad del ventilador",
+            "fr": "Vitesse du ventilateur",
+            "it": "Velocità Ventilatore",
+            "ko": "팬 속도",
+            "no": "Viftehastighet",
+            "pl": "Prędkość wentylatora",
+            "ru": "Скорость вентилятора",
+            "sv": "Fläkthastighet"
+          }
+        },
+        "measure_speed.fan_speed_percentage": {
+          "units": "%",
           "title": {
             "en": "Fan Speed",
             "nl": "Ventilatorsnelheid",

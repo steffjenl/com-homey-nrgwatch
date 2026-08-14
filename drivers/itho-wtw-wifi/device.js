@@ -97,6 +97,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
         const fanSpeedRatio = clampFanSpeedRatio(args.speed);
         await this.api.setFanSpeed(fanSpeedRatioToPercentage(fanSpeedRatio));
         await this.setCapabilityValue('fan_speed', fanSpeedRatio);
+        await this.setCapabilityValue('measure_speed.fan_speed_percentage', fanSpeedRatioToPercentage(fanSpeedRatio));
         await this._updateLastCommandSource();
         return true;
       });
@@ -111,6 +112,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     this.registerCapabilityListener('fan_speed', async (value) => {
       this.log('Setting fan_speed to', value);
       await this.api.setFanSpeed(fanSpeedRatioToPercentage(value));
+      await this.setCapabilityValue('measure_speed.fan_speed_percentage', fanSpeedRatioToPercentage(value));
       await this._updateLastCommandSource();
     });
 
@@ -172,6 +174,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       'measure_temperature.exhaust',
       'measure_speed.speed_status',
       'measure_speed.fan_speed',
+      'measure_speed.fan_speed_percentage',
       'measure_speed.fan_setpoint',
       'measure_speed.ventilation_setpoint',
       'measure_number.startup_counter',
@@ -308,6 +311,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
         await this.setCapabilityValue('fan_speed', fanSpeedPercentageToRatio(status.ventilationSetpoint)).catch(this.error);
       }
       if (status.speedStatus != null) await this.setCapabilityValue('measure_speed.speed_status', status.speedStatus).catch(this.error);
+      if (status.fanSpeedPercentage != null) await this.setCapabilityValue('measure_speed.fan_speed_percentage', status.fanSpeedPercentage).catch(this.error);
       if (status.fanSpeed != null) await this.setCapabilityValue('measure_speed.fan_speed', status.fanSpeed).catch(this.error);
       if (status.fanSetpoint != null) await this.setCapabilityValue('measure_speed.fan_setpoint', status.fanSetpoint).catch(this.error);
       if (status.ventilationSetpoint != null) await this.setCapabilityValue('measure_speed.ventilation_setpoint', status.ventilationSetpoint).catch(this.error);
@@ -657,6 +661,9 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       ventilationSetpoint: this._toNumber(first([
         'Absolute speed of the fan (%)',         // 3.2.0 firmware
         'Ventilation setpoint (%)', 'ventilation-setpoint_perc', 'Requested fanspeed (%)'
+      ])),
+      fanSpeedPercentage: this._toNumber(first([
+        'Requested fanspeed (%)', 'requested-fanspeed_perc'
       ])),
       supplyFanRpm,
       supplyFanActualRpm,
