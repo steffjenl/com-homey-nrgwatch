@@ -85,5 +85,8 @@
   },
   "1.2.4": {
     "en": "Trim username and password from begin and ending spaces"
+  },
+  "1.2.5": {
+    "en": "Add new sensor and virtual remote for WTW"
   }
 }
