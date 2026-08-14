@@ -82,5 +82,8 @@
   },
   "1.2.3": {
     "en": "Update WTW sensors info"
+  },
+  "1.2.4": {
+    "en": "Trim username and password from begin and ending spaces"
   }
 }
