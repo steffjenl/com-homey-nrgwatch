@@ -32,6 +32,14 @@
     "measure_number.error_code",
     "measure_string.last_command_source",
     "measure_string.firmware_version",
+    "status_boolean.compressor",
+    "status_boolean.element",
+    "status_boolean.trickle_heating",
+    "status_boolean.free_cooling",
+    "status_boolean.tariff_low",
+    "status_boolean.manual_operation",
+    "measure_number.manual_timer",
+    "measure_number.element_current",
     "button.boost"
   ],
   "pair": [
@@ -450,6 +458,140 @@
         "ru": "Буст",
         "pl": "Boost",
         "ko": "부스트"
+      }
+    },
+    "status_boolean.compressor": {
+      "title": {
+        "en": "Compressor",
+        "nl": "Compressor",
+        "de": "Kompressor",
+        "fr": "Compresseur",
+        "it": "Compressore",
+        "sv": "Kompressor",
+        "no": "Kompressor",
+        "es": "Compresor",
+        "da": "Kompressor",
+        "ru": "Компрессор",
+        "pl": "Sprężarka",
+        "ko": "압축기"
+      }
+    },
+    "status_boolean.element": {
+      "title": {
+        "en": "Electric element",
+        "nl": "Elektrisch element",
+        "de": "Elektroheizstab",
+        "fr": "Résistance électrique",
+        "it": "Resistenza elettrica",
+        "sv": "Elpatron",
+        "no": "Elektrisk element",
+        "es": "Resistencia eléctrica",
+        "da": "Elektrisk element",
+        "ru": "Электронагреватель",
+        "pl": "Grzałka elektryczna",
+        "ko": "전기 히터"
+      }
+    },
+    "status_boolean.trickle_heating": {
+      "title": {
+        "en": "Trickle heating",
+        "nl": "Bijverwarming",
+        "de": "Zusatzheizung",
+        "fr": "Chauffage d'appoint",
+        "it": "Riscaldamento ausiliario",
+        "sv": "Tillsatsvärme",
+        "no": "Tilleggsvarme",
+        "es": "Calefacción auxiliar",
+        "da": "Tillægsvarme",
+        "ru": "Дополнительный нагрев",
+        "pl": "Ogrzewanie dodatkowe",
+        "ko": "보조 가열"
+      }
+    },
+    "status_boolean.free_cooling": {
+      "title": {
+        "en": "Free cooling",
+        "nl": "Vrije koeling",
+        "de": "Freie Kühlung",
+        "fr": "Refroidissement libre",
+        "it": "Free cooling",
+        "sv": "Fri kylning",
+        "no": "Fri kjøling",
+        "es": "Enfriamiento gratuito",
+        "da": "Fri køling",
+        "ru": "Свободное охлаждение",
+        "pl": "Wolne chłodzenie",
+        "ko": "프리 쿨링"
+      }
+    },
+    "status_boolean.tariff_low": {
+      "title": {
+        "en": "Low tariff",
+        "nl": "Laag tarief",
+        "de": "Niedertarif",
+        "fr": "Tarif bas",
+        "it": "Tariffa bassa",
+        "sv": "Lågtariff",
+        "no": "Lavtariff",
+        "es": "Tarifa baja",
+        "da": "Lavtarif",
+        "ru": "Низкий тариф",
+        "pl": "Niska taryfa",
+        "ko": "저요금"
+      }
+    },
+    "status_boolean.manual_operation": {
+      "title": {
+        "en": "Manual operation",
+        "nl": "Handmatige bediening",
+        "de": "Manueller Betrieb",
+        "fr": "Fonctionnement manuel",
+        "it": "Funzionamento manuale",
+        "sv": "Manuell drift",
+        "no": "Manuell drift",
+        "es": "Funcionamiento manual",
+        "da": "Manuel drift",
+        "ru": "Ручное управление",
+        "pl": "Praca ręczna",
+        "ko": "수동 운전"
+      }
+    },
+    "measure_number.manual_timer": {
+      "title": {
+        "en": "Manual control timer",
+        "nl": "Timer handmatige bediening",
+        "de": "Timer manuelle Steuerung",
+        "fr": "Minuterie commande manuelle",
+        "it": "Timer controllo manuale",
+        "sv": "Timer manuell styrning",
+        "no": "Tidtaker manuell styring",
+        "es": "Temporizador control manual",
+        "da": "Timer manuel styring",
+        "ru": "Таймер ручного управления",
+        "pl": "Timer sterowania ręcznego",
+        "ko": "수동 제어 타이머"
+      },
+      "units": {
+        "en": "s"
+      }
+    },
+    "measure_number.element_current": {
+      "title": {
+        "en": "Electric element current",
+        "nl": "Stroom elektrisch element",
+        "de": "Strom Elektroheizstab",
+        "fr": "Courant résistance électrique",
+        "it": "Corrente resistenza elettrica",
+        "sv": "Elpatronström",
+        "no": "Strøm elektrisk element",
+        "es": "Corriente resistencia eléctrica",
+        "da": "Strøm elektrisk element",
+        "ru": "Ток электронагревателя",
+        "pl": "Prąd grzałki elektrycznej",
+        "ko": "전기 히터 전류"
+      },
+      "units": {
+        "en": "A"
       }
     }
   }

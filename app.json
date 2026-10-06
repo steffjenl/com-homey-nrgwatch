@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "nl.monkeysoft.nrgwatch",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "compatibility": ">=12.4.0",
   "brandColor": "#159EDA",
   "sdk": 3,
@@ -1058,6 +1058,50 @@
         ]
       },
       {
+        "id": "wpu_manual_operation_changed",
+        "title": {
+          "en": "Manual operation changed",
+          "nl": "Handmatige bediening gewijzigd",
+          "de": "Manueller Betrieb geändert",
+          "fr": "Fonctionnement manuel modifié",
+          "it": "Funzionamento manuale modificato",
+          "sv": "Manuell drift ändrad",
+          "no": "Manuell drift endret",
+          "es": "Funcionamiento manual cambiado",
+          "da": "Manuel drift ændret",
+          "ru": "Ручное управление изменено",
+          "pl": "Praca ręczna zmieniona",
+          "ko": "수동 운전 변경됨"
+        },
+        "tokens": [
+          {
+            "name": "active",
+            "type": "boolean",
+            "title": {
+              "en": "Active",
+              "nl": "Actief",
+              "de": "Aktiv",
+              "fr": "Actif",
+              "it": "Attivo",
+              "sv": "Aktiv",
+              "no": "Aktiv",
+              "es": "Activo",
+              "da": "Aktiv",
+              "ru": "Активно",
+              "pl": "Aktywne",
+              "ko": "활성"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          }
+        ]
+      },
+      {
         "id": "wtw_fan_mode_changed",
         "title": {
           "en": "The fan mode has changed",
@@ -1833,6 +1877,840 @@
         ]
       },
       {
+        "id": "wpu_set_source_pump_speed",
+        "title": {
+          "en": "Set source pump speed",
+          "nl": "Stel bronpompsnelheid in",
+          "de": "Quellenpumpe-Drehzahl einstellen",
+          "fr": "Définir la vitesse de la pompe source",
+          "it": "Imposta velocità pompa sorgente",
+          "sv": "Ställ in källpumpens hastighet",
+          "no": "Angi kildepumpehastighet",
+          "es": "Establecer velocidad de bomba de fuente",
+          "da": "Indstil kildepumpens hastighed",
+          "ru": "Установить скорость насоса источника",
+          "pl": "Ustaw prędkość pompy źródła",
+          "ko": "열원 펌프 속도 설정"
+        },
+        "titleFormatted": {
+          "en": "Set source pump speed to [[speed]] %",
+          "nl": "Stel bronpompsnelheid in op [[speed]] %",
+          "de": "Quellenpumpe-Drehzahl auf [[speed]] % einstellen",
+          "fr": "Définir la vitesse de la pompe source à [[speed]] %",
+          "it": "Imposta velocità pompa sorgente a [[speed]] %",
+          "sv": "Ställ in källpumpens hastighet till [[speed]] %",
+          "no": "Angi kildepumpehastighet til [[speed]] %",
+          "es": "Establecer velocidad de bomba de fuente a [[speed]] %",
+          "da": "Indstil kildepumpens hastighed til [[speed]] %",
+          "ru": "Установить скорость насоса источника на [[speed]] %",
+          "pl": "Ustaw prędkość pompy źródła na [[speed]] %",
+          "ko": "열원 펌프 속도를 [[speed]] %로 설정"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "title": {
+              "en": "Speed (%)",
+              "nl": "Snelheid (%)",
+              "de": "Drehzahl (%)",
+              "fr": "Vitesse (%)",
+              "it": "Velocità (%)",
+              "sv": "Hastighet (%)",
+              "no": "Hastighet (%)",
+              "es": "Velocidad (%)",
+              "da": "Hastighed (%)",
+              "ru": "Скорость (%)",
+              "pl": "Prędkość (%)",
+              "ko": "속도 (%)"
+            },
+            "placeholder": {
+              "en": "50"
+            },
+            "min": 0,
+            "max": 100,
+            "step": 1
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_set_max_modulation",
+        "title": {
+          "en": "Set maximum modulation level",
+          "nl": "Stel maximaal modulatieniveau in",
+          "de": "Maximale Modulation einstellen",
+          "fr": "Définir le niveau de modulation maximal",
+          "it": "Imposta livello massimo di modulazione",
+          "sv": "Ställ in maximal moduleringsnivå",
+          "no": "Angi maksimalt moduleringsnivå",
+          "es": "Establecer nivel máximo de modulación",
+          "da": "Indstil maksimalt moduleringsniveau",
+          "ru": "Установить максимальный уровень модуляции",
+          "pl": "Ustaw maksymalny poziom modulacji",
+          "ko": "최대 변조 레벨 설정"
+        },
+        "titleFormatted": {
+          "en": "Set maximum modulation level to [[level]] %",
+          "nl": "Stel maximaal modulatieniveau in op [[level]] %",
+          "de": "Maximale Modulation auf [[level]] % einstellen",
+          "fr": "Définir le niveau de modulation maximal à [[level]] %",
+          "it": "Imposta livello massimo di modulazione a [[level]] %",
+          "sv": "Ställ in maximal moduleringsnivå till [[level]] %",
+          "no": "Angi maksimalt moduleringsnivå til [[level]] %",
+          "es": "Establecer nivel máximo de modulación a [[level]] %",
+          "da": "Indstil maksimalt moduleringsniveau til [[level]] %",
+          "ru": "Установить максимальный уровень модуляции на [[level]] %",
+          "pl": "Ustaw maksymalny poziom modulacji na [[level]] %",
+          "ko": "최대 변조 레벨을 [[level]] %로 설정"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "level",
+            "type": "number",
+            "title": {
+              "en": "Level (%)",
+              "nl": "Niveau (%)",
+              "de": "Stufe (%)",
+              "fr": "Niveau (%)",
+              "it": "Livello (%)",
+              "sv": "Nivå (%)",
+              "no": "Nivå (%)",
+              "es": "Nivel (%)",
+              "da": "Niveau (%)",
+              "ru": "Уровень (%)",
+              "pl": "Poziom (%)",
+              "ko": "레벨 (%)"
+            },
+            "placeholder": {
+              "en": "100"
+            },
+            "min": 0,
+            "max": 100,
+            "step": 1
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_set_electric_element",
+        "title": {
+          "en": "Release electric element",
+          "nl": "Geef elektrisch element vrij",
+          "de": "Elektroheizstab freigeben",
+          "fr": "Autoriser la résistance électrique",
+          "it": "Abilita resistenza elettrica",
+          "sv": "Frigör elpatron",
+          "no": "Frigi elektrisk element",
+          "es": "Habilitar resistencia eléctrica",
+          "da": "Frigiv elektrisk element",
+          "ru": "Разрешить электрический нагреватель",
+          "pl": "Zwolnij grzałkę elektryczną",
+          "ko": "전기 히터 허용"
+        },
+        "titleFormatted": {
+          "en": "Turn electric element release [[mode]]",
+          "nl": "Zet vrijgave elektrisch element [[mode]]",
+          "de": "Freigabe Elektroheizstab [[mode]] schalten",
+          "fr": "Mettre l'autorisation de la résistance électrique sur [[mode]]",
+          "it": "Imposta abilitazione resistenza elettrica su [[mode]]",
+          "sv": "Sätt frigivning av elpatron [[mode]]",
+          "no": "Sett frigivelse av elektrisk element [[mode]]",
+          "es": "Poner habilitación de resistencia eléctrica en [[mode]]",
+          "da": "Sæt frigivelse af elektrisk element [[mode]]",
+          "ru": "Разрешение электронагревателя: [[mode]]",
+          "pl": "Ustaw zwolnienie grzałki elektrycznej [[mode]]",
+          "ko": "전기 히터 허용 [[mode]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "title": {
+              "en": "Mode",
+              "nl": "Modus",
+              "de": "Modus",
+              "fr": "Mode",
+              "it": "Modalità",
+              "sv": "Läge",
+              "no": "Modus",
+              "es": "Modo",
+              "da": "Tilstand",
+              "ru": "Режим",
+              "pl": "Tryb",
+              "ko": "모드"
+            },
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan",
+                  "de": "An",
+                  "fr": "Activé",
+                  "it": "Acceso",
+                  "sv": "På",
+                  "no": "På",
+                  "es": "Encendido",
+                  "da": "Til",
+                  "ru": "Вкл",
+                  "pl": "Włączony",
+                  "ko": "켜짐"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Désactivé",
+                  "it": "Spento",
+                  "sv": "Av",
+                  "no": "Av",
+                  "es": "Apagado",
+                  "da": "Fra",
+                  "ru": "Выкл",
+                  "pl": "Wyłączony",
+                  "ko": "꺼짐"
+                }
+              }
+            ]
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_set_ch_release",
+        "title": {
+          "en": "Release central heating",
+          "nl": "Geef CV vrij",
+          "de": "Heizung freigeben",
+          "fr": "Autoriser le chauffage central",
+          "it": "Abilita riscaldamento",
+          "sv": "Frigör värme",
+          "no": "Frigi sentralvarme",
+          "es": "Habilitar calefacción",
+          "da": "Frigiv centralvarme",
+          "ru": "Разрешить отопление",
+          "pl": "Zwolnij ogrzewanie CO",
+          "ko": "난방 허용"
+        },
+        "titleFormatted": {
+          "en": "Turn central heating release [[mode]]",
+          "nl": "Zet vrijgave CV [[mode]]",
+          "de": "Freigabe Heizung [[mode]] schalten",
+          "fr": "Mettre l'autorisation du chauffage sur [[mode]]",
+          "it": "Imposta abilitazione riscaldamento su [[mode]]",
+          "sv": "Sätt frigivning av värme [[mode]]",
+          "no": "Sett frigivelse av sentralvarme [[mode]]",
+          "es": "Poner habilitación de calefacción en [[mode]]",
+          "da": "Sæt frigivelse af centralvarme [[mode]]",
+          "ru": "Разрешение отопления: [[mode]]",
+          "pl": "Ustaw zwolnienie ogrzewania CO [[mode]]",
+          "ko": "난방 허용 [[mode]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "title": {
+              "en": "Mode",
+              "nl": "Modus",
+              "de": "Modus",
+              "fr": "Mode",
+              "it": "Modalità",
+              "sv": "Läge",
+              "no": "Modus",
+              "es": "Modo",
+              "da": "Tilstand",
+              "ru": "Режим",
+              "pl": "Tryb",
+              "ko": "모드"
+            },
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan",
+                  "de": "An",
+                  "fr": "Activé",
+                  "it": "Acceso",
+                  "sv": "På",
+                  "no": "På",
+                  "es": "Encendido",
+                  "da": "Til",
+                  "ru": "Вкл",
+                  "pl": "Włączony",
+                  "ko": "켜짐"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Désactivé",
+                  "it": "Spento",
+                  "sv": "Av",
+                  "no": "Av",
+                  "es": "Apagado",
+                  "da": "Fra",
+                  "ru": "Выкл",
+                  "pl": "Wyłączony",
+                  "ko": "꺼짐"
+                }
+              }
+            ]
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_set_cooling_release",
+        "title": {
+          "en": "Release cooling mode",
+          "nl": "Geef koelmodus vrij",
+          "de": "Kühlmodus freigeben",
+          "fr": "Autoriser le mode refroidissement",
+          "it": "Abilita modalità raffrescamento",
+          "sv": "Frigör kylläge",
+          "no": "Frigi kjølemodus",
+          "es": "Habilitar modo de refrigeración",
+          "da": "Frigiv køletilstand",
+          "ru": "Разрешить режим охлаждения",
+          "pl": "Zwolnij tryb chłodzenia",
+          "ko": "냉방 모드 허용"
+        },
+        "titleFormatted": {
+          "en": "Turn cooling release [[mode]]",
+          "nl": "Zet vrijgave koelen [[mode]]",
+          "de": "Freigabe Kühlung [[mode]] schalten",
+          "fr": "Mettre l'autorisation du refroidissement sur [[mode]]",
+          "it": "Imposta abilitazione raffrescamento su [[mode]]",
+          "sv": "Sätt frigivning av kylning [[mode]]",
+          "no": "Sett frigivelse av kjøling [[mode]]",
+          "es": "Poner habilitación de refrigeración en [[mode]]",
+          "da": "Sæt frigivelse af køling [[mode]]",
+          "ru": "Разрешение охлаждения: [[mode]]",
+          "pl": "Ustaw zwolnienie chłodzenia [[mode]]",
+          "ko": "냉방 허용 [[mode]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "title": {
+              "en": "Mode",
+              "nl": "Modus",
+              "de": "Modus",
+              "fr": "Mode",
+              "it": "Modalità",
+              "sv": "Läge",
+              "no": "Modus",
+              "es": "Modo",
+              "da": "Tilstand",
+              "ru": "Режим",
+              "pl": "Tryb",
+              "ko": "모드"
+            },
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan",
+                  "de": "An",
+                  "fr": "Activé",
+                  "it": "Acceso",
+                  "sv": "På",
+                  "no": "På",
+                  "es": "Encendido",
+                  "da": "Til",
+                  "ru": "Вкл",
+                  "pl": "Włączony",
+                  "ko": "켜짐"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Désactivé",
+                  "it": "Spento",
+                  "sv": "Av",
+                  "no": "Av",
+                  "es": "Apagado",
+                  "da": "Fra",
+                  "ru": "Выкл",
+                  "pl": "Wyłączony",
+                  "ko": "꺼짐"
+                }
+              }
+            ]
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_set_tap_water_mode",
+        "title": {
+          "en": "Set tap water mode",
+          "nl": "Stel tapwatermodus in",
+          "de": "Warmwassermodus einstellen",
+          "fr": "Définir le mode eau chaude sanitaire",
+          "it": "Imposta modalità acqua calda sanitaria",
+          "sv": "Ställ in varmvattenläge",
+          "no": "Angi varmtvannsmodus",
+          "es": "Establecer modo de agua caliente sanitaria",
+          "da": "Indstil brugsvandstilstand",
+          "ru": "Установить режим горячей воды",
+          "pl": "Ustaw tryb ciepłej wody użytkowej",
+          "ko": "온수 모드 설정"
+        },
+        "titleFormatted": {
+          "en": "Set tap water mode to [[mode]]",
+          "nl": "Stel tapwatermodus in op [[mode]]",
+          "de": "Warmwassermodus auf [[mode]] einstellen",
+          "fr": "Définir le mode eau chaude sanitaire sur [[mode]]",
+          "it": "Imposta modalità acqua calda sanitaria su [[mode]]",
+          "sv": "Ställ in varmvattenläge till [[mode]]",
+          "no": "Angi varmtvannsmodus til [[mode]]",
+          "es": "Establecer modo de agua caliente sanitaria en [[mode]]",
+          "da": "Indstil brugsvandstilstand til [[mode]]",
+          "ru": "Установить режим горячей воды: [[mode]]",
+          "pl": "Ustaw tryb ciepłej wody użytkowej na [[mode]]",
+          "ko": "온수 모드를 [[mode]](으)로 설정"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "title": {
+              "en": "Mode",
+              "nl": "Modus",
+              "de": "Modus",
+              "fr": "Mode",
+              "it": "Modalità",
+              "sv": "Läge",
+              "no": "Modus",
+              "es": "Modo",
+              "da": "Tilstand",
+              "ru": "Режим",
+              "pl": "Tryb",
+              "ko": "모드"
+            },
+            "values": [
+              {
+                "id": "0",
+                "title": {
+                  "en": "Eco",
+                  "nl": "Eco",
+                  "de": "Eco",
+                  "fr": "Eco",
+                  "it": "Eco",
+                  "sv": "Eco",
+                  "no": "Eco",
+                  "es": "Eco",
+                  "da": "Eco",
+                  "ru": "Эко",
+                  "pl": "Eco",
+                  "ko": "에코"
+                }
+              },
+              {
+                "id": "2",
+                "title": {
+                  "en": "Comfort",
+                  "nl": "Comfort",
+                  "de": "Komfort",
+                  "fr": "Confort",
+                  "it": "Comfort",
+                  "sv": "Komfort",
+                  "no": "Komfort",
+                  "es": "Confort",
+                  "da": "Komfort",
+                  "ru": "Комфорт",
+                  "pl": "Komfort",
+                  "ko": "컴포트"
+                }
+              },
+              {
+                "id": "3",
+                "title": {
+                  "en": "Blocked",
+                  "nl": "Geblokkeerd",
+                  "de": "Gesperrt",
+                  "fr": "Bloqué",
+                  "it": "Bloccato",
+                  "sv": "Blockerad",
+                  "no": "Blokkert",
+                  "es": "Bloqueado",
+                  "da": "Blokeret",
+                  "ru": "Заблокировано",
+                  "pl": "Zablokowany",
+                  "ko": "차단"
+                }
+              }
+            ]
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_reset_faults",
+        "title": {
+          "en": "Reset all faults",
+          "nl": "Reset alle storingen",
+          "de": "Alle Störungen zurücksetzen",
+          "fr": "Réinitialiser tous les défauts",
+          "it": "Reimposta tutti i guasti",
+          "sv": "Återställ alla fel",
+          "no": "Nullstill alle feil",
+          "es": "Restablecer todos los fallos",
+          "da": "Nulstil alle fejl",
+          "ru": "Сбросить все ошибки",
+          "pl": "Zresetuj wszystkie błędy",
+          "ko": "모든 오류 초기화"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          }
+        ],
+        "hint": {
+          "en": "Experimental. Requires REST API v2 (firmware 3.0.0+). On WPU 5G the setting \"Max manual operation time\" must be set.",
+          "nl": "Experimenteel. Vereist REST API v2 (firmware 3.0.0+). Bij WPU 5G moet de instelling \"Max manual operation time\" ingesteld zijn.",
+          "de": "Experimentell. Erfordert REST API v2 (Firmware 3.0.0+). Bei WPU 5G muss \"Max manual operation time\" gesetzt sein.",
+          "fr": "Expérimental. Nécessite l'API REST v2 (firmware 3.0.0+). Sur WPU 5G, le réglage \"Max manual operation time\" doit être défini.",
+          "it": "Sperimentale. Richiede l'API REST v2 (firmware 3.0.0+). Su WPU 5G l'impostazione \"Max manual operation time\" deve essere impostata.",
+          "sv": "Experimentell. Kräver REST API v2 (firmware 3.0.0+). På WPU 5G måste inställningen \"Max manual operation time\" vara satt.",
+          "no": "Eksperimentell. Krever REST API v2 (fastvare 3.0.0+). På WPU 5G må innstillingen \"Max manual operation time\" være satt.",
+          "es": "Experimental. Requiere la API REST v2 (firmware 3.0.0+). En WPU 5G debe configurarse \"Max manual operation time\".",
+          "da": "Eksperimentel. Kræver REST API v2 (firmware 3.0.0+). På WPU 5G skal indstillingen \"Max manual operation time\" være sat.",
+          "ru": "Экспериментально. Требуется REST API v2 (прошивка 3.0.0+). На WPU 5G должна быть задана настройка \"Max manual operation time\".",
+          "pl": "Eksperymentalne. Wymaga REST API v2 (firmware 3.0.0+). W WPU 5G należy ustawić \"Max manual operation time\".",
+          "ko": "실험적 기능. REST API v2(펌웨어 3.0.0+)가 필요합니다. WPU 5G에서는 \"Max manual operation time\" 설정이 필요합니다."
+        }
+      },
+      {
+        "id": "wpu_set_setting",
+        "title": {
+          "en": "Set WPU setting",
+          "nl": "Stel WPU-instelling in",
+          "de": "WPU-Einstellung festlegen",
+          "fr": "Définir un réglage WPU",
+          "it": "Imposta impostazione WPU",
+          "sv": "Ställ in WPU-inställning",
+          "no": "Angi WPU-innstilling",
+          "es": "Establecer ajuste WPU",
+          "da": "Indstil WPU-indstilling",
+          "ru": "Задать настройку WPU",
+          "pl": "Ustaw ustawienie WPU",
+          "ko": "WPU 설정 변경"
+        },
+        "titleFormatted": {
+          "en": "Set [[setting]] to [[value]]",
+          "nl": "Stel [[setting]] in op [[value]]",
+          "de": "[[setting]] auf [[value]] einstellen",
+          "fr": "Définir [[setting]] à [[value]]",
+          "it": "Imposta [[setting]] a [[value]]",
+          "sv": "Ställ in [[setting]] till [[value]]",
+          "no": "Angi [[setting]] til [[value]]",
+          "es": "Establecer [[setting]] en [[value]]",
+          "da": "Indstil [[setting]] til [[value]]",
+          "ru": "Установить [[setting]] в [[value]]",
+          "pl": "Ustaw [[setting]] na [[value]]",
+          "ko": "[[setting]]을(를) [[value]](으)로 설정"
+        },
+        "hint": {
+          "en": "Experimental. Writes a setting on the Itho unit; the device rejects values outside the setting's range. Requires REST API v2 and the settings API enabled on the Itho WiFi add-on.",
+          "nl": "Experimenteel. Schrijft een instelling op de Itho-unit; waarden buiten het bereik van de instelling worden geweigerd. Vereist REST API v2 en de instellingen-API ingeschakeld op de Itho WiFi add-on."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          },
+          {
+            "name": "setting",
+            "type": "dropdown",
+            "title": {
+              "en": "Setting",
+              "nl": "Instelling",
+              "de": "Einstellung",
+              "fr": "Réglage",
+              "it": "Impostazione",
+              "sv": "Inställning",
+              "no": "Innstilling",
+              "es": "Ajuste",
+              "da": "Indstilling",
+              "ru": "Настройка",
+              "pl": "Ustawienie",
+              "ko": "설정"
+            },
+            "values": [
+              {
+                "id": "setpoint_dhw_comfort",
+                "title": {
+                  "en": "Tap water setpoint comfort (°C)",
+                  "nl": "Tapwater setpoint comfort (°C)",
+                  "de": "Warmwasser-Sollwert Komfort (°C)",
+                  "fr": "Consigne ECS confort (°C)",
+                  "it": "Setpoint ACS comfort (°C)",
+                  "sv": "Börvärde varmvatten komfort (°C)",
+                  "no": "Settpunkt varmtvann komfort (°C)",
+                  "es": "Consigna ACS confort (°C)",
+                  "da": "Sætpunkt brugsvand komfort (°C)",
+                  "ru": "Уставка ГВС комфорт (°C)",
+                  "pl": "Wartość zadana CWU komfort (°C)",
+                  "ko": "온수 설정 온도 컴포트 (°C)"
+                }
+              },
+              {
+                "id": "setpoint_dhw_daily",
+                "title": {
+                  "en": "Tap water setpoint daily (°C)",
+                  "nl": "Tapwater setpoint dagelijks (°C)",
+                  "de": "Warmwasser-Sollwert täglich (°C)",
+                  "fr": "Consigne ECS quotidienne (°C)",
+                  "it": "Setpoint ACS giornaliero (°C)",
+                  "sv": "Börvärde varmvatten dagligen (°C)",
+                  "no": "Settpunkt varmtvann daglig (°C)",
+                  "es": "Consigna ACS diaria (°C)",
+                  "da": "Sætpunkt brugsvand daglig (°C)",
+                  "ru": "Уставка ГВС ежедневная (°C)",
+                  "pl": "Wartość zadana CWU dzienna (°C)",
+                  "ko": "온수 설정 온도 일일 (°C)"
+                }
+              },
+              {
+                "id": "setpoint_dhw_weekly",
+                "title": {
+                  "en": "Tap water setpoint weekly (°C)",
+                  "nl": "Tapwater setpoint wekelijks (°C)",
+                  "de": "Warmwasser-Sollwert wöchentlich (°C)",
+                  "fr": "Consigne ECS hebdomadaire (°C)",
+                  "it": "Setpoint ACS settimanale (°C)",
+                  "sv": "Börvärde varmvatten veckovis (°C)",
+                  "no": "Settpunkt varmtvann ukentlig (°C)",
+                  "es": "Consigna ACS semanal (°C)",
+                  "da": "Sætpunkt brugsvand ugentlig (°C)",
+                  "ru": "Уставка ГВС еженедельная (°C)",
+                  "pl": "Wartość zadana CWU tygodniowa (°C)",
+                  "ko": "온수 설정 온도 주간 (°C)"
+                }
+              },
+              {
+                "id": "min_room_temp",
+                "title": {
+                  "en": "Minimum room temperature thermostat (°C)",
+                  "nl": "Minimale kamertemperatuur thermostaat (°C)",
+                  "de": "Minimale Raumtemperatur Thermostat (°C)",
+                  "fr": "Température ambiante minimale thermostat (°C)",
+                  "it": "Temperatura ambiente minima termostato (°C)",
+                  "sv": "Minsta rumstemperatur termostat (°C)",
+                  "no": "Minste romtemperatur termostat (°C)",
+                  "es": "Temperatura ambiente mínima termostato (°C)",
+                  "da": "Mindste rumtemperatur termostat (°C)",
+                  "ru": "Минимальная комнатная температура термостата (°C)",
+                  "pl": "Minimalna temperatura pokojowa termostatu (°C)",
+                  "ko": "최소 실내 온도 (°C)"
+                }
+              },
+              {
+                "id": "max_room_temp",
+                "title": {
+                  "en": "Maximum room temperature thermostat (°C)",
+                  "nl": "Maximale kamertemperatuur thermostaat (°C)",
+                  "de": "Maximale Raumtemperatur Thermostat (°C)",
+                  "fr": "Température ambiante maximale thermostat (°C)",
+                  "it": "Temperatura ambiente massima termostato (°C)",
+                  "sv": "Högsta rumstemperatur termostat (°C)",
+                  "no": "Høyeste romtemperatur termostat (°C)",
+                  "es": "Temperatura ambiente máxima termostato (°C)",
+                  "da": "Højeste rumtemperatur termostat (°C)",
+                  "ru": "Максимальная комнатная температура термостата (°C)",
+                  "pl": "Maksymalna temperatura pokojowa termostatu (°C)",
+                  "ko": "최대 실내 온도 (°C)"
+                }
+              },
+              {
+                "id": "cooling_setpoint",
+                "title": {
+                  "en": "Cooling setpoint (°C)",
+                  "nl": "Koel-setpoint (°C)",
+                  "de": "Kühl-Sollwert (°C)",
+                  "fr": "Consigne de refroidissement (°C)",
+                  "it": "Setpoint raffrescamento (°C)",
+                  "sv": "Kylbörvärde (°C)",
+                  "no": "Kjølesettpunkt (°C)",
+                  "es": "Consigna de refrigeración (°C)",
+                  "da": "Kølesætpunkt (°C)",
+                  "ru": "Уставка охлаждения (°C)",
+                  "pl": "Wartość zadana chłodzenia (°C)",
+                  "ko": "냉방 설정 온도 (°C)"
+                }
+              },
+              {
+                "id": "max_manual_operation_time",
+                "title": {
+                  "en": "Max manual operation time (min)",
+                  "nl": "Max. duur handmatige bediening (min)",
+                  "de": "Max. Dauer manueller Betrieb (min)",
+                  "fr": "Durée max. de fonctionnement manuel (min)",
+                  "it": "Durata max funzionamento manuale (min)",
+                  "sv": "Max tid manuell drift (min)",
+                  "no": "Maks tid manuell drift (min)",
+                  "es": "Tiempo máx. de funcionamiento manual (min)",
+                  "da": "Maks. tid manuel drift (min)",
+                  "ru": "Макс. время ручного управления (мин)",
+                  "pl": "Maks. czas pracy ręcznej (min)",
+                  "ko": "최대 수동 운전 시간 (분)"
+                }
+              }
+            ]
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "title": {
+              "en": "Value",
+              "nl": "Waarde",
+              "de": "Wert",
+              "fr": "Valeur",
+              "it": "Valore",
+              "sv": "Värde",
+              "no": "Verdi",
+              "es": "Valor",
+              "da": "Værdi",
+              "ru": "Значение",
+              "pl": "Wartość",
+              "ko": "값"
+            },
+            "placeholder": {
+              "en": "50"
+            },
+            "step": 0.5
+          }
+        ]
+      },
+      {
         "id": "wtw_set_fan_mode",
         "title": {
           "en": "Set fan mode",
@@ -1947,6 +2825,92 @@
             "min": 0,
             "max": 1,
             "step": 0.01
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "wpu_compressor_running",
+        "title": {
+          "en": "Compressor",
+          "nl": "Compressor",
+          "de": "Kompressor",
+          "fr": "Compresseur",
+          "it": "Compressore",
+          "sv": "Kompressor",
+          "no": "Kompressor",
+          "es": "Compresor",
+          "da": "Kompressor",
+          "ru": "Компрессор",
+          "pl": "Sprężarka",
+          "ko": "압축기"
+        },
+        "titleFormatted": {
+          "en": "Compressor !{{is active|is not active}}",
+          "nl": "Compressor !{{is actief|is niet actief}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          }
+        ]
+      },
+      {
+        "id": "wpu_tariff_low",
+        "title": {
+          "en": "Low tariff",
+          "nl": "Laag tarief",
+          "de": "Niedertarif",
+          "fr": "Tarif bas",
+          "it": "Tariffa bassa",
+          "sv": "Lågtariff",
+          "no": "Lavtariff",
+          "es": "Tarifa baja",
+          "da": "Lavtarif",
+          "ru": "Низкий тариф",
+          "pl": "Niska taryfa",
+          "ko": "저요금"
+        },
+        "titleFormatted": {
+          "en": "Low tariff !{{is active|is not active}}",
+          "nl": "Laag tarief !{{is actief|is niet actief}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
+          }
+        ]
+      },
+      {
+        "id": "wpu_manual_operation_active",
+        "title": {
+          "en": "Manual operation",
+          "nl": "Handmatige bediening",
+          "de": "Manueller Betrieb",
+          "fr": "Fonctionnement manuel",
+          "it": "Funzionamento manuale",
+          "sv": "Manuell drift",
+          "no": "Manuell drift",
+          "es": "Funcionamiento manual",
+          "da": "Manuel drift",
+          "ru": "Ручное управление",
+          "pl": "Praca ręczna",
+          "ko": "수동 운전"
+        },
+        "titleFormatted": {
+          "en": "Manual operation !{{is active|is not active}}",
+          "nl": "Handmatige bediening !{{is actief|is niet actief}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-wpu-wifi"
           }
         ]
       }
@@ -2979,6 +3943,14 @@
         "measure_number.error_code",
         "measure_string.last_command_source",
         "measure_string.firmware_version",
+        "status_boolean.compressor",
+        "status_boolean.element",
+        "status_boolean.trickle_heating",
+        "status_boolean.free_cooling",
+        "status_boolean.tariff_low",
+        "status_boolean.manual_operation",
+        "measure_number.manual_timer",
+        "measure_number.element_current",
         "button.boost"
       ],
       "pair": [
@@ -3397,6 +4369,140 @@
             "ru": "Буст",
             "pl": "Boost",
             "ko": "부스트"
+          }
+        },
+        "status_boolean.compressor": {
+          "title": {
+            "en": "Compressor",
+            "nl": "Compressor",
+            "de": "Kompressor",
+            "fr": "Compresseur",
+            "it": "Compressore",
+            "sv": "Kompressor",
+            "no": "Kompressor",
+            "es": "Compresor",
+            "da": "Kompressor",
+            "ru": "Компрессор",
+            "pl": "Sprężarka",
+            "ko": "압축기"
+          }
+        },
+        "status_boolean.element": {
+          "title": {
+            "en": "Electric element",
+            "nl": "Elektrisch element",
+            "de": "Elektroheizstab",
+            "fr": "Résistance électrique",
+            "it": "Resistenza elettrica",
+            "sv": "Elpatron",
+            "no": "Elektrisk element",
+            "es": "Resistencia eléctrica",
+            "da": "Elektrisk element",
+            "ru": "Электронагреватель",
+            "pl": "Grzałka elektryczna",
+            "ko": "전기 히터"
+          }
+        },
+        "status_boolean.trickle_heating": {
+          "title": {
+            "en": "Trickle heating",
+            "nl": "Bijverwarming",
+            "de": "Zusatzheizung",
+            "fr": "Chauffage d'appoint",
+            "it": "Riscaldamento ausiliario",
+            "sv": "Tillsatsvärme",
+            "no": "Tilleggsvarme",
+            "es": "Calefacción auxiliar",
+            "da": "Tillægsvarme",
+            "ru": "Дополнительный нагрев",
+            "pl": "Ogrzewanie dodatkowe",
+            "ko": "보조 가열"
+          }
+        },
+        "status_boolean.free_cooling": {
+          "title": {
+            "en": "Free cooling",
+            "nl": "Vrije koeling",
+            "de": "Freie Kühlung",
+            "fr": "Refroidissement libre",
+            "it": "Free cooling",
+            "sv": "Fri kylning",
+            "no": "Fri kjøling",
+            "es": "Enfriamiento gratuito",
+            "da": "Fri køling",
+            "ru": "Свободное охлаждение",
+            "pl": "Wolne chłodzenie",
+            "ko": "프리 쿨링"
+          }
+        },
+        "status_boolean.tariff_low": {
+          "title": {
+            "en": "Low tariff",
+            "nl": "Laag tarief",
+            "de": "Niedertarif",
+            "fr": "Tarif bas",
+            "it": "Tariffa bassa",
+            "sv": "Lågtariff",
+            "no": "Lavtariff",
+            "es": "Tarifa baja",
+            "da": "Lavtarif",
+            "ru": "Низкий тариф",
+            "pl": "Niska taryfa",
+            "ko": "저요금"
+          }
+        },
+        "status_boolean.manual_operation": {
+          "title": {
+            "en": "Manual operation",
+            "nl": "Handmatige bediening",
+            "de": "Manueller Betrieb",
+            "fr": "Fonctionnement manuel",
+            "it": "Funzionamento manuale",
+            "sv": "Manuell drift",
+            "no": "Manuell drift",
+            "es": "Funcionamiento manual",
+            "da": "Manuel drift",
+            "ru": "Ручное управление",
+            "pl": "Praca ręczna",
+            "ko": "수동 운전"
+          }
+        },
+        "measure_number.manual_timer": {
+          "title": {
+            "en": "Manual control timer",
+            "nl": "Timer handmatige bediening",
+            "de": "Timer manuelle Steuerung",
+            "fr": "Minuterie commande manuelle",
+            "it": "Timer controllo manuale",
+            "sv": "Timer manuell styrning",
+            "no": "Tidtaker manuell styring",
+            "es": "Temporizador control manual",
+            "da": "Timer manuel styring",
+            "ru": "Таймер ручного управления",
+            "pl": "Timer sterowania ręcznego",
+            "ko": "수동 제어 타이머"
+          },
+          "units": {
+            "en": "s"
+          }
+        },
+        "measure_number.element_current": {
+          "title": {
+            "en": "Electric element current",
+            "nl": "Stroom elektrisch element",
+            "de": "Strom Elektroheizstab",
+            "fr": "Courant résistance électrique",
+            "it": "Corrente resistenza elettrica",
+            "sv": "Elpatronström",
+            "no": "Strøm elektrisk element",
+            "es": "Corriente resistencia eléctrica",
+            "da": "Strøm elektrisk element",
+            "ru": "Ток электронагревателя",
+            "pl": "Prąd grzałki elektrycznej",
+            "ko": "전기 히터 전류"
+          },
+          "units": {
+            "en": "A"
           }
         }
       },
@@ -5243,6 +6349,25 @@
       "setable": false,
       "insights": true,
       "icon": "/assets/capability_icons/measure_string.svg"
+    },
+    "status_boolean": {
+      "type": "boolean",
+      "title": {
+        "en": "Status",
+        "nl": "Status"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Active",
+        "nl": "Actief"
+      },
+      "insightsTitleFalse": {
+        "en": "Inactive",
+        "nl": "Inactief"
+      }
     }
   },
   "discovery": {

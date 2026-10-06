@@ -40,6 +40,17 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     this._triggerTemperatureChangedRapidly = this.homey.flow.getDeviceTriggerCard('wpu_temperature_changed_rapidly');
     this._triggerErrorChanged = this.homey.flow.getDeviceTriggerCard('wpu_error_changed');
     this._triggerFirmwareUpdateAvailable = this.homey.flow.getDeviceTriggerCard('wpu_firmware_update_available');
+    this._triggerManualOperationChanged = this.homey.flow.getDeviceTriggerCard('wpu_manual_operation_changed');
+
+    // Flow card conditions read the last polled status
+    for (const [cardId, capability] of [
+      ['wpu_compressor_running', 'status_boolean.compressor'],
+      ['wpu_tariff_low', 'status_boolean.tariff_low'],
+      ['wpu_manual_operation_active', 'status_boolean.manual_operation'],
+    ]) {
+      this.homey.flow.getConditionCard(cardId)
+        .registerRunListener(() => this.getCapabilityValue(capability) === true);
+    }
 
     // Rate-of-change trigger: run listener filters based on the configured minimum rate arg
     this._triggerTemperatureChangedRapidly.registerRunListener((args, state) => Math.abs(state.rate) >= args.rate);
@@ -54,7 +65,35 @@ module.exports = class IthoWpuWifi extends Homey.Device {
 
     this.homey.flow.getActionCard('wpu_set_boost_mode')
       .registerRunListener(async (args) => {
-        await this._setBoostMode(args.mode === 'on');
+        await this._setBoostMode(this._argId(args.mode) === 'on');
+        return true;
+      });
+
+    // Experimental manual controls: [action card id, control key, value mapper]
+    const manualControls = [
+      ['wpu_set_source_pump_speed', 'source_pump_speed', (args) => args.speed],
+      ['wpu_set_max_modulation', 'max_modulation', (args) => args.level],
+      ['wpu_set_electric_element', 'electric_element', (args) => (this._argId(args.mode) === 'on' ? 1 : 0)],
+      ['wpu_set_ch_release', 'ch_release', (args) => (this._argId(args.mode) === 'on' ? 1 : 0)],
+      ['wpu_set_cooling_release', 'cooling_release', (args) => (this._argId(args.mode) === 'on' ? 1 : 0)],
+      ['wpu_set_tap_water_mode', 'tap_water_mode', (args) => Number(this._argId(args.mode))],
+      ['wpu_reset_faults', 'reset_faults', () => 1],
+    ];
+    for (const [cardId, control, toValue] of manualControls) {
+      this.homey.flow.getActionCard(cardId)
+        .registerRunListener(async (args) => {
+          await this._manualControl(control, toValue(args));
+          return true;
+        });
+    }
+
+    this.homey.flow.getActionCard('wpu_set_setting')
+      .registerRunListener(async (args) => {
+        if (!this.settings.useApiV2) {
+          throw new Error(this.homey.__('errors.api_v2_required'));
+        }
+        await this.api.setWpuSetting(this._argId(args.setting), args.value);
+        await this._updateLastCommandSource();
         return true;
       });
 
@@ -119,6 +158,27 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     await this._updateLastCommandSource();
   }
 
+  /**
+   * Dropdown flow arguments arrive as an id string or as an {id} object.
+   * @private
+   */
+  _argId(arg) {
+    return arg?.id ?? arg;
+  }
+
+  /**
+   * Sends an experimental WPU manual control command. REST API v2 only.
+   * @param {string} control - Key of NRGWatchApi.WPU_MANUAL_CONTROLS
+   * @param {number} value
+   */
+  async _manualControl(control, value) {
+    if (!this.settings.useApiV2) {
+      throw new Error(this.homey.__('errors.api_v2_required'));
+    }
+    await this.api.setManualControl(control, value);
+    await this._updateLastCommandSource();
+  }
+
   async createAndRemoveCapabilities() {
     const caps = [
       'measure_temperature',
@@ -143,6 +203,14 @@ module.exports = class IthoWpuWifi extends Homey.Device {
       'measure_number.error_code',
       'measure_string.last_command_source',
       'measure_string.firmware_version',
+      'measure_number.manual_timer',
+      'measure_number.element_current',
+      'status_boolean.compressor',
+      'status_boolean.element',
+      'status_boolean.trickle_heating',
+      'status_boolean.free_cooling',
+      'status_boolean.tariff_low',
+      'status_boolean.manual_operation',
       'button.boost',
     ];
 
@@ -210,6 +278,7 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     const prev = {
       roomTemp: this.getCapabilityValue('measure_temperature.room'),
       errorCode: this.getCapabilityValue('measure_number.error_code'),
+      manualOperation: this.getCapabilityValue('status_boolean.manual_operation'),
     };
 
     const primaryTemp = status.roomTemp ?? status.outsideTemp;
@@ -235,7 +304,19 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     if (status.subStatusCode != null) await this.setCapabilityValue('measure_number.sub_status_code', status.subStatusCode).catch(this.error);
     if (status.errorCode != null) await this.setCapabilityValue('measure_number.error_code', status.errorCode).catch(this.error);
 
+    if (status.manualTimer != null) await this.setCapabilityValue('measure_number.manual_timer', status.manualTimer).catch(this.error);
+    if (status.elementCurrent != null) await this.setCapabilityValue('measure_number.element_current', status.elementCurrent).catch(this.error);
+    for (const key of ['compressor', 'element', 'trickleHeating', 'freeCooling', 'tariffLow', 'manualOperation']) {
+      if (status[key] != null) {
+        const capability = `status_boolean.${key.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`)}`;
+        await this.setCapabilityValue(capability, status[key]).catch(this.error);
+      }
+    }
+
     // --- Flow triggers ---
+    if (status.manualOperation != null && status.manualOperation !== prev.manualOperation) {
+      await this._triggerManualOperationChanged.trigger(this, { active: status.manualOperation }).catch(this.error);
+    }
     if (status.roomTemp != null && status.roomTemp !== prev.roomTemp) {
       await this._triggerTemperatureChanged.trigger(this, { temperature: status.roomTemp }).catch(this.error);
     }
@@ -384,6 +465,20 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     return Number.isFinite(numberValue) ? numberValue : null;
   }
 
+  /**
+   * Converts a status value (number, boolean or on/off style string) to a boolean.
+   * @returns {boolean|null} null when the value is missing or not understood
+   */
+  _toBoolean(value) {
+    if (value == null || value === '') return null;
+    if (typeof value === 'boolean') return value;
+    const text = String(value).trim().toLowerCase();
+    if (['1', 'true', 'on', 'yes', 'aan', 'ja'].includes(text)) return true;
+    if (['0', 'false', 'off', 'no', 'uit', 'nee'].includes(text)) return false;
+    const numberValue = Number(text);
+    return Number.isFinite(numberValue) ? numberValue !== 0 : null;
+  }
+
   _first(status, keys) {
     for (const key of keys) {
       if (status[key] != null) return status[key];
@@ -423,6 +518,14 @@ module.exports = class IthoWpuWifi extends Homey.Device {
       statusCode: this._toNumber(first(['Status', 'status'])),
       subStatusCode: this._toNumber(first(['Sub_status', 'sub-status'])),
       errorCode: this._toNumber(first(['Error', 'error', 'Fault highest priority', 'fault-highest-priority'])),
+      manualTimer: this._toNumber(first(['Manual control (sec)', 'manual_sec'])),
+      elementCurrent: this._toNumber(first(['Current e-element (A)', 'current-e-element_a'])),
+      compressor: this._toBoolean(first(['Compressor', 'compressor'])),
+      element: this._toBoolean(first(['Element', 'element'])),
+      trickleHeating: this._toBoolean(first(['Trickle heating', 'trickle-heating'])),
+      freeCooling: this._toBoolean(first(['Free cooling', 'free-cooling'])),
+      tariffLow: this._toBoolean(first(['Tariff', 'tariff'])),
+      manualOperation: this._toBoolean(first(['Manual operation', 'manual-operation'])),
     };
   }
 

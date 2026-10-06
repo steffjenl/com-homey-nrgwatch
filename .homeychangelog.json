@@ -91,5 +91,8 @@
   },
   "1.2.6": {
     "en": "Add boost mode for Itho WPU: flow action card and Boost button"
+  },
+  "1.3.0": {
+    "en": "Experimental WPU features: manual control actions (source pump, modulation, element/CH/cooling release, tap water mode, reset faults), write WPU settings, new status values, trigger and conditions"
   }
 }
