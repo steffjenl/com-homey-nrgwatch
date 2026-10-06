@@ -18,6 +18,7 @@
     "refreshInterval": "Intervalle de rafraîchissement (secondes)"
   },
   "errors": {
-    "device_unreachable": "L'appareil n'est pas joignable. Vérifiez l'adresse IP et la connexion réseau."
+    "device_unreachable": "L'appareil n'est pas joignable. Vérifiez l'adresse IP et la connexion réseau.",
+    "api_v2_required": "Le mode boost nécessite l'API REST v2 (firmware 3.0.0 ou plus récent)."
   }
 }

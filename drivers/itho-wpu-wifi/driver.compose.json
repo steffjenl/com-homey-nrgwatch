@@ -31,7 +31,8 @@
     "measure_number.sub_status_code",
     "measure_number.error_code",
     "measure_string.last_command_source",
-    "measure_string.firmware_version"
+    "measure_string.firmware_version",
+    "button.boost"
   ],
   "pair": [
     {
@@ -433,6 +434,22 @@
         "ru": "Версия прошивки",
         "pl": "Wersja firmware",
         "ko": "펌웨어 버전"
+      }
+    },
+    "button.boost": {
+      "title": {
+        "en": "Boost",
+        "nl": "Boost",
+        "de": "Boost",
+        "fr": "Boost",
+        "it": "Boost",
+        "sv": "Boost",
+        "no": "Boost",
+        "es": "Boost",
+        "da": "Boost",
+        "ru": "Буст",
+        "pl": "Boost",
+        "ko": "부스트"
       }
     }
   }

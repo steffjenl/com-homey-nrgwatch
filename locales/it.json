@@ -18,6 +18,7 @@
     "refreshInterval": "Intervallo di aggiornamento (secondi)"
   },
   "errors": {
-    "device_unreachable": "Il dispositivo non è raggiungibile. Controllare l'indirizzo IP e la connessione di rete."
+    "device_unreachable": "Il dispositivo non è raggiungibile. Controllare l'indirizzo IP e la connessione di rete.",
+    "api_v2_required": "La modalità boost richiede l'API REST v2 (firmware 3.0.0 o successivo)."
   }
 }

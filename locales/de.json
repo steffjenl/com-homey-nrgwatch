@@ -18,6 +18,7 @@
     "refreshInterval": "Aktualisierungsintervall (Sekunden)"
   },
   "errors": {
-    "device_unreachable": "Gerät ist nicht erreichbar. Überprüfen Sie die IP-Adresse und Netzwerkverbindung."
+    "device_unreachable": "Gerät ist nicht erreichbar. Überprüfen Sie die IP-Adresse und Netzwerkverbindung.",
+    "api_v2_required": "Der Boost-Modus erfordert REST API v2 (Firmware 3.0.0 oder neuer)."
   }
 }

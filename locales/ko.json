@@ -18,6 +18,7 @@
     "refreshInterval": "새로고침 간격(초)"
   },
   "errors": {
-    "device_unreachable": "장치에 연결할 수 없습니다. IP 주소와 네트워크 연결을 확인하세요."
+    "device_unreachable": "장치에 연결할 수 없습니다. IP 주소와 네트워크 연결을 확인하세요.",
+    "api_v2_required": "부스트 모드에는 REST API v2(펌웨어 3.0.0 이상)가 필요합니다."
   }
 }

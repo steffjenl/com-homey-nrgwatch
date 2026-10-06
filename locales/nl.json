@@ -18,6 +18,7 @@
     "refreshInterval": "Verversinterval (seconden)"
   },
   "errors": {
-    "device_unreachable": "Apparaat is niet bereikbaar. Controleer het IP-adres en de netwerkverbinding."
+    "device_unreachable": "Apparaat is niet bereikbaar. Controleer het IP-adres en de netwerkverbinding.",
+    "api_v2_required": "Boostmodus vereist REST API v2 (firmware 3.0.0 of nieuwer)."
   }
 }

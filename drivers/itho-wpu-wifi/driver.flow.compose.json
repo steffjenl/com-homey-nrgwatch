@@ -342,6 +342,97 @@
           "step": 0.1
         }
       ]
+    },
+    {
+      "id": "wpu_set_boost_mode",
+      "title": {
+        "en": "Set boost mode",
+        "nl": "Zet boostmodus",
+        "de": "Boost-Modus einstellen",
+        "fr": "Définir le mode boost",
+        "it": "Imposta modalità boost",
+        "sv": "Ställ in boostläge",
+        "no": "Angi boost-modus",
+        "es": "Establecer modo boost",
+        "da": "Indstil boost-tilstand",
+        "ru": "Установить режим буст",
+        "pl": "Ustaw tryb boost",
+        "ko": "부스트 모드 설정"
+      },
+      "titleFormatted": {
+        "en": "Turn boost mode [[mode]]",
+        "nl": "Zet boostmodus [[mode]]",
+        "de": "Boost-Modus [[mode]] schalten",
+        "fr": "Mettre le mode boost sur [[mode]]",
+        "it": "Imposta modalità boost su [[mode]]",
+        "sv": "Sätt boostläge [[mode]]",
+        "no": "Sett boost-modus [[mode]]",
+        "es": "Poner modo boost en [[mode]]",
+        "da": "Sæt boost-tilstand [[mode]]",
+        "ru": "Режим буст: [[mode]]",
+        "pl": "Ustaw tryb boost [[mode]]",
+        "ko": "부스트 모드 [[mode]]"
+      },
+      "hint": {
+        "en": "Heats the boiler, for example while the electricity tariff is low. Requires REST API v2 (firmware 3.0.0+).",
+        "nl": "Verwarmt het vat, bijvoorbeeld wanneer het stroomtarief laag is. Vereist REST API v2 (firmware 3.0.0+)."
+      },
+      "args": [
+        {
+          "name": "mode",
+          "type": "dropdown",
+          "title": {
+            "en": "Mode",
+            "nl": "Modus",
+            "de": "Modus",
+            "fr": "Mode",
+            "it": "Modalità",
+            "sv": "Läge",
+            "no": "Modus",
+            "es": "Modo",
+            "da": "Tilstand",
+            "ru": "Режим",
+            "pl": "Tryb",
+            "ko": "모드"
+          },
+          "values": [
+            {
+              "id": "on",
+              "title": {
+                "en": "On",
+                "nl": "Aan",
+                "de": "An",
+                "fr": "Activé",
+                "it": "Acceso",
+                "sv": "På",
+                "no": "På",
+                "es": "Encendido",
+                "da": "Til",
+                "ru": "Вкл",
+                "pl": "Włączony",
+                "ko": "켜짐"
+              }
+            },
+            {
+              "id": "off",
+              "title": {
+                "en": "Off",
+                "nl": "Uit",
+                "de": "Aus",
+                "fr": "Désactivé",
+                "it": "Spento",
+                "sv": "Av",
+                "no": "Av",
+                "es": "Apagado",
+                "da": "Fra",
+                "ru": "Выкл",
+                "pl": "Wyłączony",
+                "ko": "꺼짐"
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

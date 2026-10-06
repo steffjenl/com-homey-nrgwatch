@@ -18,6 +18,7 @@
     "refreshInterval": "Interwał odświeżania (sekundy)"
   },
   "errors": {
-    "device_unreachable": "Urządzenie jest niedostępne. Sprawdź adres IP i połączenie sieciowe."
+    "device_unreachable": "Urządzenie jest niedostępne. Sprawdź adres IP i połączenie sieciowe.",
+    "api_v2_required": "Tryb boost wymaga REST API v2 (firmware 3.0.0 lub nowszy)."
   }
 }

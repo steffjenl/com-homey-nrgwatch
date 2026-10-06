@@ -52,6 +52,16 @@ module.exports = class IthoWpuWifi extends Homey.Device {
         return true;
       });
 
+    this.homey.flow.getActionCard('wpu_set_boost_mode')
+      .registerRunListener(async (args) => {
+        await this._setBoostMode(args.mode === 'on');
+        return true;
+      });
+
+    this.registerCapabilityListener('button.boost', async () => {
+      await this._setBoostMode(true);
+    });
+
     // Add / remove capabilities (before first poll)
     await this.createAndRemoveCapabilities();
 
@@ -97,6 +107,18 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     this.log('IthoWpuWifi has been initialized');
   }
 
+  /**
+   * Starts or stops boost mode. Boost uses the REST API v2 only.
+   * @param {boolean} enabled
+   */
+  async _setBoostMode(enabled) {
+    if (!this.settings.useApiV2) {
+      throw new Error(this.homey.__('errors.api_v2_required'));
+    }
+    await this.api.setBoostMode(enabled);
+    await this._updateLastCommandSource();
+  }
+
   async createAndRemoveCapabilities() {
     const caps = [
       'measure_temperature',
@@ -121,6 +143,7 @@ module.exports = class IthoWpuWifi extends Homey.Device {
       'measure_number.error_code',
       'measure_string.last_command_source',
       'measure_string.firmware_version',
+      'button.boost',
     ];
 
     for (const cap of caps) {

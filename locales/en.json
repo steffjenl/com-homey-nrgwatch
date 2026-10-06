@@ -20,6 +20,7 @@
     "rfDeviceIndex": "RF Device Index"
   },
   "errors": {
-    "device_unreachable": "Device is not reachable. Check the IP address and network connection."
+    "device_unreachable": "Device is not reachable. Check the IP address and network connection.",
+    "api_v2_required": "Boost mode requires REST API v2 (firmware 3.0.0 or newer)."
   }
 }

@@ -18,6 +18,7 @@
     "refreshInterval": "Oppdateringsintervall (sekunder)"
   },
   "errors": {
-    "device_unreachable": "Enheten er ikke tilgjengelig. Kontroller IP-adressen og nettverkstilkoblingen."
+    "device_unreachable": "Enheten er ikke tilgjengelig. Kontroller IP-adressen og nettverkstilkoblingen.",
+    "api_v2_required": "Boost-modus krever REST API v2 (fastvare 3.0.0 eller nyere)."
   }
 }

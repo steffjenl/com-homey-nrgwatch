@@ -88,5 +88,8 @@
   },
   "1.2.5": {
     "en": "Add new sensor and virtual remote for WTW"
+  },
+  "1.2.6": {
+    "en": "Add boost mode for Itho WPU: flow action card and Boost button"
   }
 }

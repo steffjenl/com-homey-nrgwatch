@@ -18,6 +18,7 @@
     "refreshInterval": "Opdateringsinterval (sekunder)"
   },
   "errors": {
-    "device_unreachable": "Enheden er ikke tilgængelig. Kontroller IP-adressen og netværksforbindelsen."
+    "device_unreachable": "Enheden er ikke tilgængelig. Kontroller IP-adressen og netværksforbindelsen.",
+    "api_v2_required": "Boost-tilstand kræver REST API v2 (firmware 3.0.0 eller nyere)."
   }
 }
