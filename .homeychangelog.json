@@ -94,5 +94,8 @@
   },
   "1.3.0": {
     "en": "Experimental WPU features: manual control actions (source pump, modulation, element/CH/cooling release, tap water mode, reset faults), write WPU settings, new status values, trigger and conditions, flow action to boost for a set time, Boost button stops after a configurable duration"
+  },
+  "1.3.1": {
+    "en": "Boost button stops after a configurable duration"
   }
 }
