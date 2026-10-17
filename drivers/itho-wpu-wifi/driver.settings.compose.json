@@ -216,6 +216,22 @@
           "ru": "Включить для прошивки 3.0.0 или новее. Автоматически определяется и включается при запуске, если поддерживается.",
           "sv": "Aktivera för firmware 3.0.0 eller nyare. Detekteras och aktiveras automatiskt vid start när det stöds."
         }
+      },
+      {
+        "id": "boostDuration",
+        "type": "number",
+        "value": 600,
+        "min": 0,
+        "max": 86400,
+        "step": 1,
+        "label": {
+          "en": "Boost button duration (seconds)",
+          "nl": "Duur boost-knop (seconden)"
+        },
+        "hint": {
+          "en": "The Boost button turns boost off again after this time. Set to 0 to keep boost on until it is turned off by a flow or by the WPU itself.",
+          "nl": "De boost-knop zet boost na deze tijd weer uit. Zet op 0 om boost aan te laten staan tot een flow of de WPU zelf hem uitzet."
+        }
       }
     ]
   }

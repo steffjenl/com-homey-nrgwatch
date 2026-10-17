@@ -472,6 +472,38 @@
       ]
     },
     {
+      "id": "wpu_boost_for_duration",
+      "title": {
+        "en": "Boost for a set time",
+        "nl": "Boost voor een ingestelde tijd"
+      },
+      "titleFormatted": {
+        "en": "Boost for [[duration]] seconds, then turn it off",
+        "nl": "Boost voor [[duration]] seconden, daarna uitzetten"
+      },
+      "hint": {
+        "en": "Starts boost mode and turns it off again after the given time. Requires REST API v2 (firmware 3.0.0+). If the app restarts during the boost, it is not turned off by this card; the WPU stops manual mode itself after its 'Max manual operation time' setting.",
+        "nl": "Start de boostmodus en zet hem na de opgegeven tijd weer uit. Vereist REST API v2 (firmware 3.0.0+). Als de app tijdens de boost herstart, wordt hij niet door deze kaart uitgezet; de WPU stopt de handmatige modus zelf na de instelling 'Max manual operation time'."
+      },
+      "args": [
+        {
+          "name": "duration",
+          "type": "number",
+          "title": {
+            "en": "Duration (seconds)",
+            "nl": "Duur (seconden)"
+          },
+          "placeholder": {
+            "en": "600",
+            "nl": "600"
+          },
+          "min": 1,
+          "max": 86400,
+          "step": 1
+        }
+      ]
+    },
+    {
       "id": "wpu_set_source_pump_speed",
       "title": {
         "en": "Set source pump speed",

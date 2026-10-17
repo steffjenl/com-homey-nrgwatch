@@ -69,6 +69,12 @@ module.exports = class IthoWpuWifi extends Homey.Device {
         return true;
       });
 
+    this.homey.flow.getActionCard('wpu_boost_for_duration')
+      .registerRunListener(async (args) => {
+        await this._boostForDuration(Number(args.duration));
+        return true;
+      });
+
     // Experimental manual controls: [action card id, control key, value mapper]
     const manualControls = [
       ['wpu_set_source_pump_speed', 'source_pump_speed', (args) => args.speed],
@@ -98,7 +104,9 @@ module.exports = class IthoWpuWifi extends Homey.Device {
       });
 
     this.registerCapabilityListener('button.boost', async () => {
-      await this._setBoostMode(true);
+      const seconds = Number(this.settings.boostDuration) || 0;
+      if (seconds > 0) await this._boostForDuration(seconds);
+      else await this._setBoostMode(true);
     });
 
     // Add / remove capabilities (before first poll)
@@ -154,8 +162,33 @@ module.exports = class IthoWpuWifi extends Homey.Device {
     if (!this.settings.useApiV2) {
       throw new Error(this.homey.__('errors.api_v2_required'));
     }
+    if (!enabled) this._clearBoostTimer();
     await this.api.setBoostMode(enabled);
     await this._updateLastCommandSource();
+  }
+
+  /**
+   * Starts boost and turns it off again after the given time. A new call
+   * restarts the timer. The timer is kept in memory only.
+   * @param {number} seconds
+   */
+  async _boostForDuration(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 1) {
+      throw new Error(`Invalid boost duration: ${seconds}`);
+    }
+    await this._setBoostMode(true);
+    this._clearBoostTimer();
+    this._boostTimer = this.homey.setTimeout(() => {
+      this._boostTimer = null;
+      this._setBoostMode(false).catch(this.error);
+    }, seconds * 1000);
+  }
+
+  _clearBoostTimer() {
+    if (this._boostTimer) {
+      this.homey.clearTimeout(this._boostTimer);
+      this._boostTimer = null;
+    }
   }
 
   /**
@@ -374,6 +407,7 @@ module.exports = class IthoWpuWifi extends Homey.Device {
   }
 
   async onDeleted() {
+    this._clearBoostTimer();
     this.homey.clearInterval(this.pollingInterval);
     this.homey.clearInterval(this.otaPollingInterval);
     await this.api.websocket.disconnect();
