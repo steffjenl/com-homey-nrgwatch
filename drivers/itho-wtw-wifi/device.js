@@ -35,6 +35,25 @@ const MODE_MAP = {
   7: 'auto',
 };
 
+/** Capabilities of a device that takes its status from /api/v2/rfstatus (no overlap with I2C device) */
+const RF_STATUS_CAPABILITIES = [
+  'fan_mode',
+  'measure_temperature',
+  'measure_humidity',
+  'measure_temperature.indoor',
+  'measure_temperature.outdoor',
+  'measure_temperature.supply',
+  'measure_temperature.exhaust',
+  'measure_speed.speed_status',
+  'measure_speed.fan_speed_percentage',
+  'measure_number.highest_received_co2',
+  'measure_number.air_quality',
+  'measure_number.bypass_position',
+  'measure_number.remaining_override_timer',
+  'measure_string.last_command_source',
+  'measure_string.firmware_version',
+];
+
 module.exports = class IthoWTWWifi extends Homey.Device {
 
   _configureApi(settings, useApiV2 = settings.useApiV2 ?? false, host = settings.host) {
@@ -52,6 +71,11 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       remoteIndex,
       useApiV2,
     );
+  }
+
+  /** True when status comes from /api/v2/rfstatus instead of the I2C device. */
+  _isRfStatus(settings = this.settings) {
+    return settings.statusSource === 'rfstatus';
   }
 
   async _setFanMode(mode) {
@@ -155,10 +179,10 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       }
     }
 
-    // Start WebSocket for real-time updates
+    // Start WebSocket for real-time updates (not for RF status: it carries I2C device data)
     this.api.websocket.setHomeyObject(this.homey);
     this.api.websocket.setMessageHandler((data) => this._handleWebSocketMessage(data));
-    this.api.websocket.connect();
+    if (!this._isRfStatus()) this.api.websocket.connect();
 
     // Initial status update — never throw to prevent failed init
     await this.updateStatus().catch((err) => this.log('Initial poll failed (device may be offline):', err.message));
@@ -228,6 +252,24 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
     const removeCaps = [
     ];
+
+    if (this._isRfStatus()) {
+      // Only sensors that rfstatus provides; everything else belongs to the I2C device.
+      for (const cap of this.getCapabilities()) {
+        if (!RF_STATUS_CAPABILITIES.includes(cap)) {
+          await this.removeCapability(cap);
+          this.log('Removed capability', cap);
+        }
+      }
+      for (const cap of RF_STATUS_CAPABILITIES) {
+        if (!this.hasCapability(cap)) {
+          await this.addCapability(cap);
+          this.log('Added capability', cap);
+        }
+      }
+      await this.setFanModeOptions();
+      return;
+    }
 
     for (const cap of caps) {
       if (!this.hasCapability(cap)) {
@@ -323,8 +365,9 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
   async updateStatus() {
     try {
-      const rawStatus = await this.api.getStatus();
-      const status = this._normalizeStatus(rawStatus);
+      const status = this._isRfStatus()
+        ? this._normalizeRfStatus(await this._getRfSourceData())
+        : this._normalizeStatus(await this.api.getStatus());
 
       this.log('Fetched IthoWTWWifi status');
 
@@ -390,8 +433,13 @@ module.exports = class IthoWTWWifi extends Homey.Device {
       if (status.labelOutOfBoundError != null) await this.setCapabilityValue('measure_number.label_out_of_bound_error', status.labelOutOfBoundError).catch(this.error);
 
       // --- fan_mode from Actual Mode first, then legacy Status/Selection ---
-      const newMode = status.fanInfo ?? MODE_MAP[status.modeCode] ?? null;
-      this.log('Determined fan mode from status:', { modeCode: status.modeCode, newMode: status.fanInfo });
+      let newMode = status.fanInfo ?? MODE_MAP[status.modeCode] ?? null;
+      if (this._isRfStatus()) {
+        // RF FanInfo is free text ("timer 1"); only accept values the capability knows
+        const allowed = (this.getCapabilityOptions('fan_mode').values || []).map((v) => v.id);
+        newMode = allowed.includes(newMode) ? newMode : null;
+      }
+      this.log('Determined fan mode from status:', { modeCode: status.modeCode, newMode });
 
       const prevMode = this.getCapabilityValue('fan_mode');
       if (newMode && newMode !== prevMode) {
@@ -447,7 +495,7 @@ module.exports = class IthoWTWWifi extends Homey.Device {
 
     // Reconnect WebSocket to new host
     await this.api.websocket.disconnect();
-    this.api.websocket.connect();
+    if (!this._isRfStatus()) this.api.websocket.connect();
 
     await this.updateStatus().catch((err) => this.log('Poll after settings change failed:', err.message));
 
@@ -471,7 +519,8 @@ module.exports = class IthoWTWWifi extends Homey.Device {
   }
 
   onDiscoveryResult(discoveryResult) {
-    return discoveryResult.id === this.getData().id;
+    // RF-status devices have a suffixed data.id; the module is still found by its host name
+    return discoveryResult.id === (this.getStoreValue('discoveryId') ?? this.getData().id);
   }
 
   async onDiscoveryAvailable(discoveryResult) {
@@ -614,6 +663,58 @@ module.exports = class IthoWTWWifi extends Homey.Device {
     if (errorMarker != null && value === errorMarker) return false; // Error marker
     if (typeof value !== 'number' || !Number.isFinite(value)) return false;
     return value >= min && value <= max;
+  }
+
+  /**
+   * Returns the data of the tracked RF source linked to this device
+   * (by id, then name) from /api/v2/rfstatus.
+   * @private
+   * @returns {Promise<Object>} Measurement object of the source
+   */
+  async _getRfSourceData() {
+    const { rfSourceId, rfSourceName } = this.settings;
+    const sources = await this.api.getRfStatusSources();
+    const source = (rfSourceId && sources.find((s) => s.id === rfSourceId))
+      || (rfSourceName && sources.find((s) => s.name === rfSourceName));
+    if (!source) {
+      throw new Error(`RF source not found (id=${rfSourceId || '-'}, name=${rfSourceName || '-'})`);
+    }
+    return source.data || {};
+  }
+
+  /**
+   * Maps RF status measurements (31DA / 31D9 frames) to the status fields used
+   * by updateStatus. Keys depend on the firmware api_normalize setting, so both
+   * the full and the normalized label are accepted.
+   * @private
+   */
+  _normalizeRfStatus(data) {
+    const first = (keys) => this._first(data || {}, keys);
+    const num = (keys) => this._toNumber(first(keys));
+    const temp = (keys) => {
+      const v = num(keys);
+      return this._isValidSensorValue(v, -30, 60) ? v : null;
+    };
+
+    const humRaw = num(['Indoorhumidity (%)', 'indoor-humidity_perc']);
+    const co2Raw = num(['CO2level (ppm)', 'co2level_ppm']);
+    const remainingMin = num(['RemainingTime (min)', 'remaining-time_min']);
+    const fanInfo = first(['FanInfo', 'fan-info']);
+
+    return {
+      tempIndoor: temp(['IndoorTemp (°C)', 'indoor-temp_c']),
+      tempOutdoor: temp(['OutdoorTemp (°C)', 'outdoor-temp_c']),
+      supplyTemp: temp(['SupplyTemp (°C)', 'supply-temp_c']),
+      exhaustTemp: temp(['Exhausttemp (°C)', 'exhausttemp_c']),
+      humidity: this._isValidSensorValue(humRaw, 0, 100) ? humRaw : null,
+      highestReceivedCo2: this._isValidSensorValue(co2Raw, 0, 5000, 65535) ? co2Raw : null,
+      airQuality: num(['AirQuality (%)', 'airquality_perc']),
+      bypassPosition: num(['BypassPos (%)', 'bypass-pos_perc']),
+      fanSpeedPercentage: num(['ExhFanSpeed (%)', 'exh-fan-speed_perc']),
+      speedStatus: num(['Speed status', 'speed-status']),
+      remainingOverrideTimer: remainingMin != null ? remainingMin * 60 : null,
+      fanInfo: typeof fanInfo === 'string' ? fanInfo.toLowerCase().replace(/\s+/g, '') : null,
+    };
   }
 
   _normalizeStatus(rawStatus) {

@@ -97,5 +97,9 @@
   },
   "1.3.1": {
     "en": "Boost button stops after a configurable duration"
+  },
+  "1.4.0": {
+    "en": "WTW: add a device per RF send remote with status from RF status, so an HRU400 can run next to a WPU on the same module (firmware with /remotes and /rfstatus required)",
+    "nl": "WTW: voeg per RF-zendafstandsbediening een apparaat toe met status uit RF-status, zodat een HRU400 naast een WPU op dezelfde module kan werken (firmware met /remotes en /rfstatus vereist)"
   }
 }

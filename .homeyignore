@@ -1,0 +1,16 @@
+.git
+.github
+.idea
+.ai
+.eslintrc.json
+specs
+tsconfig.json
+README.md
+API.md
+ARCHITECTURE.md
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+QUICK_REFERENCE.md
+REFACTORING_SUMMARY.md
+SECURITY.md
