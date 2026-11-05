@@ -6376,6 +6376,70 @@
               ]
             }
           ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "RF status source",
+            "nl": "RF-statusbron"
+          },
+          "children": [
+            {
+              "id": "statusSource",
+              "type": "dropdown",
+              "value": "ithostatus",
+              "label": {
+                "en": "Status source",
+                "nl": "Statusbron"
+              },
+              "hint": {
+                "en": "I2C status (ithostatus) or RF status (rfstatus). Use RF status for a device controlled via RF next to a different I2C device (e.g. HRU400 next to a WPU).",
+                "nl": "I2C-status (ithostatus) of RF-status (rfstatus). Gebruik RF-status voor een apparaat dat via RF wordt bediend naast een ander I2C-apparaat (bijv. HRU400 naast een WPU)."
+              },
+              "values": [
+                {
+                  "id": "ithostatus",
+                  "label": {
+                    "en": "I2C (ithostatus)",
+                    "nl": "I2C (ithostatus)"
+                  }
+                },
+                {
+                  "id": "rfstatus",
+                  "label": {
+                    "en": "RF (rfstatus)",
+                    "nl": "RF (rfstatus)"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "rfSourceId",
+              "type": "text",
+              "value": "",
+              "label": {
+                "en": "RF source ID",
+                "nl": "RF-bron ID"
+              },
+              "hint": {
+                "en": "ID of the tracked RF source, e.g. AA:BB:CC. Only used with RF status.",
+                "nl": "ID van de gevolgde RF-bron, bijv. AA:BB:CC. Alleen bij RF-status."
+              }
+            },
+            {
+              "id": "rfSourceName",
+              "type": "text",
+              "value": "",
+              "label": {
+                "en": "RF source name",
+                "nl": "RF-bronnaam"
+              },
+              "hint": {
+                "en": "Name of the tracked RF source, used when the ID is empty. Only used with RF status.",
+                "nl": "Naam van de gevolgde RF-bron, gebruikt als het ID leeg is. Alleen bij RF-status."
+              }
+            }
+          ]
         }
       ]
     }
